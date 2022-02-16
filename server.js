@@ -8,7 +8,6 @@ const res = require("express/lib/response");
 const req = require("express/lib/request");
 mongoose.connect(keys.mongoURI);
 
-
 //Set up DB models
 require('./model/Account');
 

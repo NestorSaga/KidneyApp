@@ -3,14 +3,13 @@ const Account = mongoose.model('accounts');
 
 module.exports = app => {
 
-    // Routes
     app.get('/account', async (request, response) => {
 
     const {rUsername, rPassword} = request.query;
 
         if(rUsername == null || rPassword == null)
         {
-            response.send("insvaslid credens");
+            response.send("Invalid credentials (at least one null)");
             return;
         }
 
@@ -25,10 +24,12 @@ module.exports = app => {
 
                 lastAuth : Date.now()
             });
+
             await newAccount.save();
 
             response.send(newAccount);
             return;
+
         } else{
             if(rPassword == userAccount.password){ // NEEDS ENCRYPT
                 userAccount.lastAuth = Date.now();
@@ -40,7 +41,7 @@ module.exports = app => {
             }
         }
 
-        response.send("Invalid credents");
+        response.send("Invalid credentials (false password)");
         return;
     });
 
