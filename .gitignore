@@ -21,6 +21,8 @@
 
 # Visual Studio cache directory
 .vs/
+config/dev.js
+node_modules/
 
 # Gradle cache directory
 .gradle/
