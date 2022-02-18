@@ -1,6 +1,10 @@
 const express = require ("express");
 const keys = require('./config/keys.js');
 const app = express();
+const bodyParser = require('body-parser');
+
+// parser
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // Set up DB
 const mongoose = require('mongoose');

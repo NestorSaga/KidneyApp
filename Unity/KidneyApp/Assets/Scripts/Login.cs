@@ -24,11 +24,26 @@ public class Login : MonoBehaviour
 
     private IEnumerator TryLogin() {
 
-
         string username = usernameInputField.text;
         string password = passwordInputField.text;
 
-        UnityWebRequest request = UnityWebRequest.Get($"{authenticationEndopoint}?rUsername={username}&rPassword={password}");
+        if (username.Length < 3 || username.Length > 24) {
+            alertText.text = "Invalid username.";
+            loginButton.interactable = true;
+            yield break;
+        }
+
+        if (password.Length < 3 || password.Length > 24) {
+            alertText.text = "Invalid password.";
+            loginButton.interactable = true;
+            yield break;
+        }
+
+        WWWForm form = new WWWForm();
+        form.AddField("rUsername", username);
+        form.AddField("rPassword", password);
+
+        UnityWebRequest request = UnityWebRequest.Post(authenticationEndopoint, form);
 
         var handler = request.SendWebRequest();
 
@@ -45,9 +60,10 @@ public class Login : MonoBehaviour
 
         if(request.result == UnityWebRequest.Result.Success) {
 
-            if(request.downloadHandler.text != "Invalid Credentials") {// login successful? 
-                alertText.text = "Welcome!";
+            if(request.downloadHandler.text != "Invalid credentials") {// login successful? 
                 loginButton.interactable = true;
+                UserAccount user = JsonUtility.FromJson<UserAccount>(request.downloadHandler.text); 
+                alertText.text = $"{user._id} Welcome {user.username}!";
 
             } else {
                 alertText.text = "insvaslid credens";
