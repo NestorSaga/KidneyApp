@@ -19,9 +19,13 @@
   },
   "homepage": "https://github.com/NestorSaga/KidneyApp#readme",
   "dependencies": {
+    "argon2": "^0.28.4",
     "body-parser": "^1.19.2",
     "express": "^4.17.2",
-    "mongoose": "^6.2.1"
+    "gyp": "^0.3.0",
+    "mongoose": "^6.2.1",
+    "node-gyp": "^8.4.1",
+    "stable": "^0.1.8"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

@@ -6,18 +6,20 @@ using UnityEngine.UI;
 
 public class Login : MonoBehaviour
 {
-    
-    [SerializeField] private string authenticationEndopoint = "http://127.0.0.1:12345/account";
-
+    private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,24})";
+    [SerializeField] private string loginEndpoint = "http://127.0.0.1:12345/account/login";
     [SerializeField] private TextMeshProUGUI alertText;
     [SerializeField] private TMP_InputField usernameInputField;
     [SerializeField] private TMP_InputField passwordInputField;
-    [SerializeField] private Button loginButton;
-    
+    private LoginRegisterMenuController controller;
+
+    public void Awake() {
+        controller = this.gameObject.GetComponent<LoginRegisterMenuController>();
+    }
 
     public void OnLoginClick() {
         alertText.text = "Signing in...";
-        loginButton.interactable = false;
+        controller.ActivateButtons(false);
 
         StartCoroutine(TryLogin());
     }
@@ -29,13 +31,13 @@ public class Login : MonoBehaviour
 
         if (username.Length < 3 || username.Length > 24) {
             alertText.text = "Invalid username.";
-            loginButton.interactable = true;
+            controller.ActivateButtons(true);
             yield break;
         }
 
-        if (password.Length < 3 || password.Length > 24) {
+        if (!Regex.IsMatch(password, PASSWORD_REGEX)) {
             alertText.text = "Invalid password.";
-            loginButton.interactable = true;
+            controller.ActivateButtons(true);
             yield break;
         }
 
@@ -43,7 +45,7 @@ public class Login : MonoBehaviour
         form.AddField("rUsername", username);
         form.AddField("rPassword", password);
 
-        UnityWebRequest request = UnityWebRequest.Post(authenticationEndopoint, form);
+        UnityWebRequest request = UnityWebRequest.Post(loginEndpoint, form);
 
         var handler = request.SendWebRequest();
 
@@ -60,22 +62,34 @@ public class Login : MonoBehaviour
 
         if(request.result == UnityWebRequest.Result.Success) {
 
-            if(request.downloadHandler.text != "Invalid credentials") {// login successful? 
-                loginButton.interactable = true;
-                UserAccount user = JsonUtility.FromJson<UserAccount>(request.downloadHandler.text); 
-                alertText.text = $"{user._id} Welcome {user.username}!";
+            Debug.Log(request.downloadHandler.text);
+
+            LoginResponse response = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
+
+            if(response.code == 0) {// login successful? 
+
+                alertText.text = "Welcome!";
+
+                GameManager.Instance.ChangeScene(2); //goto hub
 
             } else {
-                alertText.text = "insvaslid credens";
-                loginButton.interactable = true;
+                switch(response.code) {
+                    case 1:
+                        alertText.text = "Invalid credentials";
+                        controller.ActivateButtons(true);
+                        break;
+                    default:
+                        alertText.text = "Invalid response code";
+                        break;
+                }
             }
-
 
         } else {
             alertText.text = "Error connecting to the server...";
-            loginButton.interactable = true;
-        }
+            controller.ActivateButtons(true);
 
+        }
+        
         yield return null;
     }
 }
