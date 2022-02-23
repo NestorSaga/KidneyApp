@@ -3,7 +3,7 @@ using TMPro;
 using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-
+using System.Text.RegularExpressions;
 public class Login : MonoBehaviour
 {
     private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,24})";

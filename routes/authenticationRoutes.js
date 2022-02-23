@@ -68,7 +68,7 @@ module.exports = app => {
             return;
         }
 
-        if(passwordRegex.test(rPassword)) {
+        if(!passwordRegex.test(rPassword)) {
             res.code = 3;
             res.msg = "Unsafe password";
             response.send(res);
