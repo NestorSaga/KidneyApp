@@ -780,9 +780,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   registerEndpoint: http://127.0.0.1:12345/account/create
+  addAttributeEndpoint: http://127.0.0.1:12345/account/addAttribute
   alertText: {fileID: 1627321567}
   usernameInputField: {fileID: 449750046}
   passwordInputField: {fileID: 1336104438}
+  drop: {fileID: 554768704}
 --- !u!4 &538501781
 Transform:
   m_ObjectHideFlags: 0
