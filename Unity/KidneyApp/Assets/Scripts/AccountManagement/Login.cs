@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System.Text.RegularExpressions;
 public class Login : MonoBehaviour
 {
-    private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,24})";
+    private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,32})";
     [SerializeField] private string loginEndpoint = "http://127.0.0.1:12345/account/login";
     [SerializeField] private TextMeshProUGUI alertText;
     [SerializeField] private TMP_InputField usernameInputField;

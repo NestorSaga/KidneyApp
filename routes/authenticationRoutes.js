@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const Account = mongoose.model('users');
+const Attribute = mongoose.model('attributes');
 const argon2 = require('argon2');
 const crypto = require('crypto');
 const res = require('express/lib/response');
 
-const passwordRegex = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,24})");
+const passwordRegex = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,32})");
 
 module.exports = app => {
 
@@ -98,8 +99,8 @@ module.exports = app => {
                     await newAccount.save();
 
                     res.code = 0;
-                    res.msg = "Account found";
-                    res.data = ( ({username}) => ({username}) )(newAccount); // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
+                    res.msg = "Account created";
+                    res.data = ( ({username, _id}) => ({username, _id}) )(newAccount); // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
 
                     response.send(res);
                     return;
@@ -110,6 +111,60 @@ module.exports = app => {
         } else{
             res.code = 2;
             res.msg = "Username already taken";
+            response.send(res);
+        }
+        return;
+    });
+
+    app.post('/account/addAttribute', async( request, response) => {
+
+        var res = {};
+
+        const {rKey, rUserId} = request.body;
+
+        if(rKey == null)
+        {
+            res.code = 1;
+            res.msg = "Invalid key";
+            response.send(res);
+            return;
+        }
+
+        if(rUserId == null)
+        {
+            res.code = 1;
+            res.msg = "Invalid user id";
+            response.send(res);
+            return;
+        }
+
+        var attribute = await Attribute.findOne({key: rKey});
+        if(attribute == null) {
+            res.code = 2;
+            res.msg = "Attribute doesn't exist";
+            response.send(res);
+        }
+
+        var account = await Account.findOne({_id : rUserId}, '_id');
+        if(account == null){
+
+            console.log("Attempting to add attributes...")
+
+            Account.updateOne(
+                { _id: rUserId },
+                { $push: { attributes: "attribute._id" } }
+            );
+
+            res.code = 0;
+            res.msg = "Attribute added";
+            res.data = attribute; // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
+
+            response.send(res);
+            return;
+
+        } else{
+            res.code = 3;
+            res.msg = "Account doesn't exist";
             response.send(res);
         }
         return;
