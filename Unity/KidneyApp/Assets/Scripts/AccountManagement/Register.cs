@@ -26,8 +26,8 @@ public class Register : MonoBehaviour
         alertText.text = "Registering account...";
         controller.ActivateButtons(false);
 
-        //StartCoroutine(TryRegister());
-        StartCoroutine(TryAddAttribute());
+        StartCoroutine(TryRegister());
+        
     }
 
     private IEnumerator TryRegister() {
@@ -77,6 +77,7 @@ public class Register : MonoBehaviour
 
                 alertText.text = "Account has been created.";
 
+                StartCoroutine(TryAddAttribute());
                 //GameManager.Instance.ChangeScene(2); //goto hub
 
             } else {
@@ -118,9 +119,9 @@ public class Register : MonoBehaviour
         }
 
         if (key == "None") {
-            alertText.text = "No attribute";
-            controller.ActivateButtons(true);
-            yield break;
+             alertText.text = "No attribute";
+             controller.ActivateButtons(true);
+             yield break;
         }
 
         WWWForm form = new WWWForm();
@@ -150,7 +151,7 @@ public class Register : MonoBehaviour
 
                 alertText.text = "Attribute added.";
 
-                GameManager.Instance.ChangeScene(2); //goto hub
+                //GameManager.Instance.ChangeScene(2); //goto hub
 
             } else {
                 alertText.text = response.code.ToString();

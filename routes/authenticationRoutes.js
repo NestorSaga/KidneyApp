@@ -4,6 +4,7 @@ const Attribute = mongoose.model('attributes');
 const argon2 = require('argon2');
 const crypto = require('crypto');
 const res = require('express/lib/response');
+const { debug } = require('console');
 
 const passwordRegex = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,32})");
 
@@ -92,6 +93,7 @@ module.exports = app => {
                         username : rUsername,
                         password : hash,
                         salt: salt,
+                        attributes: [],
         
                         lastAuth : Date.now()
                     });
@@ -139,34 +141,31 @@ module.exports = app => {
         }
 
         var attribute = await Attribute.findOne({key: rKey});
+        console.log(attribute)
         if(attribute == null) {
             res.code = 2;
             res.msg = "Attribute doesn't exist";
             response.send(res);
         }
 
-        var account = await Account.findOne({_id : rUserId}, '_id');
-        if(account == null){
+        try{await Account.findOneAndUpdate(
+            {_id:rUserId},
+            {$addToSet: {attributes: attribute._id}}
+        );
 
-            console.log("Attempting to add attributes...")
-
-            Account.updateOne(
-                { _id: rUserId },
-                { $push: { attributes: "attribute._id" } }
-            );
-
-            res.code = 0;
-            res.msg = "Attribute added";
-            res.data = attribute; // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
-
-            response.send(res);
-            return;
-
-        } else{
+        
+        }catch{
             res.code = 3;
             res.msg = "Account doesn't exist";
             response.send(res);
+            return;
         }
+
+        res.code = 0;
+        res.msg = "Attribute added";
+        res.data = attribute; // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
+
+        response.send(res);
         return;
     });
 

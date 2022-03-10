@@ -5,6 +5,7 @@ const accountSchema = new Schema({ // TODO añadir toda la informacion
     username: String,
     password: String,
     salt: String,
+    attributes: [String],
 
     lastAuth: Date,
 });
