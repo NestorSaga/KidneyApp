@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
-const attributeSchema = new Schema({ 
-    name: {
+const achievementSchema = new Schema({ 
+    
+    name: String,
+
+    displayName: {
         en: String,
         es: String
     },
@@ -12,4 +15,4 @@ const attributeSchema = new Schema({
     }
 });
 
-mongoose.model('attributes', attributeSchema);
+mongoose.model('achievements', achievementSchema);

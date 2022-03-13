@@ -15,9 +15,13 @@ mongoose.connect(keys.mongoURI);
 //Set up DB models
 require('./model/Account');
 require('./model/Attribute');
+require('./model/Achievement');
+require('./model/UserAchievement.js');
 
 //Setup routes
 require('./routes/authenticationRoutes')(app);
+require('./routes/achievementsRoutes')(app);
+
 
 app.listen(keys.port, () => {
     console.log("Listening port " + keys.port);

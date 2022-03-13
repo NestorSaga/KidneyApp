@@ -70,6 +70,11 @@ public class Login : MonoBehaviour
 
                 alertText.text = "Welcome!";
 
+                PlayerPrefs.SetString("userId", response.data._id);
+                PlayerPrefs.SetString("username", response.data.username);
+                PlayerPrefs.Save();
+
+
                 GameManager.Instance.ChangeScene(2); //goto hub
 
             } else {

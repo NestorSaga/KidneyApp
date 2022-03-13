@@ -70,7 +70,8 @@ public class Register : MonoBehaviour
 
             CreateResponse response = JsonUtility.FromJson<CreateResponse>(request.downloadHandler.text);
 
-            PlayerPrefs.SetString("userid", response.data._id);
+            PlayerPrefs.SetString("userId", response.data._id);
+            PlayerPrefs.SetString("username", response.data.username);
             PlayerPrefs.Save();
 
             if(response.code == 0) {
@@ -78,7 +79,7 @@ public class Register : MonoBehaviour
                 alertText.text = "Account has been created.";
 
                 StartCoroutine(TryAddAttribute());
-                //GameManager.Instance.ChangeScene(2); //goto hub
+                GameManager.Instance.ChangeScene(2); //goto hub
 
             } else {
                 switch(response.code) {
@@ -110,7 +111,7 @@ public class Register : MonoBehaviour
     private IEnumerator TryAddAttribute() {
         
         string key = drop.captionText.text;
-        string userId = PlayerPrefs.GetString("userid");
+        string userId = PlayerPrefs.GetString("userId");
 
         if (key == null) {
             alertText.text = "Null key.";
