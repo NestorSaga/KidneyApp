@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
-const accountSchema = new Schema({ // TODO añadir toda la informacion
+const userSchema = new Schema({ // TODO añadir toda la informacion
     username: String,
     password: String,
     salt: String,
@@ -10,4 +10,4 @@ const accountSchema = new Schema({ // TODO añadir toda la informacion
     lastAuth: Date,
 });
 
-mongoose.model('users', accountSchema);
+mongoose.model('users', userSchema);
