@@ -141,7 +141,6 @@ module.exports = app => {
         }
 
         var attribute = await Attribute.findOne({key: rKey});
-        console.log(attribute)
         if(attribute == null) {
             res.code = 2;
             res.msg = "Attribute doesn't exist";

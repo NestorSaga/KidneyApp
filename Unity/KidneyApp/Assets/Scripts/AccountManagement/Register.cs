@@ -10,7 +10,6 @@ public class Register : MonoBehaviour
     private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,32})";
     [SerializeField] private string registerEndpoint = "http://127.0.0.1:12345/account/create";
     [SerializeField] private string addAttributeEndpoint = "http://127.0.0.1:12345/account/addAttribute";
-
     [SerializeField] private TextMeshProUGUI alertText;
     [SerializeField] private TMP_InputField usernameInputField;
     [SerializeField] private TMP_InputField passwordInputField;
@@ -27,7 +26,6 @@ public class Register : MonoBehaviour
         controller.ActivateButtons(false);
 
         StartCoroutine(TryRegister());
-        
     }
 
     private IEnumerator TryRegister() {
@@ -78,7 +76,8 @@ public class Register : MonoBehaviour
                 alertText.text = "Account has been created.";
 
                 StartCoroutine(TryAddAttribute());
-                //GameManager.Instance.ChangeScene(2); //goto hub
+
+                GameManager.Instance.ChangeScene(2); //goto hub
 
             } else {
                 switch(response.code) {
