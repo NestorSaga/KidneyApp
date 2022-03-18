@@ -122,12 +122,12 @@ module.exports = app => {
 
         var res = {};
 
-        const {rKey, rUserId} = request.body;
+        const {rName, rUserId} = request.body;
 
-        if(rKey == null)
+        if(rName == null)
         {
             res.code = 1;
-            res.msg = "Invalid key";
+            res.msg = "Invalid name";
             response.send(res);
             return;
         }
@@ -140,7 +140,7 @@ module.exports = app => {
             return;
         }
 
-        var attribute = await Attribute.findOne({key: rKey});
+        var attribute = await Attribute.findOne({name: rName});
         if(attribute == null) {
             res.code = 2;
             res.msg = "Attribute doesn't exist";

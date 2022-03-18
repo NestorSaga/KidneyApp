@@ -109,23 +109,23 @@ public class Register : MonoBehaviour
     
     private IEnumerator TryAddAttribute() {
         
-        string key = drop.captionText.text;
+        string name = drop.captionText.text;
         string userId = PlayerPrefs.GetString("userId");
 
-        if (key == null) {
-            alertText.text = "Null key.";
+        if (name == null) {
+            alertText.text = "Null name.";
             controller.ActivateButtons(true);
             yield break;
         }
 
-        if (key == "None") {
+        if (name == "None") {
              alertText.text = "No attribute";
              controller.ActivateButtons(true);
              yield break;
         }
 
         WWWForm form = new WWWForm();
-        form.AddField("rKey", key);
+        form.AddField("rName", name);
         form.AddField("rUserId", userId);
 
         UnityWebRequest request = UnityWebRequest.Post(addAttributeEndpoint, form);
@@ -151,7 +151,7 @@ public class Register : MonoBehaviour
 
                 alertText.text = "Attribute added.";
 
-                //GameManager.Instance.ChangeScene(2); //goto hub
+                GameManager.Instance.ChangeScene(2); //goto hub
 
             } else {
                 alertText.text = response.code.ToString();
