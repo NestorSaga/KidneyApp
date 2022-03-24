@@ -13,7 +13,20 @@ public class Register : MonoBehaviour
     [SerializeField] private TextMeshProUGUI alertText;
     [SerializeField] private TMP_InputField usernameInputField;
     [SerializeField] private TMP_InputField passwordInputField;
-    [SerializeField] private TMP_Dropdown drop;
+    [SerializeField] private TMP_InputField nameInputField;
+    [SerializeField] private TMP_InputField surname1InputField;
+    [SerializeField] private TMP_InputField surname2InputField;
+    [SerializeField] private TMP_InputField birthDateInputField;
+    [SerializeField] private TMP_Dropdown sexInputField;
+    [SerializeField] private TMP_InputField heightInputField;
+    [SerializeField] private TMP_InputField weightInputField;
+    [SerializeField] private TMP_Dropdown stateInputField;
+    [SerializeField] private TMP_Dropdown attributesInputField;
+    [SerializeField] private TMP_InputField emailInputField;
+    [SerializeField] private TMP_InputField phoneInputField;
+    [SerializeField] private TMP_Dropdown companionInputField;
+    [SerializeField] private TMP_Dropdown expertInputField;
+    [SerializeField] private TMP_Dropdown companionAccessInputField;
 
     private LoginRegisterMenuController controller;
 
@@ -32,6 +45,22 @@ public class Register : MonoBehaviour
 
         string username = usernameInputField.text;
         string password = passwordInputField.text;
+        string name = nameInputField.text;
+        string surname1 = surname1InputField.text;
+        string surname2 = surname2InputField.text;
+        string birthDate = birthDateInputField.text;
+        string sex = sexInputField.captionText.text;
+        string height = heightInputField.text;
+        string weight = weightInputField.text;
+        string state = stateInputField.captionText.text;
+        string attribute = attributesInputField.captionText.text;
+        string email = emailInputField.text;
+        string phone = phoneInputField.text;
+        string companion = companionInputField.captionText.text;
+        string expert = expertInputField.captionText.text;
+        string companionAccess = companionAccessInputField.captionText.text;
+
+        #region dataValidation
 
         if (username.Length < 3 || username.Length > 24) {
             alertText.text = "Invalid username.";
@@ -45,9 +74,105 @@ public class Register : MonoBehaviour
             yield break;
         }
 
+        if (name.Length < 1) {
+            alertText.text = "Invalid name.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+        
+        if (surname1.Length < 1) {
+            alertText.text = "Invalid surname.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if (birthDate.Length < 2) { // TODO hay que comprobarlo mejor
+            alertText.text = "Invalid birth date.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if (sex == "Enter your sex") {
+            alertText.text = "Invalid sex selected.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if (height.Length < 2) {
+            alertText.text = "Invalid height.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if (weight.Length < 2) {
+            alertText.text = "Invalid weight.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if (state == "Enter your state") {
+            alertText.text = "Invalid state selected.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if (attribute == "Enter your attributes") { // TODO maybe add option for multiple attributes
+            alertText.text = "Invalid attribute selected.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if(attribute == "None") attribute = "";
+
+        if (email.Length < 4) { // TODO Improve mail validation
+            alertText.text = "Invalid email.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if (phone.Length != 9) {
+            alertText.text = "Invalid phone.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if (companion == "Are you a patient?") {
+            alertText.text = "Patient or companion not answered.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if (expert == "Are you an expert?") {
+            alertText.text = "Expert question not answered.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if (companionAccess == "Allow data sharing?") {
+            alertText.text = "Sharing data with companions not set.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        #endregion
+
         WWWForm form = new WWWForm();
         form.AddField("rUsername", username);
         form.AddField("rPassword", password);
+        form.AddField("rName", name);
+        form.AddField("rSurname1", surname1);
+        form.AddField("rSurname2", surname2);
+        form.AddField("rBirthDate", birthDate);
+        form.AddField("rSex", sex);
+        form.AddField("rHeight", height);
+        form.AddField("rWeight", weight);
+        form.AddField("rState", state);
+        form.AddField("rAttributeName", attribute);
+        form.AddField("rEmail", email);
+        form.AddField("rPhone", phone);
+        form.AddField("rCompanion", companion);
+        form.AddField("rExpert", expert);
+        form.AddField("rCompanionAccess", companionAccess);
 
         UnityWebRequest request = UnityWebRequest.Post(registerEndpoint, form);
 
@@ -75,8 +200,6 @@ public class Register : MonoBehaviour
             if(response.code == 0) {
 
                 alertText.text = "Account has been created.";
-
-                StartCoroutine(TryAddAttribute());
 
                 GameManager.Instance.ChangeScene(2); //goto hub
 
@@ -109,23 +232,23 @@ public class Register : MonoBehaviour
     
     private IEnumerator TryAddAttribute() {
         
-        string name = drop.captionText.text;
+        string attributeName = attributesInputField.captionText.text;
         string userId = PlayerPrefs.GetString("userId");
 
-        if (name == null) {
+        if (attributeName == null) {
             alertText.text = "Null name.";
             controller.ActivateButtons(true);
             yield break;
         }
 
-        if (name == "None") {
+        if (attributeName == "None") {
              alertText.text = "No attribute";
              controller.ActivateButtons(true);
              yield break;
         }
 
         WWWForm form = new WWWForm();
-        form.AddField("rName", name);
+        form.AddField("rName", attributeName);
         form.AddField("rUserId", userId);
 
         UnityWebRequest request = UnityWebRequest.Post(addAttributeEndpoint, form);

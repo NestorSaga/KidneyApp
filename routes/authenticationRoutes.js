@@ -60,7 +60,7 @@ module.exports = app => {
 
         var res = {};
 
-        const {rUsername, rPassword} = request.body;
+        const {rUsername, rPassword, rName, rSurname1, rSurname2, rBirthDate, rSex, rHeight, rWeight, rState, rAttributeName, rEmail, rPhone, rCompanion, rExpert, rCompanionAccess} = request.body;
 
         if(rUsername == null || rUsername < 3 || rUsername > 24)
         {
@@ -92,9 +92,22 @@ module.exports = app => {
                     var newAccount = new Account({
                         username : rUsername,
                         password : hash,
+                        name: rName,
+                        surname1: rSurname1,
+                        surname2: rSurname2,
+                        birthDate: rBirthDate,
+                        sex: rSex,
+                        height: rHeight,
+                        weight: rWeight,
+                        state: rState,
+                        attributes: [rAttributeName],
+                        mail: rEmail,
+                        phone: rPhone,
+                        companion: rCompanion == "No, Im a companion",
+                        expertPatient: rExpert == "Yes",
+                        companionAccess: rCompanionAccess == "Yes",
+
                         salt: salt,
-                        attributes: [],
-        
                         lastAuth : Date.now()
                     });
 
