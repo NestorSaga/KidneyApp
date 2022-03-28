@@ -4,6 +4,9 @@ using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using System;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class Register : MonoBehaviour
 {
@@ -16,7 +19,9 @@ public class Register : MonoBehaviour
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private TMP_InputField surname1InputField;
     [SerializeField] private TMP_InputField surname2InputField;
-    [SerializeField] private TMP_InputField birthDateInputField;
+    [SerializeField] private TMP_InputField birthDateInputFieldDay;
+    [SerializeField] private TMP_InputField birthDateInputFieldMonth;
+    [SerializeField] private TMP_InputField birthDateInputFieldYear;
     [SerializeField] private TMP_Dropdown sexInputField;
     [SerializeField] private TMP_InputField heightInputField;
     [SerializeField] private TMP_InputField weightInputField;
@@ -28,18 +33,55 @@ public class Register : MonoBehaviour
     [SerializeField] private TMP_Dropdown expertInputField;
     [SerializeField] private TMP_Dropdown companionAccessInputField;
 
+    [SerializeField] private Button attributeButton;
+
     private LoginRegisterMenuController controller;
+
+    private List<string> totalAttributes = new List<string>();
 
     public void Awake() {
         controller = this.gameObject.GetComponent<LoginRegisterMenuController>();
+
+        birthDateInputFieldDay.characterLimit = 2;
+        birthDateInputFieldDay.onEndEdit.AddListener(delegate{CheckDone(birthDateInputFieldDay, birthDateInputFieldMonth);});
+
+        // TODO Para todos los botones en el orden finalmente escogido
+
+        attributesInputField.onValueChanged.AddListener(delegate{sumAttribute(attributesInputField.options[attributesInputField.value].text);});
+
+    }
+    void CheckDone(TMP_InputField sourceField, TMP_InputField targetField) {targetField.Select();}
+
+    void sumAttribute(string name){
+
+        if(!totalAttributes.Contains(name) && attributesInputField.value != 0){
+            // Button creation logic
+            Button newAttribute = Instantiate(attributeButton);
+            newAttribute.transform.SetParent(attributesInputField.transform.parent);
+            newAttribute.transform.localScale = new Vector3 (1,1,1);
+            newAttribute.GetComponentInChildren<TMP_Text>().text = name;
+            newAttribute.transform.SetSiblingIndex(attributesInputField.transform.GetSiblingIndex());
+            newAttribute.onClick.AddListener(() => deleteFromAttributes(name));
+
+            // Add to list
+            totalAttributes.Add(name);
+        }
+
     }
     
+
+    void deleteFromAttributes(string name){
+        totalAttributes.Remove(name);
+        Destroy(EventSystem.current.currentSelectedGameObject);
+    }
+
     public void OnRegisterClick() {
         alertText.text = "Registering account...";
         controller.ActivateButtons(false);
 
         StartCoroutine(TryRegister());
     }
+
 
     private IEnumerator TryRegister() {
 
@@ -48,12 +90,17 @@ public class Register : MonoBehaviour
         string name = nameInputField.text;
         string surname1 = surname1InputField.text;
         string surname2 = surname2InputField.text;
-        string birthDate = birthDateInputField.text;
+
+        string birthDate = "";
+        string birthDateDay = birthDateInputFieldDay.text;
+        string birthDateMonth = birthDateInputFieldMonth.text;
+        string birthDateYear = birthDateInputFieldYear.text;
+
         string sex = sexInputField.captionText.text;
         string height = heightInputField.text;
         string weight = weightInputField.text;
         string state = stateInputField.captionText.text;
-        string attribute = attributesInputField.captionText.text;
+        string attribute = "";
         string email = emailInputField.text;
         string phone = phoneInputField.text;
         string companion = companionInputField.captionText.text;
@@ -86,11 +133,31 @@ public class Register : MonoBehaviour
             yield break;
         }
 
-        if (birthDate.Length < 2) { // TODO hay que comprobarlo mejor
-            alertText.text = "Invalid birth date.";
+
+        int birthValue = Int32.Parse(birthDateDay);
+        if(birthValue>31 || birthValue<1){
+             alertText.text = "Invalid birth day.";
+             controller.ActivateButtons(true);
+             yield break;
+         }
+                
+
+         birthValue = Int32.Parse(birthDateMonth);
+         if(birthValue>12 || birthValue<1){
+            alertText.text = "Invalid birth month.";
+            controller.ActivateButtons(true);
+            yield break;
+         }
+
+        
+        birthValue = Int32.Parse(birthDateYear);
+        if (birthValue < 1920 || birthValue > DateTime.Now.Year) {
+            alertText.text = "Invalid birth year.";
             controller.ActivateButtons(true);
             yield break;
         }
+
+        birthDate = birthDateYear + "-" + birthDateMonth + "-" +  birthDateDay;
 
         if (sex == "Enter your sex") {
             alertText.text = "Invalid sex selected.";
@@ -115,14 +182,6 @@ public class Register : MonoBehaviour
             controller.ActivateButtons(true);
             yield break;
         }
-
-        if (attribute == "Enter your attributes") { // TODO maybe add option for multiple attributes
-            alertText.text = "Invalid attribute selected.";
-            controller.ActivateButtons(true);
-            yield break;
-        }
-
-        if(attribute == "None") attribute = "";
 
         if (email.Length < 4) { // TODO Improve mail validation
             alertText.text = "Invalid email.";
@@ -156,6 +215,11 @@ public class Register : MonoBehaviour
 
         #endregion
 
+
+        foreach (string atr in totalAttributes) attribute += atr + "|";
+
+        attribute = attribute.Remove(attribute.Length-1);
+
         WWWForm form = new WWWForm();
         form.AddField("rUsername", username);
         form.AddField("rPassword", password);
@@ -167,7 +231,7 @@ public class Register : MonoBehaviour
         form.AddField("rHeight", height);
         form.AddField("rWeight", weight);
         form.AddField("rState", state);
-        form.AddField("rAttributeName", attribute);
+        form.AddField("rAttributeNames", attribute);
         form.AddField("rEmail", email);
         form.AddField("rPhone", phone);
         form.AddField("rCompanion", companion);

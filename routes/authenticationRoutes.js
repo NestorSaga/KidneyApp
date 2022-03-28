@@ -60,7 +60,14 @@ module.exports = app => {
 
         var res = {};
 
-        const {rUsername, rPassword, rName, rSurname1, rSurname2, rBirthDate, rSex, rHeight, rWeight, rState, rAttributeName, rEmail, rPhone, rCompanion, rExpert, rCompanionAccess} = request.body;
+        const {rUsername, rPassword, rName, rSurname1, rSurname2, rBirthDate, rSex, rHeight, rWeight, rState, rAttributeNames, rEmail, rPhone, rCompanion, rExpert, rCompanionAccess} = request.body;
+
+
+        
+
+        var stringAttributes = String(rAttributeNames).split("|")
+        
+
 
         if(rUsername == null || rUsername < 3 || rUsername > 24)
         {
@@ -100,7 +107,7 @@ module.exports = app => {
                         height: rHeight,
                         weight: rWeight,
                         state: rState,
-                        attributes: [rAttributeName],
+                        attributes: stringAttributes,
                         mail: rEmail,
                         phone: rPhone,
                         companion: rCompanion == "No, Im a companion",
