@@ -23,7 +23,6 @@ public class Register : MonoBehaviour
     [SerializeField] private TMP_InputField birthDateInputFieldDay;
     [SerializeField] private TMP_InputField birthDateInputFieldMonth;
     [SerializeField] private TMP_InputField birthDateInputFieldYear;
-    [SerializeField] private TMP_Dropdown sexInputField;
     [SerializeField] private TMP_InputField heightInputField;
     [SerializeField] private TMP_InputField weightInputField;
     [SerializeField] private TMP_Dropdown stateInputField;
@@ -33,8 +32,10 @@ public class Register : MonoBehaviour
     [SerializeField] private TMP_Dropdown companionInputField;
     [SerializeField] private TMP_Dropdown expertInputField;
     [SerializeField] private TMP_Dropdown companionAccessInputField;
-
     [SerializeField] private Button attributeButton;
+
+    public string sexVal = "Male";
+    public bool isCompanion = false;
 
     private LoginRegisterMenuController controller;
 
@@ -44,7 +45,10 @@ public class Register : MonoBehaviour
         controller = this.gameObject.GetComponent<LoginRegisterMenuController>();
 
         birthDateInputFieldDay.characterLimit = 2;
+        birthDateInputFieldMonth.characterLimit = 2;
+        birthDateInputFieldYear.characterLimit = 4;
         birthDateInputFieldDay.onEndEdit.AddListener(delegate{CheckDone(birthDateInputFieldDay, birthDateInputFieldMonth);});
+        birthDateInputFieldDay.onEndEdit.AddListener(delegate{CheckDone(birthDateInputFieldMonth, birthDateInputFieldYear);});
 
         // TODO Para todos los botones en el orden finalmente escogido
 
@@ -70,6 +74,14 @@ public class Register : MonoBehaviour
 
         attributesInputField.value = 0;
 
+    }
+
+    public void setSex(string value) {
+        sexVal = value;
+    }
+
+    public void setIsCompanion(bool value) {
+        isCompanion = value;
     }
     
 
@@ -99,14 +111,14 @@ public class Register : MonoBehaviour
         string birthDateMonth = birthDateInputFieldMonth.text;
         string birthDateYear = birthDateInputFieldYear.text;
 
-        string sex = sexInputField.captionText.text;
+        string sex = sexVal;
         string height = heightInputField.text;
         string weight = weightInputField.text;
         string state = stateInputField.captionText.text;
         string attribute = "";
         string email = emailInputField.text;
         string phone = phoneInputField.text;
-        string companion = companionInputField.captionText.text;
+        string companion = isCompanion == true ? "True" : "False";
         string expert = expertInputField.captionText.text;
         string companionAccess = companionAccessInputField.captionText.text;
 

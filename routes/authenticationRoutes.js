@@ -105,7 +105,7 @@ module.exports = app => {
                         attributes: stringAttributes,
                         mail: rEmail,
                         phone: rPhone,
-                        companion: rCompanion == "No, Im a companion",
+                        companion: rCompanion == "True",
                         expertPatient: rExpert == "Yes",
                         companionAccess: rCompanionAccess == "Yes",
 
