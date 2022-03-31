@@ -62,13 +62,8 @@ module.exports = app => {
 
         const {rUsername, rPassword, rName, rSurname1, rSurname2, rBirthDate, rSex, rHeight, rWeight, rState, rAttributeNames, rEmail, rPhone, rCompanion, rExpert, rCompanionAccess} = request.body;
 
-
-        
-
         var stringAttributes = String(rAttributeNames).split("|")
         
-
-
         if(rUsername == null || rUsername < 3 || rUsername > 24)
         {
             res.code = 1;

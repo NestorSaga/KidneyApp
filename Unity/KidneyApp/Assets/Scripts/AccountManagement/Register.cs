@@ -16,6 +16,7 @@ public class Register : MonoBehaviour
     [SerializeField] private TextMeshProUGUI alertText;
     [SerializeField] private TMP_InputField usernameInputField;
     [SerializeField] private TMP_InputField passwordInputField;
+    [SerializeField] private TMP_InputField repeatPasswordInputField;
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private TMP_InputField surname1InputField;
     [SerializeField] private TMP_InputField surname2InputField;
@@ -67,6 +68,8 @@ public class Register : MonoBehaviour
             totalAttributes.Add(name);
         }
 
+        attributesInputField.value = 0;
+
     }
     
 
@@ -117,6 +120,12 @@ public class Register : MonoBehaviour
 
         if (!Regex.IsMatch(password, PASSWORD_REGEX)) {
             alertText.text = "Password is not safe enough.";
+            controller.ActivateButtons(true);
+            yield break;
+        }
+
+        if(password != repeatPasswordInputField.text) {
+            alertText.text = "Passwords do not match.";
             controller.ActivateButtons(true);
             yield break;
         }
@@ -218,7 +227,10 @@ public class Register : MonoBehaviour
 
         foreach (string atr in totalAttributes) attribute += atr + "|";
 
+        if(attribute.Length != 0) {
         attribute = attribute.Remove(attribute.Length-1);
+        } else attribute = "";
+
 
         WWWForm form = new WWWForm();
         form.AddField("rUsername", username);
