@@ -14,7 +14,7 @@ public class HubController : MonoBehaviour
 
     private void Start(){
 
-        welcomeText.text = "Welcome " + PlayerPrefs.GetString("username") + "!";
+        //welcomeText.text = "Welcome " + PlayerPrefs.GetString("username") + "!";
 
 
     }

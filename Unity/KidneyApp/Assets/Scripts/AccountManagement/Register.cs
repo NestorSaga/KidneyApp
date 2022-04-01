@@ -27,12 +27,14 @@ public class Register : MonoBehaviour
     [SerializeField] private TMP_InputField weightInputField;
     [SerializeField] private TMP_Dropdown stateInputField;
     [SerializeField] private TMP_Dropdown attributesInputField;
+    [SerializeField] private GameObject attributesAnchor;
     [SerializeField] private TMP_InputField emailInputField;
     [SerializeField] private TMP_InputField phoneInputField;
-    [SerializeField] private TMP_Dropdown companionInputField;
-    [SerializeField] private TMP_Dropdown expertInputField;
-    [SerializeField] private TMP_Dropdown companionAccessInputField;
+    [SerializeField] private Toggle expertInputField;
+    [SerializeField] private Toggle companionAccessInputField;
     [SerializeField] private Button attributeButton;
+
+    
 
     public string sexVal = "Male";
     public bool isCompanion = false;
@@ -62,10 +64,10 @@ public class Register : MonoBehaviour
         if(!totalAttributes.Contains(name) && attributesInputField.value != 0){
             // Button creation logic
             Button newAttribute = Instantiate(attributeButton);
-            newAttribute.transform.SetParent(attributesInputField.transform.parent);
+            newAttribute.transform.SetParent(attributesAnchor.transform);
             newAttribute.transform.localScale = new Vector3 (1,1,1);
             newAttribute.GetComponentInChildren<TMP_Text>().text = name;
-            newAttribute.transform.SetSiblingIndex(attributesInputField.transform.GetSiblingIndex());
+            //newAttribute.transform.SetSiblingIndex(attributesInputField.transform.GetSiblingIndex());
             newAttribute.onClick.AddListener(() => deleteFromAttributes(name));
 
             // Add to list
@@ -74,6 +76,27 @@ public class Register : MonoBehaviour
 
         attributesInputField.value = 0;
 
+    }
+
+
+    public void setVariable(string name){
+        switch(name){
+
+            case "Male":
+                sexVal = name;
+                break;
+            
+            case "Female":
+                sexVal = name;
+                break;
+            
+            case "isPacient":
+                isCompanion = false;
+                break;
+            case "isCompanion":
+                isCompanion = true;
+                break;
+        }
     }
 
     public void setSex(string value) {
@@ -119,8 +142,8 @@ public class Register : MonoBehaviour
         string email = emailInputField.text;
         string phone = phoneInputField.text;
         string companion = isCompanion == true ? "True" : "False";
-        string expert = expertInputField.captionText.text;
-        string companionAccess = companionAccessInputField.captionText.text;
+        string expert = expertInputField.isOn == true ? "True" : "False";
+        string companionAccess = companionAccessInputField.isOn == true ? "True" : "False";
 
         #region dataValidation
 
@@ -222,17 +245,6 @@ public class Register : MonoBehaviour
             yield break;
         }
 
-        if (expert == "Are you an expert?") {
-            alertText.text = "Expert question not answered.";
-            controller.ActivateButtons(true);
-            yield break;
-        }
-
-        if (companionAccess == "Allow data sharing?") {
-            alertText.text = "Sharing data with companions not set.";
-            controller.ActivateButtons(true);
-            yield break;
-        }
 
         #endregion
 
