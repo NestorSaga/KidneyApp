@@ -7,29 +7,42 @@ using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using Michsky.UI.ModernUIPack;
 
 public class Register : MonoBehaviour
 {
     private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,32})";
     [SerializeField] private string registerEndpoint = "http://127.0.0.1:12345/account/create";
     [SerializeField] private string addAttributeEndpoint = "http://127.0.0.1:12345/account/addAttribute";
+
+    [SerializeField] private TextMeshProUGUI alertText1;
+    [SerializeField] private TextMeshProUGUI alertText2;
     [SerializeField] private TextMeshProUGUI alertText;
+
+  
     [SerializeField] private TMP_InputField usernameInputField;
     [SerializeField] private TMP_InputField passwordInputField;
     [SerializeField] private TMP_InputField repeatPasswordInputField;
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private TMP_InputField surname1InputField;
     [SerializeField] private TMP_InputField surname2InputField;
+
+
     [SerializeField] private TMP_InputField birthDateInputFieldDay;
     [SerializeField] private TMP_InputField birthDateInputFieldMonth;
     [SerializeField] private TMP_InputField birthDateInputFieldYear;
+    [SerializeField] private TMP_InputField emailInputField;
+    [SerializeField] private TMP_InputField phoneInputField;
+    [SerializeField] private HorizontalSelector genderSelector;
+    [SerializeField] private HorizontalSelector companionSelector;
+
+
     [SerializeField] private TMP_InputField heightInputField;
     [SerializeField] private TMP_InputField weightInputField;
     [SerializeField] private TMP_Dropdown stateInputField;
     [SerializeField] private TMP_Dropdown attributesInputField;
-    [SerializeField] private GameObject attributesAnchor;
-    [SerializeField] private TMP_InputField emailInputField;
-    [SerializeField] private TMP_InputField phoneInputField;
+  
+  
     [SerializeField] private Toggle expertInputField;
     [SerializeField] private Toggle companionAccessInputField;
     [SerializeField] private Button attributeButton;
@@ -54,29 +67,8 @@ public class Register : MonoBehaviour
 
         // TODO Para todos los botones en el orden finalmente escogido
 
-        attributesInputField.onValueChanged.AddListener(delegate{sumAttribute(attributesInputField.options[attributesInputField.value].text);});
-
     }
     void CheckDone(TMP_InputField sourceField, TMP_InputField targetField) {targetField.Select();}
-
-    void sumAttribute(string name){
-
-        if(!totalAttributes.Contains(name) && attributesInputField.value != 0){
-            // Button creation logic
-            Button newAttribute = Instantiate(attributeButton);
-            newAttribute.transform.SetParent(attributesAnchor.transform);
-            newAttribute.transform.localScale = new Vector3 (1,1,1);
-            newAttribute.GetComponentInChildren<TMP_Text>().text = name;
-            //newAttribute.transform.SetSiblingIndex(attributesInputField.transform.GetSiblingIndex());
-            newAttribute.onClick.AddListener(() => deleteFromAttributes(name));
-
-            // Add to list
-            totalAttributes.Add(name);
-        }
-
-        attributesInputField.value = 0;
-
-    }
 
 
     public void setVariable(string name){
@@ -120,6 +112,141 @@ public class Register : MonoBehaviour
         StartCoroutine(TryRegister());
     }
 
+    public void RegisterFirstStep(){
+
+    string username = usernameInputField.text;
+    string password = passwordInputField.text;
+    string name = nameInputField.text;
+    string surname1 = surname1InputField.text;
+    string surname2 = surname2InputField.text;
+
+    alertText1.text = "";
+
+    bool firstStepGood = true;
+
+        if (username.Length < 3 || username.Length > 24) {
+            alertText1.text += "Invalid username. ";
+            controller.ActivateButtons(true);
+
+            firstStepGood = false;
+        }
+
+        if (!Regex.IsMatch(password, PASSWORD_REGEX)) {
+            alertText1.text += "Password is not safe enough. ";
+            controller.ActivateButtons(true);
+
+            firstStepGood = false;
+        }
+
+        if(password != repeatPasswordInputField.text) {
+            alertText1.text += "Passwords do not match. ";
+            controller.ActivateButtons(true);
+
+            firstStepGood = false;         
+        }
+
+        if (name.Length < 1) {
+            alertText1.text += "Invalid name. ";
+            controller.ActivateButtons(true);
+
+            firstStepGood = false;          
+        }
+        
+        if (surname1.Length < 1) {
+            alertText1.text += "Invalid surname. ";
+            controller.ActivateButtons(true);
+
+            firstStepGood = false;           
+        }
+
+        if(firstStepGood){
+            controller.GoToRegister2();
+        }else{
+            alertText1.enabled = true;
+        }
+
+    }
+    public void RegisterSecondStep(){
+
+        string birthDate = "";
+        string birthDateDay = birthDateInputFieldDay.text;
+        string birthDateMonth = birthDateInputFieldMonth.text;
+        string birthDateYear = birthDateInputFieldYear.text;
+        string email = emailInputField.text;
+        string phone = phoneInputField.text;
+        string sex;
+        string companion;
+
+        alertText2.text = "";
+        bool secondStepGood = true;
+
+
+
+        int birthValue = Int32.Parse(birthDateDay);
+        if(birthValue>31 || birthValue<1){
+             alertText2.text += "Invalid birth day. ";
+             controller.ActivateButtons(true);
+
+             secondStepGood = false;
+         }
+                
+
+         birthValue = Int32.Parse(birthDateMonth);
+         if(birthValue>12 || birthValue<1){
+            alertText2.text += "Invalid birth month. ";
+            controller.ActivateButtons(true);
+
+            secondStepGood = false;
+         }
+
+        
+        birthValue = Int32.Parse(birthDateYear);
+        if (birthValue < 1920 || birthValue > DateTime.Now.Year) {
+            alertText2.text += "Invalid birth year. ";
+            controller.ActivateButtons(true);
+            
+            secondStepGood = false;
+        }
+
+        birthDate = birthDateYear + "-" + birthDateMonth + "-" +  birthDateDay;
+
+
+        if (email.Length < 4) { // TODO Improve mail validation
+            alertText2.text += "Invalid email. ";
+            controller.ActivateButtons(true);
+            
+            secondStepGood = false;
+        }
+
+        if (phone.Length != 9) {
+            alertText2.text += "Invalid phone. ";
+            controller.ActivateButtons(true);
+            
+            secondStepGood = false;
+        }
+
+        
+        switch(genderSelector.index){
+
+            case 0:
+            sex = "Male";
+            break;
+            
+            case 1: 
+            sex = "Female";
+            break;
+        }
+
+        if(companionSelector.index == 0)  companion = "False";
+        else companion = "True";
+
+
+        if(secondStepGood){
+            controller.GoToRegister3();
+        }else{
+
+        }
+    }
 
     private IEnumerator TryRegister() {
 

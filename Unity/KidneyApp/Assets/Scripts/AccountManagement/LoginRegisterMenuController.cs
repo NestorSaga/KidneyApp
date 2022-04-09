@@ -7,6 +7,11 @@ public class LoginRegisterMenuController : MonoBehaviour
     [SerializeField] private GameObject canvas1, canvas2, canvas3;
 
     public void ChangeScene(int id) {
+
+        // 0 -> Login Scene
+        // 1 -> Register Scene
+        // 2 -> Hub
+
         GameManager.Instance.ChangeScene(id);
     }
 
