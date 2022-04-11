@@ -43,13 +43,10 @@ public class Register : MonoBehaviour
     [SerializeField] private TMP_InputField heightInputField;
     [SerializeField] private TMP_InputField weightInputField;
     [SerializeField] private HorizontalSelector stateSelector;
-    [SerializeField] private TMP_Dropdown stateInputField;
     [SerializeField] private TMP_Dropdown attributesInputField;
-  
-  
     [SerializeField] private Toggle expertInputField;
     [SerializeField] private Toggle companionAccessInputField;
-    [SerializeField] private Button attributeButton;
+
 
 
     //Variables    
@@ -95,10 +92,21 @@ public class Register : MonoBehaviour
         birthDateInputFieldDay.characterLimit = 2;
         birthDateInputFieldMonth.characterLimit = 2;
         birthDateInputFieldYear.characterLimit = 4;
-        birthDateInputFieldDay.onEndEdit.AddListener(delegate{CheckDone(birthDateInputFieldDay, birthDateInputFieldMonth);});
-        birthDateInputFieldDay.onEndEdit.AddListener(delegate{CheckDone(birthDateInputFieldMonth, birthDateInputFieldYear);});
 
-        // TODO Para todos los botones en el orden finalmente escogido
+        usernameInputField.onEndEdit.AddListener(delegate{CheckDone(usernameInputField, passwordInputField);});
+        passwordInputField.onEndEdit.AddListener(delegate{CheckDone(passwordInputField, repeatPasswordInputField);});
+        repeatPasswordInputField.onEndEdit.AddListener(delegate{CheckDone(repeatPasswordInputField, nameInputField);});
+        nameInputField.onEndEdit.AddListener(delegate{CheckDone(nameInputField, surname1InputField);});
+        surname1InputField.onEndEdit.AddListener(delegate{CheckDone(surname1InputField, surname2InputField);});
+        
+
+        birthDateInputFieldDay.onEndEdit.AddListener(delegate{CheckDone(birthDateInputFieldDay, birthDateInputFieldMonth);});
+        birthDateInputFieldMonth.onEndEdit.AddListener(delegate{CheckDone(birthDateInputFieldMonth, birthDateInputFieldYear);});
+        birthDateInputFieldYear.onEndEdit.AddListener(delegate{CheckDone(birthDateInputFieldYear, emailInputField);});
+        emailInputField.onEndEdit.AddListener(delegate{CheckDone(emailInputField, phoneInputField);});
+
+        heightInputField.onEndEdit.AddListener(delegate{CheckDone(heightInputField, weightInputField);});
+
 
     }
     void CheckDone(TMP_InputField sourceField, TMP_InputField targetField) {targetField.Select();}
