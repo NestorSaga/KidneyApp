@@ -9,10 +9,9 @@ module.exports = app => {
 
     app.post('/account/addAchievment', async (request, response) => {
 
-
         var res = {};
 
-        const {rUserId, rAchievmentName} = request.body;
+        const {rUserId, rAchievmentName, rCompletion} = request.body;
 
         //var userId = await Account.findOne({_id : rUserId}, '_id');
         var foundAchievmentId = await Achievment.findOne({name : rAchievmentName}, 'name')
@@ -23,6 +22,7 @@ module.exports = app => {
             var newUserAchievment = new UserAchievment({
                 userId : rUserId,
                 achievementId : foundAchievmentId._id,
+                completion: rCompletion,
 
                 date : Date.now()
             });

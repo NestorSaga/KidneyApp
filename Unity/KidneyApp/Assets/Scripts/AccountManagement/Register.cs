@@ -325,7 +325,7 @@ public class Register : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("rUsername", username);
         form.AddField("rPassword", password);
-        form.AddField("rName", name);
+        form.AddField("rName", firstName);
         form.AddField("rSurname1", surname1);
         form.AddField("rSurname2", surname2);
         form.AddField("rBirthDate", birthDate);
@@ -369,7 +369,7 @@ public class Register : MonoBehaviour
 
                 alertText1.text = "Account has been created.";
 
-                //GameManager.Instance.ChangeScene(2); //goto hub
+                GameManager.Instance.ChangeScene(2); //goto hub
 
             } else {
                 switch(response.code) {

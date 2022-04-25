@@ -19,8 +19,10 @@ require('./model/Achievement');
 require('./model/UserAchievement.js');
 
 //Setup routes
+require('./routes/dataRoutes')(app);
 require('./routes/authenticationRoutes')(app);
 require('./routes/achievementsRoutes')(app);
+
 
 
 app.listen(keys.port, () => {
