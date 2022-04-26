@@ -16,7 +16,9 @@ mongoose.connect(keys.mongoURI);
 require('./model/Account');
 require('./model/Attribute');
 require('./model/Achievement');
-require('./model/UserAchievement.js');
+require('./model/Video');
+require('./model/UserAchievement');
+require('./model/VideoRegistry');
 
 //Setup routes
 require('./routes/dataRoutes')(app);

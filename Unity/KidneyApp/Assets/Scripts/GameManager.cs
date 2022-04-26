@@ -77,7 +77,13 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
+    public void FillJSON()
+    {
+        //JSONfile = Application.persistentDataPath + "/Assets/Data/data.json";
 
+        StartCoroutine(LoadToJSON());
+    }
+    
     public IEnumerator LoadToJSON()
     {
         WWWForm form = new WWWForm();
@@ -122,29 +128,16 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-
-    public void FillJSON()
-    {
-        //JSONfile = Application.persistentDataPath + "/Assets/Data/data.json";
-
-        StartCoroutine(LoadToJSON());
-
-
-
-    }
-
-
     public void SaveData(string data)
     {
-        string savePath = persistentPath;
-
         //string json = JsonUtility.ToJson(data);
 
-        using StreamWriter writer = new StreamWriter(savePath);
+        FileInfo fi = new FileInfo(persistentPath);
+        if(!fi.Directory.Exists) System.IO.Directory.CreateDirectory(fi.DirectoryName);
+
+        using StreamWriter writer = new StreamWriter(persistentPath);
         
         writer.Write(data);
-
-        
     }
 
     public void LoadData()
