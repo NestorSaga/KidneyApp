@@ -3,7 +3,7 @@ const {Schema} = mongoose;
 
 const videoRegistrySchema = new Schema({ 
     
-    userId: String ,
+    userId: String,
     videoId: String,
     rating: Number,
     date: Date

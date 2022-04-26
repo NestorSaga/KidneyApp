@@ -16,7 +16,7 @@ public class JSONdata
     [System.Serializable]
     public class AchievementData
     {
-        public string _Id;
+        public string _id;
         public string achievementId;
         public string date;
         public int completion;
@@ -25,7 +25,7 @@ public class JSONdata
     [System.Serializable]
     public class VideoData
     {
-        public string _Id;
+        public string _id;
         public string date;
         public int rating;
     }

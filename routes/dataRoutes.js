@@ -11,7 +11,6 @@ module.exports = app => {
 
     app.post('/account/retrieveData', async (request, response) => {
 
-
         var res = {};
 
         const {rUserId} = request.body;
@@ -26,17 +25,17 @@ module.exports = app => {
         var parsed = JSON.parse(stringified)
         res.userAchievements = parsed
 
-        var videoRegistryData = await VideoRegistry.find({}, 'videoId date rating');
+        var videoRegistryData = await VideoRegistry.find({userId : rUserId}, 'videoId date rating');
 
-        console.log("Video registry data: " + videoRegistryData);
+        console.log("Video registry data: " + videoRegistryData)
 
         var stringified = JSON.stringify(videoRegistryData);
         var parsed = JSON.parse(stringified)
-        res.seenVideos = parsed 
+        res.seenVideos = parsed
         
         response.send(res);
 
-        //console.log(res);
+        console.log(res);
 
         return;
 
