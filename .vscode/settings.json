@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/d0019f46-fcec-496d-aab9-073ef22abf0c/resourceGroups/KidneyApp/providers/Microsoft.Web/sites/KidneyApp",
+    "appService.deploySubpath": "."
+}
