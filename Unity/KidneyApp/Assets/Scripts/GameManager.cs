@@ -7,14 +7,10 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-
-
     [SerializeField] private string addAchievmentEndpoint = "http://127.0.0.1:12345/account/addAchievment";
     [SerializeField] private string dataEndpoint = "http://127.0.0.1:12345/account/retrieveData";
 
-
     [SerializeField] public string JSONfile;
-
 
     private string path = "";
     private string persistentPath = "";
@@ -89,6 +85,7 @@ public class GameManager : MonoBehaviour
         WWWForm form = new WWWForm();
 
         form.AddField("rUserId", PlayerPrefs.GetString("userId"));
+        form.AddField("rUserName", PlayerPrefs.GetString("username"));
 
         UnityWebRequest request = UnityWebRequest.Post(dataEndpoint, form);
 
@@ -140,13 +137,25 @@ public class GameManager : MonoBehaviour
         writer.Write(data);
     }
 
-    public void LoadData()
+    public bool JSONExists()
+    {
+        FileInfo fi = new FileInfo(persistentPath);
+        return fi.Directory.Exists;
+    }
+
+    public JSONdata LoadData()
     {
         using StreamReader reader = new StreamReader(persistentPath);
         string json = reader.ReadToEnd();
 
-        JSONdata data = JsonUtility.FromJson<JSONdata>(json);
-        Debug.Log(data.ToString());
+        return JsonUtility.FromJson<JSONdata>(json);
+    }
+
+    public void ClearJSON()
+    {
+        Debug.Log("Clearing JSON data");
+        FileInfo fi = new FileInfo(persistentPath);
+        fi.Directory.Delete(true);
     }
 
 }

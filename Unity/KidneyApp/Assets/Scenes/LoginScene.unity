@@ -561,7 +561,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 61.65
   m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1482,7 +1482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925078df806fdf64598ba2f881735154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginEndpoint: https://kidneyapp.azurewebsites.net/account/login
+  loginEndpoint: http://127.0.0.1:12345/account/login
   alertText: {fileID: 1627321567}
   usernameInputField: {fileID: 1252704972}
   passwordInputField: {fileID: 1257898755}
@@ -2371,7 +2371,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 61.65
   m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 1

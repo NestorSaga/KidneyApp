@@ -17,6 +17,23 @@ public class Login : MonoBehaviour
         controller = this.gameObject.GetComponent<LoginRegisterMenuController>();
     }
 
+    public void Start()
+    {
+        Debug.Log("Attempting autologin");
+        if(GameManager.Instance.JSONExists()) 
+        {
+            Debug.Log("Exists");
+            JSONdata data = GameManager.Instance.LoadData();
+
+            PlayerPrefs.SetString("userId", data._id);
+            PlayerPrefs.SetString("username", data.username);
+            PlayerPrefs.Save();
+
+            GameManager.Instance.ChangeScene(2); //goto hub
+        }
+
+    }
+
     public void OnLoginClick() {
         alertText.text = "Signing in...";
         controller.ActivateButtons(false);
