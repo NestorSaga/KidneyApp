@@ -19,7 +19,7 @@ public class Login : MonoBehaviour
 
     public void Start()
     {
-        Debug.Log("Attempting autologin");
+        /* Debug.Log("Attempting autologin");
         if(GameManager.Instance.JSONExists()) 
         {
             Debug.Log("Exists");
@@ -30,7 +30,7 @@ public class Login : MonoBehaviour
             PlayerPrefs.Save();
 
             GameManager.Instance.ChangeScene(2); //goto hub
-        }
+        } */
 
     }
 
