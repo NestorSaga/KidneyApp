@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
-const userSchema = new Schema({ // TODO añadir toda la informacion
+const userSchema = new Schema({
     username: String,
     password: String,
     name: String,

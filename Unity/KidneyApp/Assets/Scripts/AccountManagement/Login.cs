@@ -8,6 +8,8 @@ public class Login : MonoBehaviour
 {
     private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,32})";
     [SerializeField] private string loginEndpoint = "http://127.0.0.1:12345/account/login";
+    [SerializeField] private string autologinEndpoint = "http://127.0.0.1:12345/account/autologin";
+    [SerializeField] private string keyEndpoint = "http://127.0.0.1:12345/account/createkey";
     [SerializeField] private TextMeshProUGUI alertText;
     [SerializeField] private TMP_InputField usernameInputField;
     [SerializeField] private TMP_InputField passwordInputField;
@@ -19,19 +21,7 @@ public class Login : MonoBehaviour
 
     public void Start()
     {
-        /* Debug.Log("Attempting autologin");
-        if(GameManager.Instance.JSONExists()) 
-        {
-            Debug.Log("Exists");
-            JSONdata data = GameManager.Instance.LoadData();
-
-            PlayerPrefs.SetString("userId", data._id);
-            PlayerPrefs.SetString("username", data.username);
-            PlayerPrefs.Save();
-
-            GameManager.Instance.ChangeScene(2); //goto hub
-        } */
-
+        StartCoroutine(TryAutoLogin());
     }
 
     public void OnLoginClick() {
@@ -114,5 +104,39 @@ public class Login : MonoBehaviour
         
         yield return null;
     }
-}
+    
 
+    private IEnumerator TryAutoLogin() {
+
+        Debug.Log("Attempting autologin");
+        if(GameManager.Instance.JSONExists()) 
+        {
+            Debug.Log("Exists");
+            JSONdata data = GameManager.Instance.LoadData();
+
+            PlayerPrefs.SetString("userId", data._id);
+            PlayerPrefs.SetString("username", data.username);
+            PlayerPrefs.Save();
+
+            WWWForm form = new WWWForm();
+            form.AddField("rUserId", data._id);
+
+            UnityWebRequest request = UnityWebRequest.Post(keyEndpoint, form);
+
+            var handler = request.SendWebRequest();
+
+            float startTime= 0.0f;
+            while (!handler.isDone){
+                startTime += Time.deltaTime;
+
+                if(startTime > 10.0f) {
+                    break;
+                }
+
+                yield return null;
+            }
+
+            GameManager.Instance.ChangeScene(2); //goto hub
+        }
+    }
+}

@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 const Account = mongoose.model('users');
 const Attribute = mongoose.model('attributes');
+const UserCredentials = mongoose.model('userCredentials');
 const argon2 = require('argon2');
 const crypto = require('crypto');
 const res = require('express/lib/response');
 const { debug } = require('console');
 
 const passwordRegex = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,32})");
+const defaultKeyDuration = 30;
 
 module.exports = app => {
 
@@ -54,6 +56,54 @@ module.exports = app => {
             response.send(res);
             return;
         }
+    });
+
+    app.post('/account/autologin', async (request, response) => {
+
+        var res = {};
+
+        const {rUsername, rKey} = request.body;
+
+        if(rUsername == null || rKey == null)
+        {   
+            res.code = 1;
+            res.msg = "Invalid credentials";
+            response.send(res);
+            return;
+        }
+
+        /*
+        var userAccount = await Account.findOne({username : rUsername}, 'username password _id');
+        if(userAccount != null){
+
+            argon2.verify(userAccount.password, rPassword).then(async (success) => {
+
+                if(success) {
+                    userAccount.lastAuth = Date.now();
+                    await userAccount.save();
+
+                    res.code = 0;
+                    res.msg = "Account found";
+                    res.data = ( ({_id, username}) => ({_id, username}) )(userAccount); // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
+
+                    response.send(res);
+                    return;
+
+                } else {
+                    res.code = 1;
+                    res.msg = "Invalid credentials";
+                    response.send(res);
+                    return;
+                }
+
+            });
+        } else {
+            res.code = 1;
+            res.msg = "Invalid credentials";
+            response.send(res);
+            return;
+        }
+        */
     });
 
     app.post('/account/create', async (request, response) => {
@@ -181,6 +231,56 @@ module.exports = app => {
 
         response.send(res);
         return;
+    });
+
+    app.post('/account/createkey', async (request, response) => {
+
+        var res = {};
+
+        const {rUserId} = request.body;
+
+        if(rUserId == null)
+        {
+            res.code = 1;
+            res.msg = "Invalid credentials";
+            response.send(res);
+            return;
+        }
+
+        var ObjectID = require('mongodb').ObjectID;
+
+        const rkey = new ObjectID();
+
+        console.log("Key: " + rkey);
+        
+        crypto.randomBytes(32, function(err, salt) {
+            if(err) {
+                console.log(err);
+            }
+
+            argon2.hash(rKey, salt).then(async (hash) => {
+
+                var userCredentials = new UserCredentials({
+                    userId: rUserId,
+                    key: rKey,
+                    durationDays: defaultKeyDuration,
+                    salt: salt,
+                    creationDate: Date.now()
+                });
+
+                await userCredentials.save();
+
+                userCredentials._id;
+
+                res.code = 0;
+                res.msg = "Credentials created";
+                res.data = ( ({userId, key}) => ({userId, key}) )(userCredentials); // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
+
+                response.send(res);
+                return;
+                
+            });
+        });        
     });
 
 }
