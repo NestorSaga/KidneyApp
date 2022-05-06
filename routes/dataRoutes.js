@@ -28,8 +28,6 @@ module.exports = app => {
 
         var videoRegistryData = await VideoRegistry.find({ userId: rUserId }, 'videoId date rating');
 
-        console.log("Video registry data: " + videoRegistryData)
-
         var stringified = JSON.stringify(videoRegistryData);
         var parsed = JSON.parse(stringified)
         res.seenVideos = parsed

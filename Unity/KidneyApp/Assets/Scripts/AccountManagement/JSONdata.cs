@@ -6,7 +6,8 @@ using UnityEngine;
 public class JSONdata
 {
     public string _id;
-    public string username;
+    public string userName;
+    public string apiKey;
     public AchievementData[] userAchievements;
     public VideoData[] seenVideos;
     public string[] doneTests;

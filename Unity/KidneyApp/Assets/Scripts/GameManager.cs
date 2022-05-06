@@ -9,12 +9,11 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private string addAchievmentEndpoint = "http://127.0.0.1:12345/account/addAchievment";
     [SerializeField] private string dataEndpoint = "http://127.0.0.1:12345/account/retrieveData";
-
+    [SerializeField] private string keyEndpoint = "http://127.0.0.1:12345/account/getkey";
     [SerializeField] public string JSONfile;
 
     private string path = "";
     private string persistentPath = "";
-
 
     private static GameManager instance = null;
     public static GameManager Instance {
@@ -75,8 +74,6 @@ public class GameManager : MonoBehaviour
 
     public void FillJSON()
     {
-        //JSONfile = Application.persistentDataPath + "/Assets/Data/data.json";
-
         StartCoroutine(LoadToJSON());
     }
     
@@ -110,6 +107,49 @@ public class GameManager : MonoBehaviour
 
             JSONdata response = JsonUtility.FromJson<JSONdata>(request.downloadHandler.text);
 
+            string key = "";
+
+            #region generating api key
+
+                WWWForm keyform = new WWWForm();
+                keyform.AddField("rUserId", response._id);
+
+                UnityWebRequest keyrequest = UnityWebRequest.Post(keyEndpoint, keyform);
+
+                var keyhandler = keyrequest.SendWebRequest();
+
+                float start= 0.0f;
+                while (!keyhandler.isDone){
+                    start += Time.deltaTime;
+
+                    if(start > 10.0f) {
+                        Debug.Log("Connection timeout at key generation");
+                        break;
+                    }
+
+                    yield return null;
+                }
+
+                if(keyrequest.result == UnityWebRequest.Result.Success) {
+
+                    LoginResponse keyresponse = JsonUtility.FromJson<LoginResponse>(keyrequest.downloadHandler.text);
+
+                    if(keyresponse.code == 0) {
+
+                        key = keyresponse.data._id;
+
+                    } else {
+                        key = null;
+                    }
+
+                } else {
+                    key = null;
+                }
+
+            #endregion
+
+            response.apiKey = key;
+
             string jsonString = JsonUtility.ToJson(response);
 
             SaveData(jsonString);
@@ -119,7 +159,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("conectadont");
+            Debug.Log("Error generating JSON data");
         }
 
         yield return null;
@@ -127,8 +167,6 @@ public class GameManager : MonoBehaviour
 
     public void SaveData(string data)
     {
-        //string json = JsonUtility.ToJson(data);
-
         FileInfo fi = new FileInfo(persistentPath);
         if(!fi.Directory.Exists) System.IO.Directory.CreateDirectory(fi.DirectoryName);
 
@@ -156,6 +194,14 @@ public class GameManager : MonoBehaviour
         Debug.Log("Clearing JSON data");
         FileInfo fi = new FileInfo(persistentPath);
         fi.Directory.Delete(true);
+    }
+
+    public IEnumerator GenerateApiKey(string userId) {
+
+
+
+        yield return null;
+
     }
 
 }

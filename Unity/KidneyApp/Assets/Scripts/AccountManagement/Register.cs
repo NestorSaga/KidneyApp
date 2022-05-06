@@ -369,6 +369,7 @@ public class Register : MonoBehaviour
 
                 alertText1.text = "Account has been created.";
 
+                GameManager.Instance.FillJSON();
                 GameManager.Instance.ChangeScene(2); //goto hub
 
             } else {

@@ -5,7 +5,7 @@ const UserCredentials = mongoose.model('userCredentials');
 const argon2 = require('argon2');
 const crypto = require('crypto');
 const res = require('express/lib/response');
-const { debug } = require('console');
+const { debug, Console } = require('console');
 
 const passwordRegex = new RegExp("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,32})");
 const defaultKeyDuration = 30;
@@ -60,11 +60,13 @@ module.exports = app => {
 
     app.post('/account/autologin', async (request, response) => {
 
+        console.log("Attempting autologin");
+
         var res = {};
 
-        const {rUsername, rKey} = request.body;
+        const {rKey} = request.body;
 
-        if(rUsername == null || rKey == null)
+        if(rKey == null)
         {   
             res.code = 1;
             res.msg = "Invalid credentials";
@@ -72,38 +74,34 @@ module.exports = app => {
             return;
         }
 
-        /*
-        var userAccount = await Account.findOne({username : rUsername}, 'username password _id');
-        if(userAccount != null){
+        var userCredentials = await UserCredentials.findOne({_id : rKey}, 'validationDate durationDays');
+        if(userCredentials != null){
 
-            argon2.verify(userAccount.password, rPassword).then(async (success) => {
+            const targetDate = new Date();
+            targetDate.setDate(userCredentials.validationDate.getDate() + userCredentials.durationDays);
+            
+            if(targetDate > Date.now()) {
 
-                if(success) {
-                    userAccount.lastAuth = Date.now();
-                    await userAccount.save();
+                UserCredentials.updateOne(
+                    {_id: userCredentials._id},
+                    {$set: {validationDate: Date.now()}}
+                );
 
-                    res.code = 0;
-                    res.msg = "Account found";
-                    res.data = ( ({_id, username}) => ({_id, username}) )(userAccount); // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
+                await userCredentials.save();
 
-                    response.send(res);
-                    return;
-
-                } else {
-                    res.code = 1;
-                    res.msg = "Invalid credentials";
-                    response.send(res);
-                    return;
-                }
-
-            });
+                res.code = 0;
+                res.msg = "Login Successful";
+                res.data = ( ({userId, _id}) => ({userId, _id}) )(userCredentials); 
+                response.send(res);
+                return;
+            }
         } else {
             res.code = 1;
-            res.msg = "Invalid credentials";
+            res.msg = "Key not valid";
             response.send(res);
             return;
         }
-        */
+        
     });
 
     app.post('/account/create', async (request, response) => {
@@ -233,7 +231,9 @@ module.exports = app => {
         return;
     });
 
-    app.post('/account/createkey', async (request, response) => {
+    app.post('/account/getkey', async (request, response) => {
+
+        console.log("Generating api key");
 
         var res = {};
 
@@ -247,40 +247,72 @@ module.exports = app => {
             return;
         }
 
-        var ObjectID = require('mongodb').ObjectID;
+        res.code = 1;
+        res.msg = "Api key not obtained";
 
-        const rkey = new ObjectID();
+        var userCredentials = await UserCredentials.findOne({userId : rUserId}, 'userId validationDate durationDays _id');
+        if(userCredentials != null ){
 
-        console.log("Key: " + rkey);
-        
-        crypto.randomBytes(32, function(err, salt) {
-            if(err) {
-                console.log(err);
-            }
+            const targetDate = new Date();
+            targetDate.setDate(userCredentials.validationDate.getDate() + userCredentials.durationDays);
+            
+            if(targetDate > Date.now()) { //update key date
 
-            argon2.hash(rKey, salt).then(async (hash) => {
+                console.log("Updating existing");
 
-                var userCredentials = new UserCredentials({
-                    userId: rUserId,
-                    key: rKey,
-                    durationDays: defaultKeyDuration,
-                    salt: salt,
-                    creationDate: Date.now()
-                });
+                UserCredentials.updateOne(
+                    {_id: userCredentials._id},
+                    {$set: {validationDate: Date.now()}}
+                );
 
                 await userCredentials.save();
 
-                userCredentials._id;
-
                 res.code = 0;
-                res.msg = "Credentials created";
-                res.data = ( ({userId, key}) => ({userId, key}) )(userCredentials); // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
+                res.msg = "Api key obtained";
+                res.data = ( ({userId, _id}) => ({userId, _id}) )(userCredentials); 
 
-                response.send(res);
-                return;
-                
+            } else { // delete and generate new key
+                console.log("Deleting and generating anew");
+
+                UserCredentials.deleteOne({_id: userCredentials._id});
+
+                userCredentials = new UserCredentials({
+                    userId: rUserId,
+                    durationDays: defaultKeyDuration,
+                    validationDate: Date.now()
+                });
+        
+                await userCredentials.save();
+    
+                res.code = 0;
+                res.msg = "Api key obtained";
+                res.data = ( ({userId, _id}) => ({userId, _id}) )(userCredentials); 
+            }
+            
+            res.code = 0;
+            res.msg = "Api key obtained";
+            res.data = ( ({userId, _id}) => ({userId, _id}) )(userCredentials); // user and it's key (id)
+
+        } else {
+
+            userCredentials = new UserCredentials({
+                userId: rUserId,
+                durationDays: defaultKeyDuration,
+                validationDate: Date.now()
             });
-        });        
+    
+            await userCredentials.save();
+
+            res.code = 0;
+            res.msg = "Api key obtained";
+            res.data = ( ({userId, _id}) => ({userId, _id}) )(userCredentials); 
+        }
+
+        console.log(res);
+
+        response.send(res);
+        return;
+
     });
 
 }

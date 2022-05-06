@@ -9,8 +9,6 @@ public class Login : MonoBehaviour
     private const string PASSWORD_REGEX = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,32})";
     [SerializeField] private string loginEndpoint = "http://127.0.0.1:12345/account/login";
     [SerializeField] private string autologinEndpoint = "http://127.0.0.1:12345/account/autologin";
-    [SerializeField] private string keyEndpoint = "http://127.0.0.1:12345/account/createkey";
-    [SerializeField] private TextMeshProUGUI alertText;
     [SerializeField] private TMP_InputField usernameInputField;
     [SerializeField] private TMP_InputField passwordInputField;
     private LoginRegisterMenuController controller;
@@ -25,7 +23,6 @@ public class Login : MonoBehaviour
     }
 
     public void OnLoginClick() {
-        alertText.text = "Signing in...";
         controller.ActivateButtons(false);
 
         StartCoroutine(TryLogin());
@@ -37,13 +34,11 @@ public class Login : MonoBehaviour
         string password = passwordInputField.text;
 
         if (username.Length < 3 || username.Length > 24) {
-            alertText.text = "Invalid username.";
             controller.ActivateButtons(true);
             yield break;
         }
 
         if (!Regex.IsMatch(password, PASSWORD_REGEX)) {
-            alertText.text = "Invalid password.";
             controller.ActivateButtons(true);
             yield break;
         }
@@ -61,6 +56,7 @@ public class Login : MonoBehaviour
             startTime += Time.deltaTime;
 
             if(startTime > 10.0f) {
+                Debug.Log("Connection timeout at login");
                 break;
             }
 
@@ -69,59 +65,47 @@ public class Login : MonoBehaviour
 
         if(request.result == UnityWebRequest.Result.Success) {
 
-            Debug.Log(request.downloadHandler.text);
-
             LoginResponse response = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
 
-            if(response.code == 0) {// login successful? 
-
-                alertText.text = "Welcome!";
+            if(response.code == 0) {// login successful
 
                 PlayerPrefs.SetString("userId", response.data._id);
                 PlayerPrefs.SetString("username", response.data.username);
                 PlayerPrefs.Save();
 
-
+                GameManager.Instance.FillJSON();
                 GameManager.Instance.ChangeScene(2); //goto hub
 
             } else {
                 switch(response.code) {
                     case 1:
-                        alertText.text = "Invalid credentials";
                         controller.ActivateButtons(true);
                         break;
                     default:
-                        alertText.text = "Invalid response code";
                         break;
                 }
             }
 
         } else {
-            alertText.text = "Error connecting to the server...";
             controller.ActivateButtons(true);
-
         }
         
         yield return null;
     }
     
-
     private IEnumerator TryAutoLogin() {
 
         Debug.Log("Attempting autologin");
         if(GameManager.Instance.JSONExists()) 
         {
-            Debug.Log("Exists");
-            JSONdata data = GameManager.Instance.LoadData();
 
-            PlayerPrefs.SetString("userId", data._id);
-            PlayerPrefs.SetString("username", data.username);
-            PlayerPrefs.Save();
+            JSONdata data = GameManager.Instance.LoadData();
 
             WWWForm form = new WWWForm();
             form.AddField("rUserId", data._id);
+            form.AddField("rKey", data.apiKey);
 
-            UnityWebRequest request = UnityWebRequest.Post(keyEndpoint, form);
+            UnityWebRequest request = UnityWebRequest.Post(autologinEndpoint, form);
 
             var handler = request.SendWebRequest();
 
@@ -136,7 +120,37 @@ public class Login : MonoBehaviour
                 yield return null;
             }
 
-            GameManager.Instance.ChangeScene(2); //goto hub
+            if(request.result == UnityWebRequest.Result.Success) {
+
+                LoginResponse response = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
+
+                if(response.code == 0) {// login successful
+
+                    PlayerPrefs.SetString("userId", response.data._id);
+                    PlayerPrefs.SetString("username", response.data.username);
+                    PlayerPrefs.Save();
+
+                    GameManager.Instance.ChangeScene(2); //goto hub
+
+                } else {
+                    switch(response.code) {
+                        case 1:
+                            controller.ActivateButtons(true);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            } else {
+                controller.ActivateButtons(true);
+            }
+
+
+
+            yield return null;
         }
+        Debug.Log("Autologin failed");
     }
+
 }

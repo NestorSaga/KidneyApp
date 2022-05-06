@@ -7,7 +7,7 @@ const userCredentialSchema = new Schema({
     key: String,
     salt: String,
     durationDays: Number,
-    creationDate: Date,
+    validationDate: Date,
 });
 
 mongoose.model('userCredentials', userCredentialSchema);
