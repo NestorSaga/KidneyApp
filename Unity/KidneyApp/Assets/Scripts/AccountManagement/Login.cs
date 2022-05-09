@@ -19,7 +19,7 @@ public class Login : MonoBehaviour
 
     public void Start()
     {
-        StartCoroutine(TryAutoLogin());
+        //StartCoroutine(TryAutoLogin());
     }
 
     public void OnLoginClick() {
