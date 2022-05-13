@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const Account = mongoose.model('users');
-const Achievment = mongoose.model('achievements')
 const UserAchievment = mongoose.model('userAchievements')
 const VideoRegistry = mongoose.model('videoRegistry')
 const res = require('express/lib/response');
