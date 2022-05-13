@@ -204,8 +204,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void SelecFromIMC(AlimentData data, int value, string alimentFamily){
 
-    }
 
 }

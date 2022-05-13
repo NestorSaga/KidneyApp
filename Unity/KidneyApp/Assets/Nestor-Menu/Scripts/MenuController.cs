@@ -20,7 +20,7 @@ public class MenuController : MonoBehaviour
 
     //Hardcoded af
 
-    public int IMC = 11;
+    public int IMC;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +55,9 @@ public class MenuController : MonoBehaviour
                 Button listAliment = Instantiate(aliment, new Vector3(0,0,0), Quaternion.identity);
                 listAliment.transform.SetParent(scrollRectContent.transform,false);
                 listAliment.GetComponentInChildren<TextMeshProUGUI>().text = data.meat[i].Aliment;
+                if(SelecFromIMC(data,i,"meat", IMC)==0) listAliment.GetComponent<Image>().color = Color.red;
+                else if(SelecFromIMC(data,i,"meat", IMC)==1) listAliment.GetComponent<Image>().color = Color.yellow;
+                if(SelecFromIMC(data,i,"meat", IMC)==2) listAliment.GetComponent<Image>().color = Color.green;
 
         }
     }
@@ -76,6 +79,26 @@ public class MenuController : MonoBehaviour
         Debug.Log("Clearing JSON data");
         FileInfo fi = new FileInfo(path);
         fi.Directory.Delete(true);
+    }
+
+    public int SelecFromIMC(AlimentData data, int position, string alimentFamily, int IMC){
+
+        switch(alimentFamily){
+
+            case "meat":
+                if(IMC==1) return data.meat[position].C1;
+                else if(IMC==2) return data.meat[position].C2;
+                else return 1;
+            break;
+
+            case "fish":
+            if(IMC==1) return data.fish[position].C1;
+            else return 1;
+            break;
+
+            default: 
+                return 1;
+        }
     }
 
 }
