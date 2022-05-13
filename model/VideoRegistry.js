@@ -5,7 +5,6 @@ const videoRegistrySchema = new Schema({
     
     userId: String,
     videoId: String,
-    rating: Number,
     date: Date
 });
 
