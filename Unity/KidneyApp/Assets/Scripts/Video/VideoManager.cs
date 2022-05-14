@@ -13,7 +13,6 @@ public class VideoManager : MonoBehaviour
     [SerializeField] private GameObject VideoPlayer;
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private GameObject categoryParent;
-    private string currentVideoURL = "file://C:/Users/iguan/Documents/TFG/KidneyApp/Unity/KidneyApp/Assets/Sprites/Video/Baalakut Teaser.mp4";
     private string[] categories;
 
     private void Start() {
@@ -38,11 +37,11 @@ public class VideoManager : MonoBehaviour
         CategoryUI.SetActive(false);
         //populateVideos(category); //implement when videos are provided
     }
-    public void goToVideoPlayer() {
+    public void goToVideoPlayer(string url) {
         VideoSelector.SetActive(false);
         VideoPlayer.SetActive(true);
         CategoryUI.SetActive(false);
-        //playVideo();
+        //playVideo(url);
     }
 
     private IEnumerator TryGetCategories() {
@@ -96,5 +95,9 @@ public class VideoManager : MonoBehaviour
             button.GetComponent<Button>().onClick.AddListener(delegate{goToVideoSelector(cat);});
         }
 
+    }
+
+    public void goToHub() {
+        GameManager.Instance.ChangeScene(2);
     }
 }
