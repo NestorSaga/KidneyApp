@@ -27,8 +27,6 @@ module.exports = app => {
             res.msg = "Categories obtained";
             res.names = names; 
     
-            console.log(res);
-    
             response.send(res);
 
         });

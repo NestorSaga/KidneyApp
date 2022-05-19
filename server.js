@@ -17,8 +17,11 @@ require('./model/Account');
 require('./model/Achievement');
 require('./model/Attribute');
 require('./model/Category');
+require('./model/Question');
+require('./model/Quiz');
 require('./model/UserAchievement');
 require('./model/UserCredential');
+require('./model/UserQuiz');
 require('./model/Video');
 require('./model/VideoRegistry');
 
@@ -26,7 +29,8 @@ require('./model/VideoRegistry');
 require('./routes/dataRoutes')(app);
 require('./routes/authenticationRoutes')(app);
 require('./routes/achievementsRoutes')(app);
-require('./routes/videoRoutes')(app);
+require('./routes/quizRoutes')(app);
+require('./routes/categoryRoutes')(app);
 
 app.listen(keys.port, () => {
     console.log("Listening port " + keys.port);
