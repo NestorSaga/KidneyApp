@@ -216,8 +216,12 @@ public class QuizManager : MonoBehaviour
                 answers[currentQuestion] = 1;
             } else if(answerToggles[1].isOn) {
                 answers[currentQuestion] = 2;
+                answerToggles[1].isOn = false;
+                answerToggles[0].isOn = true;
             } else {
                 answers[currentQuestion] = 3;
+                answerToggles[2].isOn = false;
+                answerToggles[0].isOn = true;
             }
 
             currentQuestion++;
