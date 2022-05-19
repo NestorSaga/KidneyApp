@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Quiz = mongoose.model('quizzes')
+const Question = mongoose.model('questions');
 const UserAchievment = mongoose.model('userAchievements')
 const userQuiz = mongoose.model('userQuizzes');
 const Category = mongoose.model('categories');
@@ -11,20 +12,26 @@ module.exports = app => {
 
     app.post('/quiz/getQuizzesFromCategoryName', async(request, response) => {
 
-        console.log("Attempting to obtain quizzes from category name");
-
-        var res = {};
-
         const {rCategory} = request.body;
 
         var categories = await Category.findOne({name: rCategory}, '_id');
 
         var quizzes = await Quiz.find({categoryId: categories._id});
 
-        console.log("Quizzes");
-        console.log(quizzes);
-
         response.send(quizzes);
+
+        return;
+
+    });
+
+    app.post('/quiz/getQuestionsFromQuiz', async(request, response) => {
+
+        const {rQuizId} = request.body;
+
+        var questions = await Question.find({quizId: rQuizId});
+
+        console.log(questions);
+        response.send(questions);
 
         return;
 
