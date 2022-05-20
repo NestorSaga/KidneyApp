@@ -2,11 +2,10 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 
 const foodSchema = new Schema({
-    meat: Array,
-    fish: Array,
-    deliMeats: Array,
-    dairy: Array
-
+    foodId:String,
+    name:String,
+    category:String,
+    values:Object
 
 });
 

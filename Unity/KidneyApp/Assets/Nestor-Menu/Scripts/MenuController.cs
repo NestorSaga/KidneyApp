@@ -133,12 +133,9 @@ public class MenuController : MonoBehaviour
 
             Debug.Log(request.downloadHandler.text);
 
-            string value = request.downloadHandler.text.Substring(0, request.downloadHandler.text.Length -1);
-            string value2 = value.Substring(1);
-  
-            AlimentData alimentData = JsonUtility.FromJson<AlimentData>(value2);
+            FoodDataResponse alimentData = JsonUtility.FromJson<AlimentData>(value2);
             
-            Debug.Log(alimentData.meat[0].Aliment);
+            Debug.Log(alimentData);
         }             
         yield return null;
     }
