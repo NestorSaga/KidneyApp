@@ -5,6 +5,7 @@ const foodSchema = new Schema({
     foodId:String,
     name:String,
     category:String,
+    language:String,
     values:Object
 
 });

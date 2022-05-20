@@ -2,19 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
 public class FoodDataResponse
 {
     public FoodData [] foodData;
 }
 
+[System.Serializable]
 public class FoodData{
 
     public string _id;
     public string name;
     public string category;
+    public string language;
     public Values values;
+    
 }
 
+[System.Serializable]
 public class Values{
         public int C1;
         public int C2;
@@ -41,3 +47,4 @@ public class Values{
         public int C23;
         public int C24;
 }
+
