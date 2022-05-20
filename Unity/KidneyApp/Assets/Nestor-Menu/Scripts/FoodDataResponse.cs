@@ -9,7 +9,7 @@ public class FoodDataResponse
 
 public class FoodData{
 
-    public string foodId;
+    public string _id;
     public string name;
     public string category;
     public Values values;
