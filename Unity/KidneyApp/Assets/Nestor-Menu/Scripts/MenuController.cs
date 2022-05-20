@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using TMPro;
+using UnityEngine.Networking;
 
 public class MenuController : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class MenuController : MonoBehaviour
     public Button aliment;
 
     AlimentData data;
+
+    [SerializeField] private string foodUpdateEndpoint = "http://127.0.0.1:80/account/updateClientFood";
 
 
 
@@ -101,4 +104,42 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    public void testUpdate(){
+        StartCoroutine(UpdateLocalFoodJSON());
+    }
+
+    public IEnumerator UpdateLocalFoodJSON(){
+
+        WWWForm form = new WWWForm();
+
+        UnityWebRequest request = UnityWebRequest.Post(foodUpdateEndpoint, form);
+
+        var handler = request.SendWebRequest();
+
+        float startTime= 0.0f;
+        while (!handler.isDone){
+            startTime += Time.deltaTime;
+
+            if(startTime > 10.0f) {
+                Debug.Log("Connection timeout at login");
+                break;
+            }
+
+            yield return null;
+        }
+
+        if(request.result == UnityWebRequest.Result.Success) {
+
+
+            Debug.Log(request.downloadHandler.text);
+
+            string value = request.downloadHandler.text.Substring(0, request.downloadHandler.text.Length -1);
+            string value2 = value.Substring(1);
+  
+            AlimentData alimentData = JsonUtility.FromJson<AlimentData>(value2);
+            
+            Debug.Log(alimentData.meat[0].Aliment);
+        }             
+        yield return null;
+    }
 }

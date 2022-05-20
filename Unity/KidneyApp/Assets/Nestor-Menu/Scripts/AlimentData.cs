@@ -2,6 +2,7 @@
 public class AlimentData
 {
 
+    public string _id;
     public Meats[] meat;
 
     public Fishes[] fish;
