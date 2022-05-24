@@ -1,4 +1,4 @@
-const express = require ("express");
+const express = require("express");
 const keys = require('./config/keys.js');
 const app = express();
 const bodyParser = require('body-parser');
@@ -19,6 +19,7 @@ require('./model/Attribute');
 require('./model/Category');
 require('./model/Question');
 require('./model/Quiz');
+require('./model/Tip');
 require('./model/UserAchievement');
 require('./model/UserCredential');
 require('./model/UserQuiz');

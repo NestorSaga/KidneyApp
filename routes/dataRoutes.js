@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const UserAchievment = mongoose.model('userAchievements')
-const VideoRegistry = mongoose.model('videoRegistry')
+const UserAchievment = mongoose.model('userAchievements');
+const VideoRegistry = mongoose.model('videoRegistry');
+const Tip = mongoose.model('tips');
 const res = require('express/lib/response');
 const { debug, Console } = require('console');
 
@@ -30,6 +31,21 @@ module.exports = app => {
         var parsed = JSON.parse(stringified)
         res.seenVideos = parsed
 
+        response.send(res);
+
+        return;
+
+    });
+
+    app.post('/tip', async(request, response) => {
+
+        var res = {};
+
+        var tip = Tip.aggregate([{ $sample: { size: 1 } }, 'languageTip']);
+        //var tip = Tip.find();
+
+        res.code = 0;
+        res.tip = tip;
         response.send(res);
 
         return;
