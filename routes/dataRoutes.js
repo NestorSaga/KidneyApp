@@ -37,15 +37,23 @@ module.exports = app => {
 
     });
 
-    app.post('/tip', async(request, response) => {
+    app.post('/randomTip', async(request, response) => {
 
         var res = {};
 
-        var tip = Tip.aggregate([{ $sample: { size: 1 } }, 'languageTip']);
-        //var tip = Tip.find();
+        var tip = await Tip.find({}, 'languageTip');
 
-        res.code = 0;
-        res.tip = tip;
+        if(tip != null) {
+            res.code = 0;
+            //console.log(tip);
+            //console.log(tip.length);
+            var rand = Math.random() * tip.length;
+            res.tip = tip.at(rand).languageTip;
+
+        } else {
+            res.code = 1;
+        }
+
         response.send(res);
 
         return;

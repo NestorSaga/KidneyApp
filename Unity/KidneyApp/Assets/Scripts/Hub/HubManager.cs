@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 public class HubManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI tipOfTheDay;
-    [SerializeField] private string tipEndpoint;
+    [SerializeField] private string tipEndpoint = "http://127.0.0.1:12345/randomTip";
 
     private void Awake()
     {
@@ -45,9 +45,7 @@ public class HubManager : MonoBehaviour
 
             if (response.code == 0)
             {
-                Debug.Log(request.downloadHandler.text);
-                Debug.Log(response.tip.es);
-                //tipOfTheDay.text = response.tip;
+                tipOfTheDay.text = response.tip.es;
 
             }
             else

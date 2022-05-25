@@ -6135,6 +6135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tipOfTheDay: {fileID: 1004719976}
+  tipEndpoint: http://127.0.0.1:12345/randomTip
 --- !u!1 &1004719974
 GameObject:
   m_ObjectHideFlags: 0
@@ -6193,13 +6194,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Consejo del d\xEDa: Lorem ipsum dolor sit amet, consectetur adipiscing
-    elit. Integer vehicula non dui at maximus. Aliquam sed mi nec lorem egestas dapibus
-    eu at dui. Pellentesque in interdum orci. Mauris consequat porttitor bibendum.
-    Duis tincidunt interdum sem, tristique pretium metus sodales eget. Aliquam malesuada
-    metus eget viverra ultricies. Nunc molestie pretium porttitor. Aenean nec nunc
-    ligula. Etiam suscipit tellus diam, ac rhoncus erat hendrerit eu. Cras vel sapien
-    quis justo euismod congue quis ac ligula."
+  m_text: "Consejo del d\xEDa"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6226,14 +6221,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.9
+  m_fontSize: 72
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 12
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
