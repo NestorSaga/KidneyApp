@@ -73,4 +73,9 @@ public class HubManager : MonoBehaviour
 
         GameManager.Instance.ChangeScene(0); // return to login
     }
+
+    public void goToScene(int scene)
+    {
+        GameManager.Instance.ChangeScene(scene);
+    }
 }
