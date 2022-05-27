@@ -41,7 +41,7 @@ public class VideoManager : MonoBehaviour
         VideoSelector.SetActive(false);
         VideoPlayer.SetActive(true);
         CategoryUI.SetActive(false);
-        //playVideo(url);
+        //playVideo(url); //implement when videos are provided
     }
 
     private IEnumerator TryGetCategories() {

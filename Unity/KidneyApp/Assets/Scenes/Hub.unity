@@ -1506,9 +1506,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.44313726, g: 0.85882354, b: 0.93333334, a: 1}
-    m_HighlightedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
+    m_HighlightedColor: {r: 0.2784314, g: 0.8901961, b: 1, a: 1}
+    m_PressedColor: {r: 0, g: 0.84705883, b: 1, a: 1}
+    m_SelectedColor: {r: 0, g: 0.67058825, b: 0.7921569, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.39215687}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -3819,7 +3819,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dd6a4f1b48fdfa24795480dd2bce1661, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f7fad078681824845adaa6aa333d9de8, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -4263,8 +4263,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.44313726, g: 0.85882354, b: 0.93333334, a: 1}
-    m_HighlightedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
+    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.39215687}
@@ -4902,7 +4902,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 54480c8535d545149b22ee8bfcaad6c2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 76abe28924c3a9345adaa9cc63c803d3, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -7634,8 +7634,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.44313726, g: 0.85882354, b: 0.93333334, a: 1}
-    m_HighlightedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
+    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.39215687}
@@ -7669,7 +7669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a54a7257a6436d41b873f1053130384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonIcon: {fileID: 21300000, guid: dd6a4f1b48fdfa24795480dd2bce1661, type: 3}
+  buttonIcon: {fileID: 21300000, guid: f7fad078681824845adaa6aa333d9de8, type: 3}
   clickEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -7846,9 +7846,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.44313726, g: 0.85882354, b: 0.93333334, a: 1}
-    m_HighlightedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
+    m_HighlightedColor: {r: 0.2784314, g: 0.8901961, b: 1, a: 1}
+    m_PressedColor: {r: 0, g: 0.84705883, b: 1, a: 1}
+    m_SelectedColor: {r: 0, g: 0.67058825, b: 0.7921569, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.39215687}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -9532,7 +9532,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.44313726, g: 0.85882354, b: 0.93333334, a: 1}
+    m_NormalColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
     m_HighlightedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
@@ -9567,22 +9567,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a54a7257a6436d41b873f1053130384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonIcon: {fileID: 21300002, guid: 88dca061d041a2a4596563e6a38f66c8, type: 3}
+  buttonIcon: {fileID: 21300000, guid: 54480c8535d545149b22ee8bfcaad6c2, type: 3}
   clickEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 999336763}
-        m_TargetAssemblyTypeName: HubManager, Assembly-CSharp
-        m_MethodName: ExitHub
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   hoverEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -9671,7 +9659,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300002, guid: 88dca061d041a2a4596563e6a38f66c8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 54480c8535d545149b22ee8bfcaad6c2, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -9831,10 +9819,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.44313726, g: 0.85882354, b: 0.93333334, a: 1}
-    m_HighlightedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
+    m_NormalColor: {r: 0.93333334, g: 0.46666667, b: 0.44313726, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.34117648, b: 0.30588236, a: 1}
+    m_PressedColor: {r: 1, g: 0.17254902, b: 0.1254902, a: 1}
+    m_SelectedColor: {r: 0.81960785, g: 0.16470589, b: 0.12941177, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.39215687}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -9866,13 +9854,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a54a7257a6436d41b873f1053130384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonIcon: {fileID: 21300000, guid: 54480c8535d545149b22ee8bfcaad6c2, type: 3}
+  buttonIcon: {fileID: 21300000, guid: 76abe28924c3a9345adaa9cc63c803d3, type: 3}
   clickEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 999336763}
         m_TargetAssemblyTypeName: HubManager, Assembly-CSharp
-        m_MethodName: FillJSON
+        m_MethodName: ExitHub
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
