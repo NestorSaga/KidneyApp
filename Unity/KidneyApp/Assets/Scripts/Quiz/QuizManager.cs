@@ -25,7 +25,6 @@ public class QuizManager : MonoBehaviour
     private int currentQuestion = 0;
     private int[] answers;
     private Question[] questions;
-    private string currentCategory;
 
     private void Start() {
         Debug.Log("Attempting to get categories");
@@ -208,7 +207,8 @@ public class QuizManager : MonoBehaviour
     }
 
     public void next() {
-        if(currentQuestion + 1 == questions.Length) { // Quiz finished
+        if(currentQuestion + 1 == questions.Length) { 
+            // Quiz finished, save result
             goToCategories();
         } else {
 

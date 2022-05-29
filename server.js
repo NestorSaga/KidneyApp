@@ -32,6 +32,7 @@ require('./routes/authenticationRoutes')(app);
 require('./routes/achievementsRoutes')(app);
 require('./routes/quizRoutes')(app);
 require('./routes/categoryRoutes')(app);
+require('./routes/videoRoutes')(app);
 
 app.listen(keys.port, () => {
     console.log("Listening port " + keys.port);

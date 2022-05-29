@@ -43,10 +43,8 @@ module.exports = app => {
 
         var tip = await Tip.find({}, 'languageTip');
 
-        if(tip != null) {
+        if (tip != null) {
             res.code = 0;
-            //console.log(tip);
-            //console.log(tip.length);
             var rand = Math.random() * tip.length;
             res.tip = tip.at(rand).languageTip;
 
