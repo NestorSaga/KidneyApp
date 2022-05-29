@@ -3208,6 +3208,7 @@ MonoBehaviour:
   getCategoriesEndpoint: http://127.0.0.1:12345/categories/names
   getQuizzesEndpoint: http://127.0.0.1:12345/quiz/getQuizzesFromCategoryName
   getQuestionsEndpoint: http://127.0.0.1:12345/quiz/getQuestionsFromQuiz
+  saveQuizEndpoint: http://127.0.0.1:12345/quiz/saveQuiz
   CategoryUI: {fileID: 1903812673}
   quizSelector: {fileID: 266165452}
   quizDisplay: {fileID: 1439631542}
@@ -3230,6 +3231,7 @@ MonoBehaviour:
   - {fileID: 1438913058}
   - {fileID: 1324743246}
   - {fileID: 701017951}
+  noStars: {fileID: 21300000, guid: 728dcfd76e173654d9461b7e5d843107, type: 3}
   oneStar: {fileID: 21300000, guid: ec7a45c0bb804e442ae926866ed56184, type: 3}
   twoStars: {fileID: 21300000, guid: 80f08aad1e18cf744bd3202818771287, type: 3}
   ThreeStars: {fileID: 21300000, guid: e97ca753c5f410c47abb2f574edb82b6, type: 3}
