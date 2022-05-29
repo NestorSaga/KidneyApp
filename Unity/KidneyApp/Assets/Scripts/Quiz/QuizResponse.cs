@@ -14,6 +14,7 @@ public class Quiz {
     public string name;
     public string categoryId;
     public DisplayName displayName;
+    public int score;
 }
 
 [System.Serializable]

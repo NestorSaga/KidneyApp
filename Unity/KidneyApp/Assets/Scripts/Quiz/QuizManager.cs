@@ -11,20 +11,23 @@ public class QuizManager : MonoBehaviour
     [SerializeField] private string getCategoriesEndpoint = "http://127.0.0.1:12345/categories/names";
     [SerializeField] private string getQuizzesEndpoint = "http://127.0.0.1:12345/quiz/getQuizzesFromCategoryName";
     [SerializeField] private string getQuestionsEndpoint = "http://127.0.0.1:12345/quiz/getQuestionsFromQuiz";
+    [SerializeField] private string saveQuizEndpoint = "http://127.0.0.1:12345/quiz/saveQuiz";
     [SerializeField] private GameObject CategoryUI;
     [SerializeField] private GameObject quizSelector;
     [SerializeField] private GameObject quizDisplay;
-    [SerializeField] private GameObject buttonPrefab;
+    [SerializeField] private GameObject buttonPrefab, quizButtonPrefab;
     [SerializeField] private GameObject categoryParent;
     [SerializeField] private GameObject quizParent;
     [SerializeField] private TMP_Text[] textAnswer1, textAnswer2, textAnswer3;
     [SerializeField] private TMP_Text progress, statement;
     [SerializeField] private Toggle[] answerToggles;
+    [SerializeField] private Sprite noStars, oneStar, twoStars, ThreeStars;
     private string[] categories;
     private Quiz[] quizzes;
     private int currentQuestion = 0;
     private int[] answers;
     private Question[] questions;
+    private string currentQuizId;
 
     private void Start() {
         Debug.Log("Attempting to get categories");
@@ -47,6 +50,7 @@ public class QuizManager : MonoBehaviour
     }
 
     public void goToQuizDisplay(string quizId) {
+        currentQuizId = quizId;
         StartCoroutine(TryGetQuestions(quizId));
         quizSelector.SetActive(false);
         quizDisplay.SetActive(true);
@@ -191,12 +195,30 @@ public class QuizManager : MonoBehaviour
 
         foreach (Quiz quiz in quizzes)
         {
-            GameObject button = Instantiate(buttonPrefab, new Vector3 (0,0,0), Quaternion.identity) as GameObject; 
+            GameObject button = Instantiate(quizButtonPrefab, new Vector3 (0,0,0), Quaternion.identity) as GameObject; 
             button.GetComponent<ButtonManagerWithIcon>().buttonText = quiz.name;
+            //button.GetComponent<ButtonManagerWithIcon>().buttonIcon = getQuizIcon(quiz);
             button.transform.SetParent(quizParent.transform, false);
             button.GetComponent<Button>().onClick.AddListener(delegate{goToQuizDisplay(quiz._id);});
         }
 
+    }
+
+    public Sprite getQuizIcon(Quiz quiz) //TODO Obtener el mejor resultado del quiz objetivo del usuario
+    {
+        if (quiz.score == 1)
+        {
+            return oneStar;
+        } else if (quiz.score == 2)
+        {
+            return twoStars;
+        } else if(quiz.score == 3)
+        {
+            return ThreeStars;
+        } else
+        {
+            return noStars;
+        }
     }
 
     public void startQuiz() {
@@ -207,25 +229,35 @@ public class QuizManager : MonoBehaviour
     }
 
     public void next() {
-        if(currentQuestion + 1 == questions.Length) { 
-            // Quiz finished, save result
+        if(currentQuestion + 1 == questions.Length) {
+            saveCurrentAnswer();
+            StartCoroutine(SaveScore(answers));
             goToCategories();
+
         } else {
-
-            if(answerToggles[0].isOn) {
-                answers[currentQuestion] = 1;
-            } else if(answerToggles[1].isOn) {
-                answers[currentQuestion] = 2;
-                answerToggles[1].isOn = false;
-                answerToggles[0].isOn = true;
-            } else {
-                answers[currentQuestion] = 3;
-                answerToggles[2].isOn = false;
-                answerToggles[0].isOn = true;
-            }
-
+            saveCurrentAnswer();
             currentQuestion++;
             populateQuestionText();
+        }
+    }
+
+    public void saveCurrentAnswer()
+    {
+        if (answerToggles[0].isOn)
+        {
+            answers[currentQuestion] = 1;
+        }
+        else if (answerToggles[1].isOn)
+        {
+            answers[currentQuestion] = 2;
+            answerToggles[1].isOn = false;
+            answerToggles[0].isOn = true;
+        }
+        else
+        {
+            answers[currentQuestion] = 3;
+            answerToggles[2].isOn = false;
+            answerToggles[0].isOn = true;
         }
     }
 
@@ -256,4 +288,72 @@ public class QuizManager : MonoBehaviour
     public void goToHub() {
         GameManager.Instance.ChangeScene(2);
     }
+
+    public IEnumerator SaveScore(int[] answers)
+    {
+        Debug.Log("Saving score");
+
+        int score = 1;
+
+        /* 
+            Score matches the number of stars in a quiz.
+            1 star: Quiz completed.
+            2 stars: 50% or more correct answers
+            3 stars: 100% correct answers         
+        */
+
+        int points = 0;
+        for (int i = 0; i < questions.Length; i++)
+        {
+            if (answers[i] == questions[i].correctAnswer)
+            {
+                points++;
+            }
+        }
+
+        if (points == questions.Length)
+        {
+            score = 3;
+
+        }
+        else if (points >= questions.Length / 2)
+        {
+            score = 2;
+        }
+
+        WWWForm form = new WWWForm();
+        form.AddField("rScore", score);
+        form.AddField("rUserId", PlayerPrefs.GetString("userId"));
+        form.AddField("rQuizId", currentQuizId);
+        UnityWebRequest request = UnityWebRequest.Post(saveQuizEndpoint, form);
+
+        var handler = request.SendWebRequest();
+
+        float startTime = 0.0f;
+        while (!handler.isDone)
+        {
+            startTime += Time.deltaTime;
+
+            if (startTime > 10.0f)
+            {
+                Debug.Log("Timed out");
+                break;
+            }
+
+            yield return null;
+        }
+
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Score saved");
+        }
+        else
+        {
+            Debug.Log("Request failed");
+        }
+
+        yield return null;
+    }
+
 }
