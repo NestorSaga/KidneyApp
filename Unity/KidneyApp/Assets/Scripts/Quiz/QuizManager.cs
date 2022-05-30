@@ -12,6 +12,7 @@ public class QuizManager : MonoBehaviour
     [SerializeField] private string getQuizzesEndpoint = "http://127.0.0.1:12345/quiz/getQuizzesFromCategoryName";
     [SerializeField] private string getQuestionsEndpoint = "http://127.0.0.1:12345/quiz/getQuestionsFromQuiz";
     [SerializeField] private string saveQuizEndpoint = "http://127.0.0.1:12345/quiz/saveQuiz";
+    [SerializeField] private string quizScoreEndpoint = "http://127.0.0.1:12345/quiz/getHighscore";
     [SerializeField] private GameObject CategoryUI;
     [SerializeField] private GameObject quizSelector;
     [SerializeField] private GameObject quizDisplay;
@@ -125,7 +126,7 @@ public class QuizManager : MonoBehaviour
             QuizResponse response = JsonUtility.FromJson<QuizResponse>("{\"quizzes\":" + request.downloadHandler.text + "}");
 
             quizzes = response.quizzes;
-            populateQuizzes();
+
             
 
         } else {
@@ -133,6 +134,48 @@ public class QuizManager : MonoBehaviour
             Debug.Log("Request failed");
         }
 
+        foreach(Quiz quiz in quizzes)
+        {
+            form = new WWWForm();
+            form.AddField("rUserId", PlayerPrefs.GetString("userId"));
+            form.AddField("rQuizId", quiz._id);
+            request = UnityWebRequest.Post(quizScoreEndpoint, form);
+
+            handler = request.SendWebRequest();
+
+            startTime = 0.0f;
+            while (!handler.isDone)
+            {
+                startTime += Time.deltaTime;
+
+                if (startTime > 10.0f)
+                {
+                    Debug.Log("Timed out");
+                    break;
+                }
+
+                yield return null;
+            }
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+
+                ScoreResponse response = JsonUtility.FromJson<ScoreResponse>(request.downloadHandler.text);
+
+                if(response.code == 0)
+                {
+                    quiz.score = response.score;
+                }
+
+            }
+            else
+            {
+
+                Debug.Log("Request failed");
+            }
+        }
+
+        populateQuizzes();
         yield return null;
     }
 
@@ -197,14 +240,14 @@ public class QuizManager : MonoBehaviour
         {
             GameObject button = Instantiate(quizButtonPrefab, new Vector3 (0,0,0), Quaternion.identity) as GameObject; 
             button.GetComponent<ButtonManagerWithIcon>().buttonText = quiz.name;
-            //button.GetComponent<ButtonManagerWithIcon>().buttonIcon = getQuizIcon(quiz);
+            button.GetComponent<ButtonManagerWithIcon>().buttonIcon = getQuizIcon(quiz);
             button.transform.SetParent(quizParent.transform, false);
             button.GetComponent<Button>().onClick.AddListener(delegate{goToQuizDisplay(quiz._id);});
         }
 
     }
 
-    public Sprite getQuizIcon(Quiz quiz) //TODO Obtener el mejor resultado del quiz objetivo del usuario
+    public Sprite getQuizIcon(Quiz quiz)
     {
         if (quiz.score == 1)
         {

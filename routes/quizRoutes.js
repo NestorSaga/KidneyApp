@@ -64,13 +64,14 @@ module.exports = app => {
 
         const { rUserId, rQuizId } = request.body;
 
-        var userScore = await UserQuiz.findOne({ userId: rUserId, quizId: rQuizId }).sort({ score: -1 });
+        var userScore = await UserQuiz.findOne({ userId: rUserId, quizId: rQuizId }, 'score').sort({ score: -1 });
 
         if (userScore != null) {
             res.code = 0;
             res.score = userScore.score;
         } else {
             res.code = 1;
+            res.score = 0;
         }
 
         response.send(res);
