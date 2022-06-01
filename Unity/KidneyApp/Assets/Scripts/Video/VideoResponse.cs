@@ -14,14 +14,7 @@ public class Video
 {
     public string categoryId;
     public string name;
-    public DisplayName displayName;
-    public Description description;
+    public string description;
+    public string language;
     public string url;
-}
-
-[System.Serializable]
-public class Description
-{
-    public string en;
-    public string es;
 }

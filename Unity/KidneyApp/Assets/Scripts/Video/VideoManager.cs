@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using Michsky.UI.ModernUIPack;
 
 public class VideoManager : MonoBehaviour
@@ -164,7 +165,7 @@ public class VideoManager : MonoBehaviour
         foreach (Video video in videos.videos)
         {
             GameObject button = Instantiate(buttonPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-            button.GetComponent<ButtonManagerWithIcon>().buttonText = video.displayName.es;
+            button.GetComponent<ButtonManagerWithIcon>().buttonText = video.name;
             button.transform.SetParent(videoParent.transform, false);
             button.GetComponent<Button>().onClick.AddListener(delegate {goToVideoPlayer(video.url);});
         }
@@ -173,8 +174,8 @@ public class VideoManager : MonoBehaviour
 
     public void playVideo(string url)
     {
-
-        //play video url. Implement when video urls are provided. 
+        videoPlayer.GetComponent<VideoPlayer>().url = url;
+        videoPlayer.GetComponent<VideoPlayer>().Prepare();
     }
 
     public void goToHub() {
