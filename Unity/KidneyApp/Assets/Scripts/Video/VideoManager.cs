@@ -24,6 +24,10 @@ public class VideoManager : MonoBehaviour
     }
 
     public void goToCategories() {
+        foreach (Transform child in categoryParent.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
         videoSelector.SetActive(false);
         videoPlayer.SetActive(false);
         categoryUI.SetActive(true);
@@ -31,6 +35,10 @@ public class VideoManager : MonoBehaviour
     }
 
     public void goToVideoSelector(string category) {
+        foreach (Transform child in videoParent.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
         StartCoroutine(TryGetVideos(category));
         videoSelector.SetActive(true);
         videoPlayer.SetActive(false);
@@ -116,8 +124,6 @@ public class VideoManager : MonoBehaviour
             {
 
                 videos = response;
-                Debug.Log("Video: ");
-                Debug.Log(videos.videos[0].name);
                 populateVideos();
 
             }
@@ -139,11 +145,6 @@ public class VideoManager : MonoBehaviour
 
     public void populateCategories() {
 
-        foreach (Transform child in categoryParent.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-
         foreach (string cat in categories)
         {
             GameObject button = Instantiate(buttonPrefab, new Vector3 (0,0,0), Quaternion.identity) as GameObject; 
@@ -156,11 +157,6 @@ public class VideoManager : MonoBehaviour
 
     public void populateVideos()
     {
-
-        foreach (Transform child in videoParent.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
 
         foreach (Video video in videos.videos)
         {
