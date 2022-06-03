@@ -13,16 +13,14 @@ public class QuizManager : MonoBehaviour
     [SerializeField] private string getQuestionsEndpoint = "http://127.0.0.1:12345/quiz/getQuestionsFromQuiz";
     [SerializeField] private string saveQuizEndpoint = "http://127.0.0.1:12345/quiz/saveQuiz";
     [SerializeField] private string quizScoreEndpoint = "http://127.0.0.1:12345/quiz/getHighscore";
-    [SerializeField] private GameObject CategoryUI;
-    [SerializeField] private GameObject quizSelector;
-    [SerializeField] private GameObject quizDisplay;
+    [SerializeField] private GameObject CategoryUI, quizSelector, quizDisplay, quizResult;
     [SerializeField] private GameObject buttonPrefab, quizButtonPrefab;
-    [SerializeField] private GameObject categoryParent;
-    [SerializeField] private GameObject quizParent;
+    [SerializeField] private GameObject categoryParent, quizParent;
     [SerializeField] private TMP_Text[] textAnswer1, textAnswer2, textAnswer3;
-    [SerializeField] private TMP_Text progress, statement;
+    [SerializeField] private TMP_Text progress, statement, resultText;
     [SerializeField] private Toggle[] answerToggles;
     [SerializeField] private Sprite noStars, oneStar, twoStars, ThreeStars;
+    [SerializeField] private Image scoreDisplay;
     private string[] categories;
     private Quiz[] quizzes;
     private int currentQuestion = 0;
@@ -40,7 +38,7 @@ public class QuizManager : MonoBehaviour
         quizSelector.SetActive(false);
         quizDisplay.SetActive(false);
         CategoryUI.SetActive(true);
-
+        quizResult.SetActive(false);
     }
 
     public void goToQuizSelector(string category) {
@@ -48,6 +46,7 @@ public class QuizManager : MonoBehaviour
         quizSelector.SetActive(true);
         quizDisplay.SetActive(false);
         CategoryUI.SetActive(false);
+        quizResult.SetActive(false);
     }
 
     public void goToQuizDisplay(string quizId) {
@@ -56,6 +55,15 @@ public class QuizManager : MonoBehaviour
         quizSelector.SetActive(false);
         quizDisplay.SetActive(true);
         CategoryUI.SetActive(false);
+        quizResult.SetActive(false);
+    }
+
+    public void goToQuizResult(int score) {
+        displayResult(score);
+        quizSelector.SetActive(false);
+        quizDisplay.SetActive(false);
+        CategoryUI.SetActive(false);
+        quizResult.SetActive(true);
     }
 
     private IEnumerator TryGetCategories() {
@@ -274,8 +282,9 @@ public class QuizManager : MonoBehaviour
     public void next() {
         if(currentQuestion + 1 == questions.Length) {
             saveCurrentAnswer();
-            StartCoroutine(SaveScore(answers));
-            goToCategories();
+            int score = calculateScore();
+            StartCoroutine(SaveScore(score));
+            goToQuizResult(score);
 
         } else {
             saveCurrentAnswer();
@@ -332,10 +341,7 @@ public class QuizManager : MonoBehaviour
         GameManager.Instance.ChangeScene(2);
     }
 
-    public IEnumerator SaveScore(int[] answers)
-    {
-        Debug.Log("Saving score");
-
+    public int calculateScore() {
         int score = 1;
 
         /* 
@@ -363,6 +369,13 @@ public class QuizManager : MonoBehaviour
         {
             score = 2;
         }
+
+        return score;
+    }
+
+    public IEnumerator SaveScore(int score)
+    {
+        Debug.Log("Saving score");
 
         WWWForm form = new WWWForm();
         form.AddField("rScore", score);
@@ -397,6 +410,19 @@ public class QuizManager : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public void displayResult(int score) {
+        if(score == 3) {
+            scoreDisplay.sprite = ThreeStars;
+            resultText.text = "You made no mistakes!";
+        } else if( score == 2) {
+            scoreDisplay.sprite  = twoStars;
+            resultText.text = "Very well!";
+        } else {
+            scoreDisplay.sprite = oneStar;
+            resultText.text = "You made some mistakes!";
+        }
     }
 
 }
