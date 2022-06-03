@@ -21,6 +21,7 @@ require('./model/UserCredential');
 require('./model/Video');
 require('./model/VideoRegistry');
 require('./model/Food')
+require('./model/Menu')
 
 //Setup routes
 require('./routes/dataRoutes')(app);

@@ -10,41 +10,47 @@ public class FoodDataResponse
 }
 
 [System.Serializable]
-public class FoodData{
+public class FoodData : System.IEquatable<FoodData>{
 
-    public string _id;
-    public string name;
-    public string category;
-    public string language;
-    public Values values;
+    public string _id {get;set;}
+    public string name {get;set;}
+    public string category {get;set;}
+    public string language {get;set;}
+    public Values values {get;set;}
+
+
+
+    public bool Equals(FoodData other){
+        return this._id == other._id;
+    }
     
 }
 
 [System.Serializable]
 public class Values{
-        public int C1;
-        public int C2;
-        public int C3;
-        public int C4;
-        public int C5;
-        public int C6;
-        public int C7;
-        public int C8;
-        public int C9;
-        public int C10;
-        public int C11;
-        public int C12;
-        public int C13;
-        public int C14;
-        public int C15;
-        public int C16;
-        public int C17;
-        public int C18;
-        public int C19;
-        public int C20;
-        public int C21;
-        public int C22;
-        public int C23;
-        public int C24;
+        public int C1 {get;set;}
+        public int C2 {get;set;}
+        public int C3 {get;set;}
+        public int C4 {get;set;}
+        public int C5 {get;set;}
+        public int C6 {get;set;}
+        public int C7 {get;set;}
+        public int C8 {get;set;}
+        public int C9 {get;set;}
+        public int C10 {get;set;}
+        public int C11 {get;set;}
+        public int C12 {get;set;}
+        public int C13 {get;set;}
+        public int C14 {get;set;}
+        public int C15 {get;set;}
+        public int C16 {get;set;}
+        public int C17 {get;set;}
+        public int C18 {get;set;}
+        public int C19 {get;set;}
+        public int C20 {get;set;}
+        public int C21 {get;set;}
+        public int C22 {get;set;}
+        public int C23 {get;set;}
+        public int C24 {get;set;}
 }
 
