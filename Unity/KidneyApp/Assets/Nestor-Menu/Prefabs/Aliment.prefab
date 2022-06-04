@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -107.23, y: -0.0025024414}
-  m_SizeDelta: {x: -298.58, y: -0}
+  m_AnchoredPosition: {x: 20.029991, y: -0.0025024414}
+  m_SizeDelta: {x: -44.059998, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2858597431595173447
 CanvasRenderer:
@@ -93,12 +93,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 18
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 30
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 3087901544859719283}
   - component: {fileID: 2259119223402510496}
   - component: {fileID: 1835955805090701441}
+  - component: {fileID: 8354976762806534636}
   m_Layer: 5
   m_Name: Aliment
   m_TagString: Untagged
@@ -256,4 +257,28 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2259119223402510496}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8354976762806534636}
+        m_TargetAssemblyTypeName: AlimentButton, Assembly-CSharp
+        m_MethodName: Interact
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8354976762806534636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4066128410189988217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b5803231d50c7a4d8dd3b3690b22962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

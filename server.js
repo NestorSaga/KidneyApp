@@ -25,6 +25,8 @@ require('./model/UserCredential');
 require('./model/UserQuiz');
 require('./model/Video');
 require('./model/VideoRegistry');
+require('./model/Food')
+require('./model/Menu')
 
 //Setup routes
 require('./routes/dataRoutes')(app);
@@ -33,6 +35,7 @@ require('./routes/achievementsRoutes')(app);
 require('./routes/quizRoutes')(app);
 require('./routes/categoryRoutes')(app);
 require('./routes/videoRoutes')(app);
+require('./routes/menuRoutes')(app);
 
 app.listen(keys.port, () => {
     console.log("Listening port " + keys.port);
