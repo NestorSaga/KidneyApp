@@ -14,4 +14,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Hub.unity
     guid: af34488a9fa496e44a72868d6e39e7ac
+  - enabled: 1
+    path: Assets/Scenes/VideoScene.unity
+    guid: b16224ff42ace214f864ecd14effb358
+  - enabled: 1
+    path: Assets/Scenes/QuizScene.unity
+    guid: 7457be1611b61394fba084c8ff676bd2
   m_configObjects: {}

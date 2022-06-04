@@ -3,7 +3,7 @@ const {Schema} = mongoose;
 
 const userAchievementSchema = new Schema({ 
     
-    userId: String ,
+    userId: String,
     achievementId: String,
     completion: Number,
     date: Date
