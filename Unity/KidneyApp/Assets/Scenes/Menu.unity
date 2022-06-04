@@ -3565,8 +3565,8 @@ MonoBehaviour:
   newMenuName: {fileID: 142312927}
   newMenuDescription: {fileID: 1840635766}
   aliment: {fileID: 1835955805090701441, guid: 249e03c316b77db46b1988b09bcffafd, type: 3}
-  foodUpdateEndpoint: http://127.0.0.1:80/account/updateClientFood
-  getAllValidRecipesEndpoint: http://127.0.0.1:80/account/getAllValidRecipes
+  foodUpdateEndpoint: http://127.0.0.1:12345/account/updateClientFood
+  getAllValidRecipesEndpoint: http://127.0.0.1:12345/account/getAllValidRecipes
   IMC: 1
   creatingMenu: 0
 --- !u!4 &944947585
@@ -5704,8 +5704,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 879606836}
   m_HandleRect: {fileID: 879606835}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.99999994
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

@@ -108,7 +108,7 @@ module.exports = app => {
 
         var res = {};
 
-        const {rUsername, rPassword, rName, rSurname1, rSurname2, rBirthDate, rSex, rHeight, rWeight, rState, rAttributeNames, rEmail, rPhone, rCompanion, rExpert, rCompanionAccess} = request.body;
+        const {rUsername, rPassword, rName, rSurname1, rSurname2, rBirthDate, rSex, rHeight, rWeight, rState, rAttributeNames, rEmail, rPhone, rCompanion,rDailyExercise, rExpert, rCompanionAccess} = request.body;
 
         var stringAttributes = String(rAttributeNames).split("|")
         
@@ -154,8 +154,9 @@ module.exports = app => {
                         mail: rEmail,
                         phone: rPhone,
                         companion: rCompanion == "True",
-                        expertPatient: rExpert == "Yes",
-                        companionAccess: rCompanionAccess == "Yes",
+                        dailyExercise: rDailyExercise == "True",
+                        expertPatient: rExpert == "True",
+                        companionAccess: rCompanionAccess == "True",
 
                         salt: salt,
                         lastAuth : Date.now()

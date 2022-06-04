@@ -5,7 +5,8 @@ const userAchievementSchema = new Schema({
     
     userId: String,
     achievementId: String,
-    completion: Number,
+    progress: Number,
+    completed:Boolean,
     date: Date
 });
 

@@ -4,6 +4,7 @@ const {Schema} = mongoose;
 const achievementSchema = new Schema({ 
     
     name: String,
+    targetProgress: Number,
 
     displayName: {
         en: String,

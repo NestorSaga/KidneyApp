@@ -43,7 +43,8 @@ public class Register : MonoBehaviour
     [SerializeField] private TMP_InputField heightInputField;
     [SerializeField] private TMP_InputField weightInputField;
     [SerializeField] private HorizontalSelector stateSelector;
-    [SerializeField] private TMP_Dropdown attributesInputField;
+    private TMP_Dropdown attributesInputField;
+    [SerializeField] private Toggle dailyExerciseInputField;
     [SerializeField] private Toggle expertInputField;
     [SerializeField] private Toggle companionAccessInputField;
 
@@ -79,6 +80,7 @@ public class Register : MonoBehaviour
     string weight;
     string attribute = "";
     string state;
+    string dailyExercise;
     string expert;
     string companionAccess;
     
@@ -272,6 +274,8 @@ public class Register : MonoBehaviour
         weight = weightInputField.text;
         state = stateSelector.itemList[stateSelector.index].itemTitle;
 
+        dailyExercise = dailyExerciseInputField.isOn == true ? "True" : "False";
+
         expert = expertInputField.isOn == true ? "True" : "False";
         companionAccess = companionAccessInputField.isOn == true ? "True" : "False";
 
@@ -337,6 +341,7 @@ public class Register : MonoBehaviour
         form.AddField("rEmail", email);
         form.AddField("rPhone", phone);
         form.AddField("rCompanion", companion);
+        form.AddField("rDailyExercise", dailyExercise);
         form.AddField("rExpert", expert);
         form.AddField("rCompanionAccess", companionAccess);
 

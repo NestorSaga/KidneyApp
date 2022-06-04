@@ -39,19 +39,19 @@ public class GameManager : MonoBehaviour
     } 
 
 
-    public void AddAchievment(string name){
+    public void ProgressAchievment(string name, int progress){
 
-        StartCoroutine(tryAddAchievment(name));
+        StartCoroutine(tryProgressAchievment(name,progress));
     }
 
-    private IEnumerator tryAddAchievment(string name){
+    private IEnumerator tryProgressAchievment(string name, int progress){
 
         string userId = PlayerPrefs.GetString("userid");
 
         WWWForm form = new WWWForm();
         form.AddField("rUserId", userId);
         form.AddField("rAchievmentName", name);
-        form.AddField("rCompletion", 2);
+        form.AddField("rProgress", progress);
     
         UnityWebRequest request = UnityWebRequest.Post(addAchievmentEndpoint, form);
 
@@ -67,7 +67,35 @@ public class GameManager : MonoBehaviour
 
             yield return null;
         }     
+        if (request.result == UnityWebRequest.Result.Success){
 
+            ProgressAchievmentResponse response = JsonUtility.FromJson<ProgressAchievmentResponse>(request.downloadHandler.text);
+
+            switch(response.code){
+
+                case 0:
+                Debug.Log(response.msg);
+                    break;
+                case 1:
+                Debug.Log(response.msg);
+                    break;
+                case 2:
+                Debug.Log(response.msg);
+                    break;
+                case 3:
+                Debug.Log(response.msg);
+                    break;
+                case 4:
+                Debug.Log(response.msg);
+                    break;
+                default:
+                Debug.Log(response.msg);
+                    break;
+
+
+            }
+
+        }
        
         yield return null;
     }

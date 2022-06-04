@@ -68,9 +68,9 @@ public class MenuController : MonoBehaviour
 
 
 
-    [SerializeField] private string foodUpdateEndpoint = "http://127.0.0.1:80/account/updateClientFood";
+    [SerializeField] private string foodUpdateEndpoint = "http://127.0.0.1:12345/account/updateClientFood";
 
-    [SerializeField] private string getAllValidRecipesEndpoint = "http://127.0.0.1:80/account/getAllValidRecipes";
+    [SerializeField] private string getAllValidRecipesEndpoint = "http://127.0.0.1:12345/account/getAllValidRecipes";
 
 
     Values values;

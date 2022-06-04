@@ -16,6 +16,7 @@ const userSchema = new Schema({
     mail: String,
     phone: String,
     companion: Boolean,
+    dailyExercise: Boolean,
     expertPatient: Boolean,
     companionAccess: Boolean,
 

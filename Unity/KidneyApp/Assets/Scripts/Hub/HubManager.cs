@@ -78,4 +78,8 @@ public class HubManager : MonoBehaviour
     {
         GameManager.Instance.ChangeScene(scene);
     }
+
+    public void testProgressAchiev(string name){
+        GameManager.Instance.ProgressAchievment(name,1);
+    }
 }
