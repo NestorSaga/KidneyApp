@@ -26,32 +26,62 @@ public class CosmeticController : MonoBehaviour
     }
 
     public void toggleHat(bool positive) {
-        if(positive && currentCosmetics[0] +1 < hats.Length) {
-            currentCosmetics[0] += 1;
-            hat.sprite = hats[currentCosmetics[0]];
+        if(positive) {
+            if(currentCosmetics[0] +1 < hats.Length) {
+                currentCosmetics[0] += 1;
+                hat.sprite = hats[currentCosmetics[0]];
+            } else {
+                currentCosmetics[0] = 0;
+                hat.sprite = hats[currentCosmetics[0]];
+            }
         } else {
-            currentCosmetics[0] = 0;
-            hat.sprite = hats[currentCosmetics[0]];
+            if(currentCosmetics[0] -1 >= 0) {
+                currentCosmetics[0] -= 1;
+                hat.sprite = hats[currentCosmetics[0]];
+            } else {
+                currentCosmetics[0] = hats.Length-1;
+                hat.sprite = hats[currentCosmetics[0]];
+            }
         }
     }
 
     public void toggleFace(bool positive) {
-        if(positive && currentCosmetics[1] +1 < faces.Length) {
-            currentCosmetics[1] += 1;
-            face.sprite = faces[currentCosmetics[1]];
+        if(positive) {
+            if(currentCosmetics[1] +1 < faces.Length) {
+                currentCosmetics[1] += 1;
+                face.sprite = faces[currentCosmetics[1]];
+            } else {
+                currentCosmetics[1] = 0;
+                face.sprite = faces[currentCosmetics[1]];
+            }
         } else {
-            currentCosmetics[1] = 0;
-            face.sprite = faces[currentCosmetics[1]];
+            if(currentCosmetics[1] -1 >= 0) {
+                currentCosmetics[1] -= 1;
+                face.sprite = faces[currentCosmetics[1]];
+            } else {
+                currentCosmetics[1] = faces.Length-1;
+                face.sprite = faces[currentCosmetics[1]];
+            }
         }
     }
 
         public void toggleBody(bool positive) {
-        if(positive && currentCosmetics[2] +1 < bodies.Length) {
-            currentCosmetics[2] += 1;
-            body.sprite = bodies[currentCosmetics[2]];
+        if(positive) {
+            if(currentCosmetics[2] +1 < bodies.Length) {
+                currentCosmetics[2] += 1;
+                body.sprite = bodies[currentCosmetics[2]];
+            } else {
+                currentCosmetics[2] = 0;
+                body.sprite = bodies[currentCosmetics[2]];
+            }
         } else {
-            currentCosmetics[2] = 0;
-            body.sprite = bodies[currentCosmetics[2]];
+            if(currentCosmetics[2] -1 >= 0) {
+                currentCosmetics[2] -= 1;
+                body.sprite = bodies[currentCosmetics[2]];
+            } else {
+                currentCosmetics[2] = bodies.Length-1;
+                body.sprite = bodies[currentCosmetics[2]];
+            }
         }
     }
 
