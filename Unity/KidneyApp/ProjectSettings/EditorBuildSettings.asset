@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/QuizScene.unity
     guid: 7457be1611b61394fba084c8ff676bd2
+  - enabled: 1
+    path: Assets/Scenes/CosmeticScene.unity
+    guid: 9d219c8c5173b994d948917b5db31b5a
   m_configObjects: {}
