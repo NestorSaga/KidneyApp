@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlimentButton : MonoBehaviour
+public class MenuButton : MonoBehaviour
 {
 
 
-    public FoodData identity;
+    public MenuData identity;
 
     public bool selected = false;
 
@@ -14,7 +14,7 @@ public class AlimentButton : MonoBehaviour
     public void Interact(){
 
 
-        if(MenuController.Instance.currenState == MenuController.CurrenState.CreatingMenu){
+        if(MenuController.Instance.currenState == MenuController.CurrenState.LookingMenu){
 
 
             /*foreach(FoodData data in MenuController.Instance.newMenu.aliments){
@@ -28,7 +28,7 @@ public class AlimentButton : MonoBehaviour
                     
             }*/
             
-            MenuController.Instance.OnAlimentClick(identity, selected);
+            MenuController.Instance.OnMenuClick(identity, selected);
             
 
         } 

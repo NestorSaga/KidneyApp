@@ -22,7 +22,7 @@ module.exports = app => {
 
     });
     
-    app.post('/account/getAllValidRecipes', async(request, response) => {
+    app.post('/account/getAllValidMenus', async(request, response) => {
 
 
         var res = {};
@@ -30,8 +30,7 @@ module.exports = app => {
         const { rIMC} = request.body;    
 
         var menus = await Menus.find();
-      
-       
+
         response.send(menus);
 
         return;
@@ -43,12 +42,25 @@ module.exports = app => {
 
         var res = {};
 
-        const { info} = request.body;    
- 
-      
-        console.log(info);
+        const { info} = request.body;  
+        
+        var parsed = JSON.parse(info);
+
+        var newMenu = new Menus({
+            name: parsed.name,
+            author: parsed.author,
+            aliments:parsed.aliments,
+            description:parsed.description,
+            score: parsed.score,
+            IMCValue: parsed.IMCValue
+        });
+
+        await newMenu.save();
+
+        res.code = 0;
+        res.msg = "Menu added";
        
-        //response.send(menus);
+        response.send(res);
 
         return;
 

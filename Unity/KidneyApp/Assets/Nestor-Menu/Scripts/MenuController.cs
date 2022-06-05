@@ -6,6 +6,7 @@ using System.IO;
 using TMPro;
 using UnityEngine.Networking;
 using SimpleJSON;
+using System.Linq;
 
 
 public class MenuController : MonoBehaviour
@@ -19,6 +20,8 @@ public class MenuController : MonoBehaviour
 
     private string alimentPath;
     private string alimentPersistentPath;
+    private string menuPath;
+    private string menuPersistentPath;
 
     public Transform scrollRectAlimentList;
     public Transform scrollRectMenuAlimentList;
@@ -29,6 +32,10 @@ public class MenuController : MonoBehaviour
     public Transform scrollRectMenuAlimentList_Content;
     public Transform scrollRectNewMenuList_Content;
     public Transform scrollRectAllMenuList_Content;
+
+    public Transform menuDetails;
+
+    public Transform menuDetailsDisplay;
 
 
 
@@ -41,9 +48,13 @@ public class MenuController : MonoBehaviour
 
     public TMP_Text newMenuName;
     public TMP_Text newMenuDescription;
+    public TMP_Text displayMenuDescription;
+
+    
 
 
     public Button aliment;
+    public Button menuButton;
 
     FoodDataResponse foodData;
 
@@ -64,13 +75,12 @@ public class MenuController : MonoBehaviour
 
     JSONNode nestedJSON;
 
-    
-
-
 
     [SerializeField] private string foodUpdateEndpoint = "http://127.0.0.1:12345/account/updateClientFood";
 
-    [SerializeField] private string getAllValidRecipesEndpoint = "http://127.0.0.1:12345/account/getAllValidRecipes";
+    [SerializeField] private string getAllValidMenusEndpoint = "http://127.0.0.1:12345/account/getAllValidMenus";
+
+    [SerializeField] private string addMenuToServerEndpoint = "http://127.0.0.1:12345/account/addMenuToServer";
 
 
     Values values;
@@ -105,20 +115,18 @@ public class MenuController : MonoBehaviour
         alimentPath = Application.dataPath + Path.AltDirectorySeparatorChar + "Data/alimentsJSON.json";
 
         alimentPersistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "Data/alimentsJSON.json";
+
+        menuPath = Application.dataPath + Path.AltDirectorySeparatorChar + "Data/menussJSON.json";
+
+        menuPersistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "Data/MenusJSON.json";
     }
     void Start()
     {
         
-
+       
         InicializeMenuScreen();
 
-        myAllMenus = new MenuDataResponse();
-
-        //foodData = LoadFoodData();
-
-        myAllMenus = new MenuDataResponse(){
-                menuData = new MenuData[menuMaxCapacity]
-            };
+        
 
     }
 
@@ -135,6 +143,12 @@ public class MenuController : MonoBehaviour
                 scrollRectMenuAlimentList.gameObject.SetActive(false);
                 scrollRectNewMenuList.gameObject.SetActive(false);
                 scrollRectAllMenuList.gameObject.SetActive(false);
+
+                menuDetails.gameObject.SetActive(false);
+                menuTutorialText.gameObject.SetActive(false);
+
+                menuDetailsDisplay.gameObject.SetActive(false);
+                
                 LookingAliments();
 
                 
@@ -144,6 +158,20 @@ public class MenuController : MonoBehaviour
             case "LookingMenu":
                 currenState = CurrenState.LookingMenu;
                 currentStateText.text = "Menu List";
+                scrollRectAlimentList.gameObject.SetActive(false);
+                scrollRectMenuAlimentList.gameObject.SetActive(true);
+                scrollRectNewMenuList.gameObject.SetActive(false);
+                scrollRectAllMenuList.gameObject.SetActive(true);
+
+                menuDetails.gameObject.SetActive(false);
+                menuTutorialText.gameObject.SetActive(false);
+
+                menuDetailsDisplay.gameObject.SetActive(true);
+
+
+                LookingMenu();
+
+                
                 
                 break;
             
@@ -162,6 +190,17 @@ public class MenuController : MonoBehaviour
                 scrollRectMenuAlimentList.gameObject.SetActive(false);
                 scrollRectNewMenuList.gameObject.SetActive(true);
                 scrollRectAllMenuList.gameObject.SetActive(false);
+
+                menuDetails.gameObject.SetActive(true);
+                menuTutorialText.gameObject.SetActive(true);
+
+                menuDetailsDisplay.gameObject.SetActive(false);
+
+                LookingAliments();
+
+                foreach(Transform child in scrollRectNewMenuList_Content.transform){
+                    GameObject.Destroy(child.gameObject);
+            }
 
                 newMenu = new MenuData();
                 
@@ -184,6 +223,12 @@ public class MenuController : MonoBehaviour
 
         if(foodData.foodData[0]._id==null) UpdateAlimentJSON();
 
+        myOwnMenus = LoadMenuData();
+
+
+        UpdateAllMenus();
+
+         
     }
 
     //Populate initial Aliment list based on AlimentJSON
@@ -208,10 +253,58 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    public void PopulateMenus(){
+
+        foreach (Transform child in scrollRectAllMenuList_Content.transform){
+            GameObject.Destroy(child.gameObject);
+        }
+
+        
+
+        for (int i = 0; i < myAllMenus.menuData.Length; i++){
+
+                Button listMenu = Instantiate(menuButton, new Vector3(0,0,0), Quaternion.identity);
+                listMenu.transform.SetParent(scrollRectAllMenuList_Content.transform,false);
+                listMenu.GetComponentInChildren<TextMeshProUGUI>().text = myAllMenus.menuData[i].name + " - "  + myAllMenus.menuData[i].author;
+                if(myAllMenus.menuData[i].IMCValue==0) listMenu.GetComponent<Image>().color = Color.red;
+                else if(myAllMenus.menuData[i].IMCValue==1) listMenu.GetComponent<Image>().color = Color.yellow;
+                if(myAllMenus.menuData[i].IMCValue==2) listMenu.GetComponent<Image>().color = Color.green;
+
+                listMenu.GetComponent<MenuButton>().identity = myAllMenus.menuData[i];
+                //menuAlimentList[0] = foodData.foodData[i];
+
+        }
+    }
+
+    public void PopulateAlimentsFromMenus(MenuData menu){
+
+        foreach (Transform child in scrollRectMenuAlimentList_Content.transform){
+            GameObject.Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < menu.aliments.Length; i++){
+
+                Button listAliment = Instantiate(aliment, new Vector3(0,0,0), Quaternion.identity);
+                listAliment.transform.SetParent(scrollRectMenuAlimentList_Content.transform,false);
+                listAliment.GetComponentInChildren<TextMeshProUGUI>().text = menu.aliments[i].category + " - "  + menu.aliments[i].name;
+                if(SelecFromIMC(menu.aliments[i], IMC)==0) listAliment.GetComponent<Image>().color = Color.red;
+                else if(SelecFromIMC(menu.aliments[i], IMC)==1) listAliment.GetComponent<Image>().color = Color.yellow;
+                if(SelecFromIMC(menu.aliments[i], IMC)==2) listAliment.GetComponent<Image>().color = Color.green;
+
+                listAliment.GetComponent<AlimentButton>().identity = menu.aliments[i];
+                //menuAlimentList[0] = foodData.foodData[i];
+
+        }
+    }
+
     
 
     public void LookingAliments(){
         PopulateAliments();
+    }
+
+    public void LookingMenu(){
+        PopulateMenus();
     }
 
     //Select IMC from Aliment List
@@ -246,17 +339,20 @@ public class MenuController : MonoBehaviour
         else return 0;
     }
 
-    public void OnAlimentClick(FoodData aliment){
+
+    public void OnAlimentClick(FoodData aliment, bool selected){
 
 
         if(currenState==CurrenState.CreatingMenu){
+
+            menuTutorialText.enabled = false;
 
 
             foreach(Transform child in scrollRectNewMenuList_Content.transform){
                     GameObject.Destroy(child.gameObject);
             }
 
-            List<FoodData> list;list = new List<FoodData>();
+            List<FoodData> list = new List<FoodData>();
 
             if(newMenu.aliments[0]!=null){//is NOT empty
 
@@ -267,14 +363,27 @@ public class MenuController : MonoBehaviour
                  if(food.name!=aliment.name){
                      list.Add(food);  
                      Debug.Log(food.name + " added");
-                 } else{
-                     list.Remove(aliment);
-                     
-                     //RemoveAliment(newMenu,aliment, scrollRectNewMenuList_Content);
-                     
-                     Debug.Log("Removed " + aliment.name);
                  }
-                    list.Add(aliment); 
+                     
+                }
+               
+                if(selected){
+                    list.Remove(aliment);
+
+                     foreach(Transform original in scrollRectAlimentList_Content.transform){
+                            if(original.gameObject.GetComponent<AlimentButton>().identity==aliment){
+                                original.gameObject.GetComponent<AlimentButton>().selected = false;
+                            }
+                        }
+
+                }else{
+                    list.Add(aliment);
+
+                    foreach(Transform original in scrollRectAlimentList_Content.transform){
+                            if(original.gameObject.GetComponent<AlimentButton>().identity==aliment){
+                                original.gameObject.GetComponent<AlimentButton>().selected = true;
+                            }
+                        }
                 }
 
                 
@@ -299,9 +408,40 @@ public class MenuController : MonoBehaviour
 
     }
 
-    public void CreateMenu(MenuData currentMenu){
+    public void OnMenuClick(MenuData menu, bool selected){
 
+        Debug.Log(menu.description);
+
+        if(currenState==CurrenState.LookingMenu){
+
+            menuTutorialText.enabled = false;
+
+
+            foreach(Transform child in scrollRectMenuAlimentList_Content.transform){
+                    GameObject.Destroy(child.gameObject);
+            }
+
+            List<FoodData> list = new List<FoodData>();
+
+                foreach(FoodData food in menu.aliments){
+            
+                     list.Add(food);  
+                     
+                }
+            
+            MenuData menuDummy = new MenuData();
+            menuDummy.aliments = list.ToArray();
+
+            Debug.Log(menuDummy.aliments[0].name);
+            displayMenuDescription.text = menu.description;
+
+            PopulateAlimentsFromMenus(menuDummy);
+        }
         
+
+    }
+
+    public void CreateMenu(MenuData currentMenu){
 
         for(int i=0;i<newMenu.aliments.Length;i++){
 
@@ -324,6 +464,20 @@ public class MenuController : MonoBehaviour
         newMenu.name = newMenuName.text;
         newMenu.description = newMenuDescription.text;
 
+        //Calculate Menu's IMCValue
+
+        CalculateMenuIMC(newMenu,IMC);
+
+        List<int> values = new List<int>();
+
+        
+
+
+
+        Debug.Log("El IMC es " + newMenu.IMCValue);
+
+
+
         List<MenuData> list = new List<MenuData>();
 
         if(myAllMenus.menuData[0]!=null){ //is NOT empty
@@ -336,6 +490,12 @@ public class MenuController : MonoBehaviour
             list.Add(newMenu);
         }
 
+        string json  = Newtonsoft.Json.JsonConvert.SerializeObject(newMenu);
+
+        StartCoroutine(AddMenuToServer(json));
+
+        Debug.Log(json);
+
         MenuDataResponse dummy = new MenuDataResponse();
         dummy.menuData = list.ToArray();
 
@@ -344,9 +504,37 @@ public class MenuController : MonoBehaviour
         newMenuName.text = "";
         newMenuDescription.text = "";
 
-        //ChangeState(CurrenState.LookingMenu);
+        UpdateAllMenus();
+
+        ChangeState("LookingMenu");
 
 
+    }
+
+    public int CalculateMenuIMC(MenuData menu, int IMC){
+
+        bool flaggedRed = false;
+        bool flaggedYellow = false;
+
+        int result;
+
+        foreach(FoodData food in menu.aliments){
+                if(SelecFromIMC(food, IMC)==0 && !flaggedRed){
+                flaggedRed = true;
+                }
+                else if(SelecFromIMC(food, IMC)==1 && !flaggedYellow){
+                    flaggedYellow = true;
+                } 
+   
+        }
+
+        
+        if(flaggedRed) result = 0;
+        else if(flaggedYellow && !flaggedRed)result = 1;
+        else result = 2;
+
+
+        return result;
     }
 
      public void SaveData(string data)
@@ -359,12 +547,20 @@ public class MenuController : MonoBehaviour
         writer.Write(data);
     }
 
-     public FoodDataResponse LoadFoodData()
+    public FoodDataResponse LoadFoodData()
     {
         using StreamReader reader = new StreamReader(alimentPersistentPath);
         string json = reader.ReadToEnd();
 
         return JsonUtility.FromJson<FoodDataResponse>(json);
+    }
+
+     public MenuDataResponse LoadMenuData()
+    {
+        using StreamReader reader = new StreamReader(alimentPersistentPath);
+        string json = reader.ReadToEnd();
+
+        return JsonUtility.FromJson<MenuDataResponse>(json);
     }
 
     public void ClearJSON()
@@ -380,11 +576,9 @@ public class MenuController : MonoBehaviour
     }
 
 
-    public void testSimpleJSON(){
+    public void UpdateAllMenus(){
 
-
-        StartCoroutine(GetAllValidRecipes());
-
+        StartCoroutine(GetAllValidMenus());
 
     }
 
@@ -398,8 +592,11 @@ public class MenuController : MonoBehaviour
 
          nestedJSON = JSON.Parse(json);
 
+         myAllMenus = new MenuDataResponse();
 
-            
+         myAllMenus = new MenuDataResponse(){
+                menuData = new MenuData[nestedJSON.Count]
+            };
 
             Debug.Log(nestedJSON);
             for(int i = 0; i<nestedJSON.Count; i++){
@@ -429,13 +626,12 @@ public class MenuController : MonoBehaviour
          
                 for(int j=0; j<numberOfAliments; j++){
                         
-                    string idJSONA = nestedJSON[i]["aliments"][i]["_id"].Value;
-                    string nameJSONA = nestedJSON[i]["aliments"][i]["name"].Value;
-                    string categoryJSONA = nestedJSON[i]["aliments"][i]["category"].Value;
-                    string languageJSONA = nestedJSON[i]["aliments"][i]["language"].Value;
+                    string idJSONA = nestedJSON[i]["aliments"][j]["_id"].Value;
+                    string nameJSONA = nestedJSON[i]["aliments"][j]["name"].Value;
+                    string categoryJSONA = nestedJSON[i]["aliments"][j]["category"].Value;
+                    string languageJSONA = nestedJSON[i]["aliments"][j]["language"].Value;
 
-                    Debug.Log(numberOfAliments + " Alimentos en " + nestedJSON[i]["name"].Value);
-
+                    Debug.Log(numberOfAliments + " Alimentos en " + nestedJSON[i]["name"].Value + "El primero se llama " + nameJSONA);
 
                     string quotation = "\"";
                     string allValues ="";
@@ -465,19 +661,21 @@ public class MenuController : MonoBehaviour
                     };
 
                 }
+
+                myAllMenus.menuData[i].IMCValue = CalculateMenuIMC(myAllMenus.menuData[i],IMC);
                 
             }
 
 
     }
 
-    public IEnumerator GetAllValidRecipes(){
+    public IEnumerator AddMenuToServer(string json){
         
 
         WWWForm form = new WWWForm();
-        form.AddField("rIMC", IMC);
+        form.AddField("info", json);
 
-        UnityWebRequest request = UnityWebRequest.Post(getAllValidRecipesEndpoint, form);
+        UnityWebRequest request = UnityWebRequest.Post(addMenuToServerEndpoint, form);
 
         var handler = request.SendWebRequest();
 
@@ -496,9 +694,42 @@ public class MenuController : MonoBehaviour
         if(request.result == UnityWebRequest.Result.Success) {
 
 
-           FromJSONtoMenu(request.downloadHandler.text);
+           //FromJSONtoMenu(request.downloadHandler.text);
+
+           //Debug.Log(request.downloadHandler.text);
 
            //newtonjson(request.downloadHandler.text);
+              
+        }             
+        yield return null;
+    }
+
+    public IEnumerator GetAllValidMenus(){
+
+        WWWForm form = new WWWForm();
+        form.AddField("rIMC", IMC);
+
+        UnityWebRequest request = UnityWebRequest.Post(getAllValidMenusEndpoint, form);
+
+        var handler = request.SendWebRequest();
+
+        float startTime= 0.0f;
+        while (!handler.isDone){
+            startTime += Time.deltaTime;
+
+            if(startTime > 10.0f) {
+                Debug.Log("Connection timeout at login");
+                break;
+            }
+
+            yield return null;
+        }
+
+        if(request.result == UnityWebRequest.Result.Success) {
+
+
+           Debug.Log(request.downloadHandler.text); 
+           FromJSONtoMenu(request.downloadHandler.text);
               
         }             
         yield return null;

@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     private string path = "";
     private string persistentPath = "";
 
+    public int IMCValue = 0;
+
     private static GameManager instance = null;
     public static GameManager Instance {
         get {
@@ -37,6 +39,10 @@ public class GameManager : MonoBehaviour
     public void ChangeScene(int targetSceneId) {
         SceneManager.LoadScene(targetSceneId);
     } 
+
+    public void setIMCValue(int value){
+        this.IMCValue = value;
+    }
 
 
     public void ProgressAchievment(string name, int progress){
