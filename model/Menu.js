@@ -8,7 +8,7 @@ const menuSchema = new Schema({
     aliments:Array,
     description:String,
     score:Number,
-    IMCValue:Number,
+    IMCValue:Number
 
 });
 
