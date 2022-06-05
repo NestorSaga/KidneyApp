@@ -1206,7 +1206,7 @@ GameObject:
   - component: {fileID: 197294905}
   - component: {fileID: 197294910}
   m_Layer: 5
-  m_Name: Button
+  m_Name: VideoButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3529,7 +3529,7 @@ GameObject:
   - component: {fileID: 650644958}
   - component: {fileID: 650644957}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: Button (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5245,7 +5245,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.55
+  m_fontSize: 61.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5742,9 +5742,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887c6c8b2a95b2843aaa5e650cca83a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 821694813}
-  face: {fileID: 1982087450}
   hat: {fileID: 624539043}
+  face: {fileID: 1982087450}
+  body: {fileID: 821694813}
+  hats:
+  - {fileID: 21300000, guid: ac33b609dcd87a74f8bdfb6d9cca731d, type: 3}
+  - {fileID: 21300000, guid: 2c61e0ef1c12bf741959662835d057d2, type: 3}
+  - {fileID: 21300000, guid: 8f0a80acb45612a43899c706855e6423, type: 3}
+  - {fileID: 21300000, guid: 997b4f2b8e4a2fd4896aad608a419572, type: 3}
+  - {fileID: 21300000, guid: 7378192c0cfd5554295a4b85484f62bc, type: 3}
+  faces:
+  - {fileID: 21300000, guid: ac33b609dcd87a74f8bdfb6d9cca731d, type: 3}
+  - {fileID: 21300000, guid: fe3fe19e63566554f9effc588da27ef6, type: 3}
+  - {fileID: 21300000, guid: be258c4f4dcf9954f827cb2a072368bc, type: 3}
+  - {fileID: 21300000, guid: 30a831d012103bc498eabd83ede27427, type: 3}
+  - {fileID: 21300000, guid: 7d5e98e0a42ee4a46bfadcaec8a11dfa, type: 3}
+  bodies:
+  - {fileID: 21300000, guid: ac33b609dcd87a74f8bdfb6d9cca731d, type: 3}
+  - {fileID: 21300000, guid: 736afb80792002d44b12434ea42faccd, type: 3}
+  - {fileID: 21300000, guid: 05d5f1ba43df0374f910a706a0395b98, type: 3}
+  - {fileID: 21300000, guid: ec97aebf34561484389f7b6720e96b50, type: 3}
+  - {fileID: 21300000, guid: c0fa0a80fcf67834f92f7eefa2081b40, type: 3}
+  currentCosmetics: 000000000000000000000000
+  createCosmeticsEndponint: http://127.0.0.1:12345/cosmetics/createUserCosmetics
+  saveCosmeticsEndponint: http://127.0.0.1:12345/cosmetics/setUserCosmetics
 --- !u!1 &1109542705
 GameObject:
   m_ObjectHideFlags: 0
@@ -6124,7 +6145,7 @@ GameObject:
   - component: {fileID: 1148300485}
   - component: {fileID: 1148300484}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: MenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6271,10 +6292,10 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_HighlightedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.84313726, g: 0.84313726, b: 0.84313726, a: 1}
+    m_NormalColor: {r: 0.44313726, g: 0.85882354, b: 0.93333334, a: 1}
+    m_HighlightedColor: {r: 0.2784314, g: 0.8901961, b: 1, a: 1}
+    m_PressedColor: {r: 0, g: 0.84705883, b: 1, a: 1}
+    m_SelectedColor: {r: 0, g: 0.67058825, b: 0.7921569, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.39215687}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -6293,7 +6314,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1148300486}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 999336763}
+        m_TargetAssemblyTypeName: HubManager, Assembly-CSharp
+        m_MethodName: goToScene
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1148300488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6355,7 +6388,7 @@ GameObject:
   - component: {fileID: 1159353477}
   - component: {fileID: 1159353476}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: QuizButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7843,7 +7876,7 @@ GameObject:
   - component: {fileID: 1434061713}
   - component: {fileID: 1434061712}
   m_Layer: 5
-  m_Name: ExitButton
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8285,7 +8318,7 @@ GameObject:
   - component: {fileID: 1458576473}
   - component: {fileID: 1458576472}
   m_Layer: 5
-  m_Name: Button (2)
+  m_Name: ExitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8955,7 +8988,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: -50
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0

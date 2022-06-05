@@ -21,6 +21,7 @@ require('./model/Question');
 require('./model/Quiz');
 require('./model/Tip');
 require('./model/UserAchievement');
+require('./model/UserCosmetic');
 require('./model/UserCredential');
 require('./model/UserQuiz');
 require('./model/Video');
@@ -34,6 +35,7 @@ require('./routes/authenticationRoutes')(app);
 require('./routes/achievementsRoutes')(app);
 require('./routes/quizRoutes')(app);
 require('./routes/categoryRoutes')(app);
+require('./routes/cosmeticRoutes')(app);
 require('./routes/videoRoutes')(app);
 require('./routes/menuRoutes')(app);
 

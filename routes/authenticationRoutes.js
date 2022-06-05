@@ -304,9 +304,7 @@ module.exports = app => {
             res.msg = "Api key obtained";
             res.data = ( ({userId, _id}) => ({userId, _id}) )(userCredentials); 
         }
-
-        console.log(res);
-
+        
         response.send(res);
         return;
 

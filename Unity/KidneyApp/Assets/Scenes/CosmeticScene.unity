@@ -5888,6 +5888,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ec97aebf34561484389f7b6720e96b50, type: 3}
   - {fileID: 21300000, guid: c0fa0a80fcf67834f92f7eefa2081b40, type: 3}
   currentCosmetics: 000000000000000000000000
+  createCosmeticsEndponint: http://127.0.0.1:12345/cosmetics/createUserCosmetics
+  saveCosmeticsEndponint: http://127.0.0.1:12345/cosmetics/setUserCosmetics
 --- !u!4 &1429593626
 Transform:
   m_ObjectHideFlags: 0

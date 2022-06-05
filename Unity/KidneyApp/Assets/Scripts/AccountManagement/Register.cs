@@ -326,11 +326,10 @@ public class Register : MonoBehaviour
 
     public void CalculateIMC(){
 
-        
+        // TODO
     }
 
     private IEnumerator TryRegister() {
-
 
         WWWForm form = new WWWForm();
         form.AddField("rUsername", username);
@@ -350,9 +349,6 @@ public class Register : MonoBehaviour
         form.AddField("rDailyExercise", dailyExercise);
         form.AddField("rExpert", expert);
         form.AddField("rCompanionAccess", companionAccess);
-
-        Debug.Log(form.data);
-
         UnityWebRequest request = UnityWebRequest.Post(registerEndpoint, form);
 
         var handler = request.SendWebRequest();

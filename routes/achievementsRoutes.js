@@ -28,7 +28,7 @@ module.exports = app => {
 
                     //if prog => progress -> achievement unlocked
                     if(prog >= foundAchievment.targetProgress){
-                        console.log("alo");
+
                         await UserAchievment.updateOne(
                             {_id:foundUserAchievement._id},
                             {$set: {date: Date.now(), progress:prog, completed:true}},

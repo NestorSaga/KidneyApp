@@ -8,9 +8,7 @@ using System.IO;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private string addAchievmentEndpoint = "http://127.0.0.1:12345/account/addAchievment";
-    [SerializeField] private string dataEndpoint = "http://127.0.0.1:12345/account/retrieveData";
     [SerializeField] private string keyEndpoint = "http://127.0.0.1:12345/account/getkey";
-    [SerializeField] public string JSONfile;
 
     private string path = "";
     private string persistentPath = "";
@@ -108,93 +106,62 @@ public class GameManager : MonoBehaviour
 
     public void FillJSON()
     {
+        Debug.Log("Attempting to populate JSON with data");
         StartCoroutine(LoadToJSON());
     }
     
-    public IEnumerator LoadToJSON()
-    {
-        WWWForm form = new WWWForm();
+    public IEnumerator LoadToJSON() {
+        JSONdata response = new JSONdata();
 
-        form.AddField("rUserId", PlayerPrefs.GetString("userId"));
-        form.AddField("rUserName", PlayerPrefs.GetString("username"));
+        response._id = PlayerPrefs.GetString("userId");
+        response.userName = PlayerPrefs.GetString("username");
 
-        UnityWebRequest request = UnityWebRequest.Post(dataEndpoint, form);
+        string key = "";
 
-        var handler = request.SendWebRequest();
+        #region generating api key
 
-        float startTime = 0.0f;
-        while (!handler.isDone)
-        {
-            startTime += Time.deltaTime;
+            WWWForm keyform = new WWWForm();
+            keyform.AddField("rUserId", response._id);
 
-            if (startTime > 10.0f)
-            {
-                break;
-            }
+            UnityWebRequest keyrequest = UnityWebRequest.Post(keyEndpoint, keyform);
 
-            yield return null;
-        }
+            var keyhandler = keyrequest.SendWebRequest();
 
+            float start= 0.0f;
+            while (!keyhandler.isDone){
+                start += Time.deltaTime;
 
-        if (request.result == UnityWebRequest.Result.Success)
-        {
-
-            JSONdata response = JsonUtility.FromJson<JSONdata>(request.downloadHandler.text);
-
-            string key = "";
-
-            #region generating api key
-
-                WWWForm keyform = new WWWForm();
-                keyform.AddField("rUserId", response._id);
-
-                UnityWebRequest keyrequest = UnityWebRequest.Post(keyEndpoint, keyform);
-
-                var keyhandler = keyrequest.SendWebRequest();
-
-                float start= 0.0f;
-                while (!keyhandler.isDone){
-                    start += Time.deltaTime;
-
-                    if(start > 10.0f) {
-                        Debug.Log("Connection timeout at key generation");
-                        break;
-                    }
-
-                    yield return null;
+                if(start > 10.0f) {
+                    Debug.Log("Connection timeout at key generation");
+                    break;
                 }
 
-                if(keyrequest.result == UnityWebRequest.Result.Success) {
+                yield return null;
+            }
 
-                    LoginResponse keyresponse = JsonUtility.FromJson<LoginResponse>(keyrequest.downloadHandler.text);
+            if(keyrequest.result == UnityWebRequest.Result.Success) {
 
-                    if(keyresponse.code == 0) {
+                LoginResponse keyresponse = JsonUtility.FromJson<LoginResponse>(keyrequest.downloadHandler.text);
 
-                        key = keyresponse.data._id;
+                if(keyresponse.code == 0) {
 
-                    } else {
-                        key = null;
-                    }
+                    key = keyresponse.data._id;
 
                 } else {
                     key = null;
                 }
 
-            #endregion
+            } else {
+                key = null;
+            }
 
-            response.apiKey = key;
+        #endregion
 
-            string jsonString = JsonUtility.ToJson(response);
+        response.apiKey = key;
 
-            SaveData(jsonString);
+        string jsonString = JsonUtility.ToJson(response);
 
-            Debug.Log(jsonString);
-
-        }
-        else
-        {
-            Debug.Log("Error generating JSON data");
-        }
+        SaveData(jsonString);
 
         yield return null;
     }
@@ -229,15 +196,4 @@ public class GameManager : MonoBehaviour
         FileInfo fi = new FileInfo(persistentPath);
         fi.Directory.Delete(true);
     }
-
-    public IEnumerator GenerateApiKey(string userId) {
-
-
-
-        yield return null;
-
-    }
-
-
-
 }
