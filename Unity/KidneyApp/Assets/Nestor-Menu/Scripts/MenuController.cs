@@ -6,6 +6,7 @@ using System.IO;
 using TMPro;
 using UnityEngine.Networking;
 using SimpleJSON;
+using System.Linq;
 
 
 public class MenuController : MonoBehaviour
@@ -127,8 +128,6 @@ public class MenuController : MonoBehaviour
 
         
 
-        
-
     }
 
     public void ChangeState(string newState){
@@ -171,6 +170,8 @@ public class MenuController : MonoBehaviour
 
 
                 LookingMenu();
+
+                
                 
                 break;
             
@@ -194,6 +195,12 @@ public class MenuController : MonoBehaviour
                 menuTutorialText.gameObject.SetActive(true);
 
                 menuDetailsDisplay.gameObject.SetActive(false);
+
+                LookingAliments();
+
+                foreach(Transform child in scrollRectNewMenuList_Content.transform){
+                    GameObject.Destroy(child.gameObject);
+            }
 
                 newMenu = new MenuData();
                 
@@ -219,9 +226,9 @@ public class MenuController : MonoBehaviour
         myOwnMenus = LoadMenuData();
 
 
-        
+        UpdateAllMenus();
 
-         UpdateAllMenus();
+         
     }
 
     //Populate initial Aliment list based on AlimentJSON
@@ -433,16 +440,6 @@ public class MenuController : MonoBehaviour
         
 
     }
-    public void RemoveAliment(FoodData aliment){
-        foreach(Transform child in scrollRectNewMenuList_Content.transform){
-                    if(child.gameObject.GetComponent<AlimentButton>().identity == aliment){                    
-                        GameObject.Destroy(child.gameObject);
-                        Debug.Log("OBLITERATION");
-
-                    }
-                    
-            }
-    }
 
     public void CreateMenu(MenuData currentMenu){
 
@@ -467,6 +464,20 @@ public class MenuController : MonoBehaviour
         newMenu.name = newMenuName.text;
         newMenu.description = newMenuDescription.text;
 
+        //Calculate Menu's IMCValue
+
+        CalculateMenuIMC(newMenu,IMC);
+
+        List<int> values = new List<int>();
+
+        
+
+
+
+        Debug.Log("El IMC es " + newMenu.IMCValue);
+
+
+
         List<MenuData> list = new List<MenuData>();
 
         if(myAllMenus.menuData[0]!=null){ //is NOT empty
@@ -483,6 +494,8 @@ public class MenuController : MonoBehaviour
 
         StartCoroutine(AddMenuToServer(json));
 
+        Debug.Log(json);
+
         MenuDataResponse dummy = new MenuDataResponse();
         dummy.menuData = list.ToArray();
 
@@ -491,9 +504,37 @@ public class MenuController : MonoBehaviour
         newMenuName.text = "";
         newMenuDescription.text = "";
 
+        UpdateAllMenus();
+
         ChangeState("LookingMenu");
 
 
+    }
+
+    public int CalculateMenuIMC(MenuData menu, int IMC){
+
+        bool flaggedRed = false;
+        bool flaggedYellow = false;
+
+        int result;
+
+        foreach(FoodData food in menu.aliments){
+                if(SelecFromIMC(food, IMC)==0 && !flaggedRed){
+                flaggedRed = true;
+                }
+                else if(SelecFromIMC(food, IMC)==1 && !flaggedYellow){
+                    flaggedYellow = true;
+                } 
+   
+        }
+
+        
+        if(flaggedRed) result = 0;
+        else if(flaggedYellow && !flaggedRed)result = 1;
+        else result = 2;
+
+
+        return result;
     }
 
      public void SaveData(string data)
@@ -585,13 +626,12 @@ public class MenuController : MonoBehaviour
          
                 for(int j=0; j<numberOfAliments; j++){
                         
-                    string idJSONA = nestedJSON[i]["aliments"][i]["_id"].Value;
-                    string nameJSONA = nestedJSON[i]["aliments"][i]["name"].Value;
-                    string categoryJSONA = nestedJSON[i]["aliments"][i]["category"].Value;
-                    string languageJSONA = nestedJSON[i]["aliments"][i]["language"].Value;
+                    string idJSONA = nestedJSON[i]["aliments"][j]["_id"].Value;
+                    string nameJSONA = nestedJSON[i]["aliments"][j]["name"].Value;
+                    string categoryJSONA = nestedJSON[i]["aliments"][j]["category"].Value;
+                    string languageJSONA = nestedJSON[i]["aliments"][j]["language"].Value;
 
-                    Debug.Log(numberOfAliments + " Alimentos en " + nestedJSON[i]["name"].Value);
-
+                    Debug.Log(numberOfAliments + " Alimentos en " + nestedJSON[i]["name"].Value + "El primero se llama " + nameJSONA);
 
                     string quotation = "\"";
                     string allValues ="";
@@ -621,6 +661,8 @@ public class MenuController : MonoBehaviour
                     };
 
                 }
+
+                myAllMenus.menuData[i].IMCValue = CalculateMenuIMC(myAllMenus.menuData[i],IMC);
                 
             }
 
@@ -654,7 +696,7 @@ public class MenuController : MonoBehaviour
 
            //FromJSONtoMenu(request.downloadHandler.text);
 
-           Debug.Log(request.downloadHandler.text);
+           //Debug.Log(request.downloadHandler.text);
 
            //newtonjson(request.downloadHandler.text);
               
@@ -686,6 +728,7 @@ public class MenuController : MonoBehaviour
         if(request.result == UnityWebRequest.Result.Success) {
 
 
+           Debug.Log(request.downloadHandler.text); 
            FromJSONtoMenu(request.downloadHandler.text);
               
         }             

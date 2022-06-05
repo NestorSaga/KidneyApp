@@ -30,8 +30,6 @@ module.exports = app => {
         const { rIMC} = request.body;    
 
         var menus = await Menus.find();
-      
-        console.log(menus);
 
         response.send(menus);
 
@@ -61,10 +59,6 @@ module.exports = app => {
 
         res.code = 0;
         res.msg = "Menu added";
- 
-
-      
-        console.log(newMenu);
        
         response.send(res);
 
