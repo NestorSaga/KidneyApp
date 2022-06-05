@@ -82,12 +82,10 @@ module.exports = app => {
             
             if(targetDate > Date.now()) {
 
-                UserCredentials.updateOne(
+                await UserCredentials.updateOne(
                     {_id: userCredentials._id},
                     {$set: {validationDate: Date.now()}}
                 );
-
-                await userCredentials.save();
 
                 res.code = 0;
                 res.msg = "Login Successful";
@@ -261,12 +259,10 @@ module.exports = app => {
 
                 console.log("Updating existing");
 
-                UserCredentials.updateOne(
+                await UserCredentials.updateOne(
                     {_id: userCredentials._id},
                     {$set: {validationDate: Date.now()}}
                 );
-
-                await userCredentials.save();
 
                 res.code = 0;
                 res.msg = "Api key obtained";
