@@ -46,6 +46,7 @@ public class VideoManager : MonoBehaviour
     }
 
     public void goToVideoPlayer(string url) {
+        PlayerPrefs.SetInt("videoCount", PlayerPrefs.GetInt("videoCount") + 1);
         videoSelector.SetActive(false);
         videoPlayer.SetActive(true);
         categoryUI.SetActive(false);

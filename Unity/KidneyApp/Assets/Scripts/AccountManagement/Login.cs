@@ -71,6 +71,7 @@ public class Login : MonoBehaviour
 
                 PlayerPrefs.SetString("userId", response.data._id);
                 PlayerPrefs.SetString("username", response.data.username);
+                PlayerPrefs.SetInt("loginCount", PlayerPrefs.GetInt("loginCount") + 1);
                 PlayerPrefs.Save();
 
                 GameManager.Instance.FillJSON();
@@ -128,6 +129,7 @@ public class Login : MonoBehaviour
 
                     PlayerPrefs.SetString("userId", response.data._id);
                     PlayerPrefs.SetString("username", response.data.username);
+                    PlayerPrefs.SetInt("loginCount", PlayerPrefs.GetInt("loginCount") + 1);
                     PlayerPrefs.Save();
 
                     GameManager.Instance.ChangeScene(2); //goto hub

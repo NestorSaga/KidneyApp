@@ -283,6 +283,7 @@ public class QuizManager : MonoBehaviour
         if(currentQuestion + 1 == questions.Length) {
             saveCurrentAnswer();
             int score = calculateScore();
+            PlayerPrefs.SetInt("quizCount", PlayerPrefs.GetInt("quizCount") + 1);
             StartCoroutine(SaveScore(score));
             goToQuizResult(score);
 

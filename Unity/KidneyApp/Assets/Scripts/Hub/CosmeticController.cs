@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -11,11 +12,15 @@ public class CosmeticController : MonoBehaviour
     [SerializeField] private int[] currentCosmetics = new int[3] {0,0,0}; //Hat, face and body
     [SerializeField] private string createCosmeticsEndponint = "http://127.0.0.1:12345/cosmetics/createUserCosmetics";
     [SerializeField] private string saveCosmeticsEndponint = "http://127.0.0.1:12345/cosmetics/setUserCosmetics";
+    [SerializeField] private TMP_Text descriptionText, unlockedStatusText;
+    [SerializeField] private bool isHub = true;
 
     private void Start() {
         currentCosmetics[0] = PlayerPrefs.GetInt("hat");
         currentCosmetics[1] = PlayerPrefs.GetInt("face");
         currentCosmetics[2] = PlayerPrefs.GetInt("body");
+
+        if(!isHub) setDescription(currentCosmetics[0]);
         
         setCosmetics(currentCosmetics);
     }
@@ -50,6 +55,7 @@ public class CosmeticController : MonoBehaviour
                 hat.sprite = hats[currentCosmetics[0]];
             }
         }
+        setDescription(currentCosmetics[0]);
     }
 
     public void toggleFace(bool positive) {
@@ -70,6 +76,7 @@ public class CosmeticController : MonoBehaviour
                 face.sprite = faces[currentCosmetics[1]];
             }
         }
+        setDescription(currentCosmetics[1]);
     }
 
     public void toggleBody(bool positive) {
@@ -90,6 +97,7 @@ public class CosmeticController : MonoBehaviour
                 body.sprite = bodies[currentCosmetics[2]];
             }
         }
+        setDescription(currentCosmetics[2]);
     }
 
     public void setCosmetics(int[] cosmeticArray) {
@@ -138,6 +146,8 @@ public class CosmeticController : MonoBehaviour
 
     public IEnumerator trySaveCosmetics() {
 
+        checCosmeticsUnlocked();
+
         WWWForm form = new WWWForm();
         form.AddField("rUserId", PlayerPrefs.GetString("userId"));
         form.AddField("rHat", currentCosmetics[0]);     
@@ -172,5 +182,73 @@ public class CosmeticController : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public void setDescription(int objectId) {
+        switch(objectId) {
+            case 0:
+                descriptionText.text = "No clothes\nUnlock more cosmetic items by completing challenges.";
+                unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                break;
+            case 1:
+                descriptionText.text = "Casual clothes\nUnlocked by entering the application three different days!";
+                if(PlayerPrefs.GetInt("loginCount") > 3) {
+                    unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                } else {
+                    unlockedStatusText.text = "<color=red>LOCKED</color>";
+                }
+                break;
+            case 2:
+                descriptionText.text = "Cinema director clothes\nUnlocked by watching three videos!";
+                if(PlayerPrefs.GetInt("videoCount") > 3) {
+                    unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                } else {
+                    unlockedStatusText.text = "<color=red>LOCKED</color>";
+                }
+                break;
+            case 3:
+                descriptionText.text = "Chef clothes\nUnlocked by creating three menus!";
+                if(PlayerPrefs.GetInt("menuCount") > 3) {
+                    unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                } else {
+                    unlockedStatusText.text = "<color=red>LOCKED</color>";
+                }
+                break;
+            case 4:
+                descriptionText.text = "Student clothes\nUnlocked by completing three quizzes!";
+                if(PlayerPrefs.GetInt("quizCount") > 3) {
+                    unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                } else {
+                    unlockedStatusText.text = "<color=red>LOCKED</color>";
+                }
+                break;
+            default:
+                descriptionText.text = "No clothes\nUnlock more cosmetic items by completing challenges.";
+                unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                break;
+        }
+    }
+
+    public void checCosmeticsUnlocked() {
+        for(int i = 0; i < currentCosmetics.Length; i++) {
+            switch(currentCosmetics[i]) {
+            case 0:
+                break;
+            case 1:
+                if(PlayerPrefs.GetInt("loginCount") < 3) currentCosmetics[i] = 0;
+                break;
+            case 2:
+                if(PlayerPrefs.GetInt("videoCount") < 3) currentCosmetics[i] = 0;
+                break;
+            case 3:
+                if(PlayerPrefs.GetInt("menuCount") < 3) currentCosmetics[i] = 0;
+                break;
+            case 4:
+                if(PlayerPrefs.GetInt("quizCount") < 3) currentCosmetics[i] = 0;
+                break;
+            default:
+                break;
+            }
+        }
     }
 }
