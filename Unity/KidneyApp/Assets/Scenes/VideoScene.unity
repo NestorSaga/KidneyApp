@@ -450,8 +450,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 287.78946, y: -639}
-  m_SizeDelta: {x: 524, y: 698}
+  m_AnchoredPosition: {x: 287.78946, y: -640}
+  m_SizeDelta: {x: 524, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &50163011
 MonoBehaviour:
@@ -892,7 +892,7 @@ Transform:
   - {fileID: 1966918725}
   - {fileID: 2147256273}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &86733728
 GameObject:
@@ -1090,7 +1090,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 287.78946, y: -1153}
+  m_AnchoredPosition: {x: 287.78946, y: -1155}
   m_SizeDelta: {x: 465.12, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &98666995
@@ -1190,7 +1190,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 720, y: 0}
-  m_SizeDelta: {x: 720, y: 1278}
+  m_SizeDelta: {x: 720, y: 1280}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &167237482
 MonoBehaviour:
@@ -2547,7 +2547,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1878490855}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2747,7 +2747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a12ddbc47b17cd478cb447d1113a22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonText: BACK
+  buttonText: "Atr\xE1s"
   clickEvent:
     m_PersistentCalls:
       m_Calls:
@@ -3047,7 +3047,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BACK
+  m_text: "Atr\xE1s"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
   m_sharedMaterial: {fileID: 21261991626553910, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
@@ -3200,7 +3200,7 @@ RectTransform:
   m_Children:
   - {fileID: 952167464}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3408,8 +3408,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 36.105263, y: -639}
-  m_SizeDelta: {x: 72.210526, y: 1278}
+  m_AnchoredPosition: {x: 36.105263, y: -640}
+  m_SizeDelta: {x: 72.210526, y: 1280}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &937352805
 MonoBehaviour:
@@ -3490,7 +3490,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Videos
+  m_text: "V\xEDdeos"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa328c1ae3ffb6b4583cf371153b0be6, type: 2}
   m_sharedMaterial: {fileID: 21918420405216288, guid: fa328c1ae3ffb6b4583cf371153b0be6, type: 2}
@@ -3963,8 +3963,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 683.8947, y: -639}
-  m_SizeDelta: {x: 72.210526, y: 1278}
+  m_AnchoredPosition: {x: 683.8947, y: -640}
+  m_SizeDelta: {x: 72.210526, y: 1280}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &972768621
 MonoBehaviour:
@@ -5031,7 +5031,7 @@ Transform:
   - {fileID: 70249716}
   - {fileID: 59429173}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1475904292
 GameObject:
@@ -5128,8 +5128,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 360, y: -639}
-  m_SizeDelta: {x: 575.5789, y: 1278}
+  m_AnchoredPosition: {x: 360, y: -640}
+  m_SizeDelta: {x: 575.5789, y: 1280}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1477022746
 MonoBehaviour:
@@ -5754,7 +5754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a12ddbc47b17cd478cb447d1113a22b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonText: BACK
+  buttonText: "Atr\xE1s"
   clickEvent:
     m_PersistentCalls:
       m_Calls:
@@ -5915,7 +5915,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BACK
+  m_text: "Atr\xE1s"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
   m_sharedMaterial: {fileID: 21261991626553910, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
@@ -6250,7 +6250,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Video Categories
+  m_text: "Categor\xEDas de v\xEDdeos"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fa328c1ae3ffb6b4583cf371153b0be6, type: 2}
   m_sharedMaterial: {fileID: 21918420405216288, guid: fa328c1ae3ffb6b4583cf371153b0be6, type: 2}

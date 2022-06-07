@@ -161,7 +161,7 @@ public class Register : MonoBehaviour
         bool firstStepGood = true;
 
         if (username.Length < 3 || username.Length > 24) {
-            alertText1.text += "Invalid username. ";
+            alertText1.text += "Nombre de usuario no válido. ";
             controller.ActivateButtons(true);
 
             firstStepGood = false;
@@ -169,28 +169,28 @@ public class Register : MonoBehaviour
         }
 
         if (!Regex.IsMatch(password, PASSWORD_REGEX)) {
-            alertText1.text += "Password is not safe enough. ";
+            alertText1.text += "La contraseña no es suficientemente segura. ";
             controller.ActivateButtons(true);
 
             firstStepGood = false;
         }
 
         if(password != repeatPasswordInputField.text) {
-            alertText1.text += "Passwords do not match. ";
+            alertText1.text += "Las contraseñas no coinciden. ";
             controller.ActivateButtons(true);
 
             firstStepGood = false;         
         }
 
         if (firstName.Length < 1) {
-            alertText1.text += "Invalid name. ";
+            alertText1.text += "Nombre no válido. ";
             controller.ActivateButtons(true);
 
             firstStepGood = false;          
         }
         
         if (surname1.Length < 1) {
-            alertText1.text += "Invalid surname. ";
+            alertText1.text += "Apellido no válido. ";
             controller.ActivateButtons(true);
 
             firstStepGood = false;           
@@ -216,8 +216,9 @@ public class Register : MonoBehaviour
 
 
         int birthValue = Int32.Parse(birthDateDay);
+        
         if(birthValue>31 || birthValue<1){
-             alertText2.text += "Invalid birth day. ";
+             alertText2.text += "Día no válido. ";
              controller.ActivateButtons(true);
 
              secondStepGood = false;
@@ -226,7 +227,7 @@ public class Register : MonoBehaviour
 
          birthValue = Int32.Parse(birthDateMonth);
          if(birthValue>12 || birthValue<1){
-            alertText2.text += "Invalid birth month. ";
+            alertText2.text += "Mes no válido. ";
             controller.ActivateButtons(true);
 
             secondStepGood = false;
@@ -235,7 +236,7 @@ public class Register : MonoBehaviour
         
         birthValue = Int32.Parse(birthDateYear);
         if (birthValue < 1920 || birthValue > DateTime.Now.Year) {
-            alertText2.text += "Invalid birth year. ";
+            alertText2.text += "Año no válido. ";
             controller.ActivateButtons(true);
             
             secondStepGood = false;
@@ -245,14 +246,14 @@ public class Register : MonoBehaviour
 
 
         if (email.Length < 4) { // TODO Improve mail validation
-            alertText2.text += "Invalid email. ";
+            alertText2.text += "Email no válido. ";
             controller.ActivateButtons(true);
             
             secondStepGood = false;
         }
 
         if (phone.Length != 9) {
-            alertText2.text += "Invalid phone. ";
+            alertText2.text += "Teléfono no válido. ";
             controller.ActivateButtons(true);
             
             secondStepGood = false;
@@ -284,21 +285,21 @@ public class Register : MonoBehaviour
 
 
         if (height.Length < 2) {
-            alertText3.text += "Invalid height.";
+            alertText3.text += "Altura no válida. ";
             controller.ActivateButtons(true);
             
             thirdStepGood = false;
         }
 
         if (weight.Length < 2) {
-            alertText3.text += "Invalid weight.";
+            alertText3.text += "Peso no válido. ";
             controller.ActivateButtons(true);
             
             thirdStepGood = false;
         }
 
         if (state == "Enter your state") {
-            alertText3.text += "Invalid state selected.";
+            alertText3.text += "Atributos no válidos. ";
             controller.ActivateButtons(true);
             
             thirdStepGood = false;
@@ -315,7 +316,7 @@ public class Register : MonoBehaviour
 
         if(thirdStepGood){
             
-            alertText3.text = "Registering account...";
+            alertText3.text = "Registrando cuenta...";
             controller.ActivateButtons(false);
 
             StartCoroutine(TryRegister());
@@ -374,7 +375,7 @@ public class Register : MonoBehaviour
 
             if(response.code == 0) {
 
-                alertText1.text = "Account has been created.";
+                alertText1.text = "Cuenta creada.";
 
                 GameManager.Instance.FillJSON();
                 GameManager.Instance.ChangeScene(2); //goto hub
@@ -382,23 +383,23 @@ public class Register : MonoBehaviour
             } else {
                 switch(response.code) {
                     case 1:
-                        alertText1.text = "Invalid credentials.";
+                        alertText1.text = "Credenciales inválidos.";
                         break;
                     case 2:
-                        alertText1.text = "Username already taken.";
+                        alertText1.text = "Nombre de usuario ya en uso.";
                         break;
                     case 3:
-                        alertText1.text = "Password is not safe enough.";
+                        alertText1.text = "La contraseña no es lo suficientemente segura.";
                         break;
                     default:
-                        alertText1.text = "Invalid response code.";
+                        alertText1.text = "Código de respuesta inválido.";
                         break;
                 }
             }
 
         } else {
 
-            alertText1.text = "Error connecting to the server...";
+            alertText1.text = "Error al conectar con el servidor...";
         }
 
             controller.ActivateButtons(true);

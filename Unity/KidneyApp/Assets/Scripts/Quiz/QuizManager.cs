@@ -325,7 +325,7 @@ public class QuizManager : MonoBehaviour
 
     public void populateQuestionText() {
 
-        progress.text = "Question " + (currentQuestion + 1) + "/" + questions.Length;
+        progress.text = "Pregunta " + (currentQuestion + 1) + "/" + questions.Length;
         statement.text = questions[currentQuestion].statement;
 
         textAnswer1[0].text = questions[currentQuestion].answers._1;
@@ -416,13 +416,13 @@ public class QuizManager : MonoBehaviour
     public void displayResult(int score) {
         if(score == 3) {
             scoreDisplay.sprite = ThreeStars;
-            resultText.text = "You made no mistakes!";
+            resultText.text = "No has cometido errores!";
         } else if( score == 2) {
             scoreDisplay.sprite  = twoStars;
-            resultText.text = "Very well!";
+            resultText.text = "Muy bien!";
         } else {
             scoreDisplay.sprite = oneStar;
-            resultText.text = "You made some mistakes!";
+            resultText.text = "Cometiste algunos errores!";
         }
     }
 

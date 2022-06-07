@@ -187,44 +187,44 @@ public class CosmeticController : MonoBehaviour
     public void setDescription(int objectId) {
         switch(objectId) {
             case 0:
-                descriptionText.text = "No clothes\nUnlock more cosmetic items by completing challenges.";
-                unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                descriptionText.text = "Sin ropa\nDesbloquea más cosméticos al completar retos.";
+                unlockedStatusText.text = "<color=green>DESBLOQUEADO</color>";
                 break;
             case 1:
-                descriptionText.text = "Casual clothes\nUnlocked by entering the application three different days!";
+                descriptionText.text = "Ropa casual\nDesbloqueado al acceder tres veces a la aplicación!";
                 if(PlayerPrefs.GetInt("loginCount") > 3) {
-                    unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                    unlockedStatusText.text = "<color=green>DESBLOQUEADO</color>";
                 } else {
-                    unlockedStatusText.text = "<color=red>LOCKED</color>";
+                    unlockedStatusText.text = "<color=red>BLOQUEADO</color>";
                 }
                 break;
             case 2:
-                descriptionText.text = "Cinema director clothes\nUnlocked by watching three videos!";
+                descriptionText.text = "Atuendo de cineasta\nDesbloqueado al ver tres vídeos!";
                 if(PlayerPrefs.GetInt("videoCount") > 3) {
-                    unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                    unlockedStatusText.text = "<color=green>DESBLOQUEADO</color>";
                 } else {
-                    unlockedStatusText.text = "<color=red>LOCKED</color>";
+                    unlockedStatusText.text = "<color=red>BLOQUEADO</color>";
                 }
                 break;
             case 3:
-                descriptionText.text = "Chef clothes\nUnlocked by creating three menus!";
+                descriptionText.text = "Atuendo de chef\nDesbloqueado al crear tres menús!";
                 if(PlayerPrefs.GetInt("menuCount") > 3) {
-                    unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                    unlockedStatusText.text = "<color=green>DESBLOQUEADO</color>";
                 } else {
-                    unlockedStatusText.text = "<color=red>LOCKED</color>";
+                    unlockedStatusText.text = "<color=red>BLOQUEADO</color>";
                 }
                 break;
             case 4:
-                descriptionText.text = "Student clothes\nUnlocked by completing three quizzes!";
+                descriptionText.text = "Atuendo de estudiante\nDesbloqueado al responder a tres cuestionarios!";
                 if(PlayerPrefs.GetInt("quizCount") > 3) {
-                    unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                    unlockedStatusText.text = "<color=green>DESBLOQUEADO</color>";
                 } else {
-                    unlockedStatusText.text = "<color=red>LOCKED</color>";
+                    unlockedStatusText.text = "<color=red>BLOQUEADO</color>";
                 }
                 break;
             default:
-                descriptionText.text = "No clothes\nUnlock more cosmetic items by completing challenges.";
-                unlockedStatusText.text = "<color=green>UNLOCKED</color>";
+                descriptionText.text = "Sin ropa\nDesbloquea más cosméticos al completar retos.";
+                unlockedStatusText.text = "<color=green>DESBLOQUEADO</color>";
                 break;
         }
     }
