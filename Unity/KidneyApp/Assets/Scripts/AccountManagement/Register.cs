@@ -83,6 +83,8 @@ public class Register : MonoBehaviour
     string dailyExercise;
     string expert;
     string companionAccess;
+
+    string IMCValue;
     
 
 
@@ -319,6 +321,8 @@ public class Register : MonoBehaviour
             alertText3.text = "Registrando cuenta...";
             controller.ActivateButtons(false);
 
+            CalculateIMC();
+
             StartCoroutine(TryRegister());
         }
 
@@ -328,6 +332,51 @@ public class Register : MonoBehaviour
     public void CalculateIMC(){
 
         // TODO
+
+        int intWeight = Int32.Parse(weight);
+        var intHeight = (Int32.Parse(height));
+        var intHeight2 = (float)intHeight/100;
+        float IMCAnswer = (intWeight/(Mathf.Pow(intHeight2,2)));
+
+        int weightState;
+
+        if(IMCAnswer < 18.5f) weightState = 0; // Not enough weight
+        else if(IMCAnswer >= 18.5f && IMCAnswer <= 24.9f) weightState = 1; // Normal weight
+        else if(IMCAnswer >= 25) weightState = 2; // Overweight
+        else weightState = 1;
+
+        Debug.Log("El estado es " + weightState + "debido a que el calculo es " + IMCAnswer + "Mi altura es " + intHeight2 + "y mi peso es " + intWeight);
+
+        //Calculate values
+
+        if(weightState==1 && dailyExercise == "True" && state=="Pre-diálisis" && !attribute.Contains("Diabetes")) IMCValue = "1";
+        else if(weightState==1 && dailyExercise == "True" && state=="Pre-diálisis" && attribute.Contains("Diabetes")) IMCValue = "2";
+        else if(weightState==1 && dailyExercise == "True" && (state=="Diálisis per." || state=="Hemodiálisis") && !attribute.Contains("Diabetes")) IMCValue = "3";
+        else if(weightState==1 && dailyExercise == "True" && (state=="Diálisis per." || state=="Hemodiálisis") && attribute.Contains("Diabetes")) IMCValue = "4";
+        else if(weightState==1 && dailyExercise == "False" && state=="Pre-diálisis" && !attribute.Contains("Diabetes")) IMCValue = "5";
+        else if(weightState==1 && dailyExercise == "False" && state=="Pre-diálisis" && attribute.Contains("Diabetes")) IMCValue = "6";
+        else if(weightState==1 && dailyExercise == "False" && (state=="Diálisis per." || state=="Hemodiálisis") && !attribute.Contains("Diabetes")) IMCValue = "7";
+        else if(weightState==1 && dailyExercise == "False" && (state=="Diálisis per." || state=="Hemodiálisis") && attribute.Contains("Diabetes")) IMCValue = "8";
+        //
+        else if(weightState==0 && dailyExercise == "True" && state=="Pre-diálisis" && !attribute.Contains("Diabetes")) IMCValue = "9";
+        else if(weightState==0 && dailyExercise == "True" && state=="Pre-diálisis" && attribute.Contains("Diabetes")) IMCValue = "10";
+        else if(weightState==0 && dailyExercise == "True" && (state=="Diálisis per." || state=="Hemodiálisis") && !attribute.Contains("Diabetes")) IMCValue = "11";
+        else if(weightState==0 && dailyExercise == "True" && (state=="Diálisis per." || state=="Hemodiálisis") && attribute.Contains("Diabetes")) IMCValue = "12";
+        else if(weightState==0 && dailyExercise == "False" && state=="Pre-diálisis" && !attribute.Contains("Diabetes")) IMCValue = "13";
+        else if(weightState==0 && dailyExercise == "False" && state=="Pre-diálisis" && attribute.Contains("Diabetes")) IMCValue = "14";
+        else if(weightState==0 && dailyExercise == "False" && (state=="Diálisis per." || state=="Hemodiálisis") && !attribute.Contains("Diabetes")) IMCValue = "15";
+        else if(weightState==0 && dailyExercise == "False" && (state=="Diálisis per." || state=="Hemodiálisis") && attribute.Contains("Diabetes")) IMCValue = "16";
+        //
+        else if(weightState==2 && dailyExercise == "True" && state=="Pre-diálisis" && !attribute.Contains("Diabetes")) IMCValue = "17";
+        else if(weightState==2 && dailyExercise == "True" && state=="Pre-diálisis" && attribute.Contains("Diabetes")) IMCValue = "18";
+        else if(weightState==2 && dailyExercise == "True" && (state=="Diálisis per." || state=="Hemodiálisis") && !attribute.Contains("Diabetes")) IMCValue = "19";
+        else if(weightState==2 && dailyExercise == "True" && (state=="Diálisis per." || state=="Hemodiálisis") && attribute.Contains("Diabetes")) IMCValue = "20";
+        else if(weightState==2 && dailyExercise == "False" && state=="Pre-diálisis" && !attribute.Contains("Diabetes")) IMCValue = "21";
+        else if(weightState==2 && dailyExercise == "False" && state=="Pre-diálisis" && attribute.Contains("Diabetes")) IMCValue = "22";
+        else if(weightState==2 && dailyExercise == "False" && (state=="Diálisis per." || state=="Hemodiálisis") && !attribute.Contains("Diabetes")) IMCValue = "23";
+        else if(weightState==2 && dailyExercise == "False" && (state=="Diálisis per." || state=="Hemodiálisis") && attribute.Contains("Diabetes")) IMCValue = "24";
+
+
     }
 
     private IEnumerator TryRegister() {
@@ -350,6 +399,7 @@ public class Register : MonoBehaviour
         form.AddField("rDailyExercise", dailyExercise);
         form.AddField("rExpert", expert);
         form.AddField("rCompanionAccess", companionAccess);
+        form.AddField("rIMCValue", IMCValue);
         UnityWebRequest request = UnityWebRequest.Post(registerEndpoint, form);
 
         var handler = request.SendWebRequest();

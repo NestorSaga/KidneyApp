@@ -19,6 +19,7 @@ const userSchema = new Schema({
     dailyExercise: Boolean,
     expertPatient: Boolean,
     companionAccess: Boolean,
+    IMCValue: String,
 
     salt: String,
     lastAuth: Date,
