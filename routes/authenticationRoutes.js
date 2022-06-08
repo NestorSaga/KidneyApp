@@ -26,7 +26,7 @@ module.exports = app => {
             return;
         }
 
-        var userAccount = await Account.findOne({username : rUsername}, 'username password _id');
+        var userAccount = await Account.findOne({username : rUsername}, 'username password _id IMCValue');
         if(userAccount != null){
 
             argon2.verify(userAccount.password, rPassword).then(async (success) => {
@@ -37,7 +37,7 @@ module.exports = app => {
 
                     res.code = 0;
                     res.msg = "Account found";
-                    res.data = ( ({_id, username}) => ({_id, username}) )(userAccount); // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
+                    res.data = ( ({_id, username, IMCValue}) => ({_id, username, IMCValue}) )(userAccount); // para enviar mas datos, ({data1, data2, etc}) => ({data1, data2, etc})
 
                     response.send(res);
                     return;

@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine.Networking;
 using SimpleJSON;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 
 public class MenuController : MonoBehaviour
@@ -82,6 +83,8 @@ public class MenuController : MonoBehaviour
 
     [SerializeField] private string addMenuToServerEndpoint = "http://127.0.0.1:12345/account/addMenuToServer";
 
+    [SerializeField] private string updateIMCValueEndpoint = "http://127.0.0.1:12345/account/updateIMCValue";
+
 
     Values values;
 
@@ -121,13 +124,8 @@ public class MenuController : MonoBehaviour
         menuPersistentPath = Application.persistentDataPath + Path.AltDirectorySeparatorChar + "Data/MenusJSON.json";
     }
     void Start()
-    {
-        
-       
+    {     
         InicializeMenuScreen();
-
-        
-
     }
 
     public void ChangeState(string newState){
@@ -219,9 +217,9 @@ public class MenuController : MonoBehaviour
 
     public void InicializeMenuScreen(){
 
-        foodData = LoadFoodData();
-
-        if(foodData.foodData[0]._id==null) UpdateAlimentJSON();
+        UpdateIMC();
+        
+        UpdateAlimentJSON();
 
         myOwnMenus = LoadMenuData();
 
@@ -537,6 +535,10 @@ public class MenuController : MonoBehaviour
         return result;
     }
 
+    public void GoToHub(){
+        SceneManager.LoadScene(2);
+    }
+
      public void SaveData(string data)
     {
         FileInfo fi = new FileInfo(alimentPersistentPath);
@@ -568,6 +570,13 @@ public class MenuController : MonoBehaviour
         Debug.Log("Clearing JSON data");
         FileInfo fi = new FileInfo(alimentPersistentPath);
         fi.Directory.Delete(true);
+    }
+
+    public void UpdateIMC(){
+        JSONdata IMCdata = GameManager.Instance.LoadData();
+
+        IMC = IMCdata.IMCValue;
+        GameManager.Instance.IMCValue = IMCdata.IMCValue;
     }
 
 
@@ -669,6 +678,8 @@ public class MenuController : MonoBehaviour
 
     }
 
+
+    
     public IEnumerator AddMenuToServer(string json){
         
 

@@ -37,6 +37,23 @@ module.exports = app => {
 
     });
 
+    app.post('/account/updateIMCValue', async(request, response) => {
+
+
+        var res = {};
+
+        const { rUsername} = request.body;    
+
+        var accIMCValue = await Account.findOne({username : rUsername}, 'IMCValue');
+
+        console.log(accIMCValue);
+
+        response.send(accIMCValue);
+
+        return;
+
+    });
+
     app.post('/account/addMenuToServer', async(request, response) => {
 
 

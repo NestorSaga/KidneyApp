@@ -115,6 +115,7 @@ public class GameManager : MonoBehaviour
 
         response._id = PlayerPrefs.GetString("userId");
         response.userName = PlayerPrefs.GetString("username");
+        response.IMCValue = PlayerPrefs.GetInt("IMCValue");
 
         string key = "";
 

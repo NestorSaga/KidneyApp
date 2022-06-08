@@ -71,6 +71,7 @@ public class Login : MonoBehaviour
 
                 PlayerPrefs.SetString("userId", response.data._id);
                 PlayerPrefs.SetString("username", response.data.username);
+                PlayerPrefs.SetInt("IMCValue", response.data.IMCValue);
                 PlayerPrefs.SetInt("loginCount", PlayerPrefs.GetInt("loginCount") + 1);
                 PlayerPrefs.Save();
 
@@ -105,7 +106,6 @@ public class Login : MonoBehaviour
             WWWForm form = new WWWForm();
             form.AddField("rUserId", data._id);
             form.AddField("rKey", data.apiKey);
-
             UnityWebRequest request = UnityWebRequest.Post(autologinEndpoint, form);
 
             var handler = request.SendWebRequest();
@@ -128,7 +128,7 @@ public class Login : MonoBehaviour
                 if(response.code == 0) {// login successful
 
                     PlayerPrefs.SetString("userId", response.data._id);
-                    PlayerPrefs.SetString("username", response.data.username);
+                    PlayerPrefs.SetString("username", response.data.username);                 
                     PlayerPrefs.SetInt("loginCount", PlayerPrefs.GetInt("loginCount") + 1);
                     PlayerPrefs.Save();
 

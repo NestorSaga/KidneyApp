@@ -7,5 +7,6 @@ public class JSONdata
 {
     public string _id;
     public string userName;
-    public string apiKey;    
+    public string apiKey;  
+    public int IMCValue;  
 }
