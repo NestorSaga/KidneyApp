@@ -537,17 +537,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 116559875}
   m_CullTransparentMesh: 0
---- !u!114 &119608743 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7945745113273067167, guid: 56b4b4d7b4eb40646adfd810250f9684, type: 3}
-  m_PrefabInstance: {fileID: 970239961}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 268a7144171a6a748b9e029296c2cc27, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &142312924
 GameObject:
   m_ObjectHideFlags: 0
@@ -4446,10 +4435,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 119608743}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: ChangeScene
-        m_Mode: 3
+      - m_Target: {fileID: 944947584}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: GoToHub
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

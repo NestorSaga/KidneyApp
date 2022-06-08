@@ -136,7 +136,7 @@ public class MenuController : MonoBehaviour
             //Display Aliment List and disable others
             case "LookingAliments":
                 currenState = CurrenState.LookingAliments;
-                currentStateText.text = "Aliment List";
+                currentStateText.text = "Listado de alimentos";
                 scrollRectAlimentList.gameObject.SetActive(true);
                 scrollRectMenuAlimentList.gameObject.SetActive(false);
                 scrollRectNewMenuList.gameObject.SetActive(false);
@@ -155,7 +155,7 @@ public class MenuController : MonoBehaviour
             //Display Menu List and Aliment List disable others
             case "LookingMenu":
                 currenState = CurrenState.LookingMenu;
-                currentStateText.text = "Menu List";
+                currentStateText.text = "Listado de menús";
                 scrollRectAlimentList.gameObject.SetActive(false);
                 scrollRectMenuAlimentList.gameObject.SetActive(true);
                 scrollRectNewMenuList.gameObject.SetActive(false);
@@ -176,14 +176,14 @@ public class MenuController : MonoBehaviour
             //Display Menu List and Aliment List disable others
             case "EditingMenu":
                 currenState = CurrenState.EditingMenu;
-                 currentStateText.text = "Editing Menu";
+                 currentStateText.text = "";
                 
                 break;
             
             //Display Aliment List and newMenu List disable others
             case "CreatingMenu":
                 currenState = CurrenState.CreatingMenu;
-                currentStateText.text = "New Menu";
+                currentStateText.text = "Creando nuevo menú";
                 scrollRectAlimentList.gameObject.SetActive(true);
                 scrollRectMenuAlimentList.gameObject.SetActive(false);
                 scrollRectNewMenuList.gameObject.SetActive(true);
@@ -221,7 +221,7 @@ public class MenuController : MonoBehaviour
         
         UpdateAlimentJSON();
 
-        myOwnMenus = LoadMenuData();
+        myAllMenus = LoadMenuData();
 
 
         UpdateAllMenus();
@@ -458,7 +458,11 @@ public class MenuController : MonoBehaviour
 
     public void EndNewMenuCreation(){
 
-        newMenu.author = "Carmen";
+        JSONdata userData = GameManager.Instance.LoadData();
+
+        newMenu.author = userData.userName;
+
+        
         newMenu.name = newMenuName.text;
         newMenu.description = newMenuDescription.text;
 
@@ -471,8 +475,8 @@ public class MenuController : MonoBehaviour
         
 
 
-
-        Debug.Log("El IMC es " + newMenu.IMCValue);
+        PlayerPrefs.SetInt("menuCount", PlayerPrefs.GetInt("menuCount") + 1);
+        
 
 
 
@@ -499,8 +503,8 @@ public class MenuController : MonoBehaviour
 
         myAllMenus = dummy;
 
-        newMenuName.text = "";
-        newMenuDescription.text = "";
+        newMenuName.text = string.Empty;
+        newMenuDescription.text = string.Empty;
 
         UpdateAllMenus();
 
