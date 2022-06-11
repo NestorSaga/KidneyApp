@@ -23,7 +23,7 @@ public class QuizManager : MonoBehaviour
     [SerializeField] private Image scoreDisplay;
     private string[] categories;
     private Quiz[] quizzes;
-    private int currentQuestion = 0;
+    private int currentQuestion = 0, currentPoints = 0;
     private int[] answers;
     private Question[] questions;
     private string currentQuizId;
@@ -361,6 +361,8 @@ public class QuizManager : MonoBehaviour
             }
         }
 
+        currentPoints = points;
+
         if (points == questions.Length)
         {
             score = 3;
@@ -416,14 +418,13 @@ public class QuizManager : MonoBehaviour
     public void displayResult(int score) {
         if(score == 3) {
             scoreDisplay.sprite = ThreeStars;
-            resultText.text = "No has cometido errores!";
+
         } else if( score == 2) {
             scoreDisplay.sprite  = twoStars;
-            resultText.text = "Muy bien!";
         } else {
             scoreDisplay.sprite = oneStar;
-            resultText.text = "Cometiste algunos errores!";
         }
+        resultText.text = "Has acertado " + currentPoints + " de " + questions.Length + " preguntas!" ;
     }
 
 }
