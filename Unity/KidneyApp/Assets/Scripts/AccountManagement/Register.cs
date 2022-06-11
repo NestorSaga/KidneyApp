@@ -419,11 +419,19 @@ public class Register : MonoBehaviour
 
             CreateResponse response = JsonUtility.FromJson<CreateResponse>(request.downloadHandler.text);
 
-            PlayerPrefs.SetString("userId", response.data._id);
-            PlayerPrefs.SetString("username", response.data.username);
-            PlayerPrefs.Save();
-
             if(response.code == 0) {
+
+                PlayerPrefs.SetString("userId", response.data._id);
+                PlayerPrefs.SetString("username", response.data.username);
+                PlayerPrefs.SetInt("IMCValue", response.data.IMCValue);
+                PlayerPrefs.SetInt("loginCount", 0);
+                PlayerPrefs.SetInt("videoCount", 0);
+                PlayerPrefs.SetInt("menuCount", 0);
+                PlayerPrefs.SetInt("quizCount", 0);
+                PlayerPrefs.SetInt("hat", 0);
+                PlayerPrefs.SetInt("face", 0);
+                PlayerPrefs.SetInt("body", 0);
+                PlayerPrefs.Save();
 
                 alertText1.text = "Cuenta creada.";
 
