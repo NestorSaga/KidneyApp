@@ -86,7 +86,7 @@ public class MenuController : MonoBehaviour
             Destroy(this.gameObject);
         } else {
             instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            //DontDestroyOnLoad(this.gameObject);
         }
 
         alimentPath = Application.dataPath + Path.AltDirectorySeparatorChar + "Data/alimentsJSON.json";
