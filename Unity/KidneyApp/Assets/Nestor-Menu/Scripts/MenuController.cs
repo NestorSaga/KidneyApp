@@ -13,67 +13,51 @@ using UnityEngine.SceneManagement;
 public class MenuController : MonoBehaviour
 {
 
+    //Menu States
     public enum CurrenState{
         LookingAliments, CreatingMenu,  LookingMenu, EditingMenu
     }
 
     public CurrenState currenState;
 
-    private string alimentPath;
-    private string alimentPersistentPath;
-    private string menuPath;
-    private string menuPersistentPath;
+
+    //References
 
     public Transform scrollRectAlimentList;
     public Transform scrollRectMenuAlimentList;
     public Transform scrollRectNewMenuList;
     public Transform scrollRectAllMenuList;
-
     public Transform scrollRectAlimentList_Content;
     public Transform scrollRectMenuAlimentList_Content;
     public Transform scrollRectNewMenuList_Content;
     public Transform scrollRectAllMenuList_Content;
-
     public Transform menuDetails;
-
     public Transform menuDetailsDisplay;
-
-
-
-    int menuMaxCapacity = 50;
-
-    public Button newMenuButton;
-
     public TMP_Text currentStateText;
     public TMP_Text menuTutorialText;
-
     public TMP_Text newMenuName;
     public TMP_Text newMenuDescription;
     public TMP_Text displayMenuDescription;
-
-    
-
-
+    public Button newMenuButton;
     public Button aliment;
     public Button menuButton;
 
+    //Variables
+    private string alimentPath;
+    private string alimentPersistentPath;
+    private string menuPath;
+    private string menuPersistentPath;
+
+    int menuMaxCapacity = 50;
+    public int IMC;
+
     FoodDataResponse foodData;
-
     FoodDataResponse menuAllAliments;
-
     FoodData menuSingleAliment;
-
     FoodData [] menuAlimentList;
-
     public MenuData  newMenu;
-
     MenuDataResponse myAllMenus;
-
-
-
     MenuDataResponse myOwnMenus;
-
-
     JSONNode nestedJSON;
 
 
@@ -86,19 +70,9 @@ public class MenuController : MonoBehaviour
     [SerializeField] private string updateIMCValueEndpoint = "http://127.0.0.1:12345/account/updateIMCValue";
 
 
-    Values values;
 
-    //Hardcoded af
 
-    public int IMC;
-
-    private int currentAlimentInRecipeCounter;
-    private int currentRecipeInListCounter;
-
-    public bool creatingMenu;
-
-    public MenuData dummyMenu;
-
+    //Singleton
 
     private static MenuController instance = null;
     public static MenuController Instance {
@@ -147,9 +121,7 @@ public class MenuController : MonoBehaviour
 
                 menuDetailsDisplay.gameObject.SetActive(false);
                 
-                LookingAliments();
-
-                
+                LookingAliments();             
                 break;
 
             //Display Menu List and Aliment List disable others
@@ -166,11 +138,7 @@ public class MenuController : MonoBehaviour
 
                 menuDetailsDisplay.gameObject.SetActive(true);
 
-
-                LookingMenu();
-
-                
-                
+                LookingMenu();         
                 break;
             
             //Display Menu List and Aliment List disable others
@@ -196,18 +164,15 @@ public class MenuController : MonoBehaviour
 
                 LookingAliments();
 
+                //Empty the newMenuList
                 foreach(Transform child in scrollRectNewMenuList_Content.transform){
                     GameObject.Destroy(child.gameObject);
-            }
+                }
 
-                newMenu = new MenuData();
-                
-                break;
-            
+                newMenu = new MenuData();              
+                break; 
         }
-
     }
-
 
     public void testJSON(){
 
@@ -215,6 +180,7 @@ public class MenuController : MonoBehaviour
 
     }
 
+    
     public void InicializeMenuScreen(){
 
         UpdateIMC();
@@ -253,12 +219,14 @@ public class MenuController : MonoBehaviour
 
     public void PopulateMenus(){
 
+        //Delete existing buttons
+
         foreach (Transform child in scrollRectAllMenuList_Content.transform){
             GameObject.Destroy(child.gameObject);
         }
 
         
-
+        //Create buttons for each menu
         for (int i = 0; i < myAllMenus.menuData.Length; i++){
 
                 Button listMenu = Instantiate(menuButton, new Vector3(0,0,0), Quaternion.identity);
@@ -274,12 +242,16 @@ public class MenuController : MonoBehaviour
         }
     }
 
+
     public void PopulateAlimentsFromMenus(MenuData menu){
+
+        //Delete existing buttons
 
         foreach (Transform child in scrollRectMenuAlimentList_Content.transform){
             GameObject.Destroy(child.gameObject);
         }
 
+        //Create buttons for each aliment
         for (int i = 0; i < menu.aliments.Length; i++){
 
                 Button listAliment = Instantiate(aliment, new Vector3(0,0,0), Quaternion.identity);
@@ -337,15 +309,15 @@ public class MenuController : MonoBehaviour
         else return 0;
     }
 
-
+    //Clicking on an aliment when creating a new menu will recreate the aliment list of the new menu to add the new clicked aliment
     public void OnAlimentClick(FoodData aliment, bool selected){
 
 
-        if(currenState==CurrenState.CreatingMenu){
+        if(currenState==CurrenState.CreatingMenu){ 
 
             menuTutorialText.enabled = false;
 
-
+            //Destroy buttons in place
             foreach(Transform child in scrollRectNewMenuList_Content.transform){
                     GameObject.Destroy(child.gameObject);
             }
@@ -364,7 +336,7 @@ public class MenuController : MonoBehaviour
                  }
                      
                 }
-               
+               //If the selected item is already in the list, remove it
                 if(selected){
                     list.Remove(aliment);
 
@@ -373,7 +345,7 @@ public class MenuController : MonoBehaviour
                                 original.gameObject.GetComponent<AlimentButton>().selected = false;
                             }
                         }
-
+                //If the selected item is not already in the list, add it
                 }else{
                     list.Add(aliment);
 
@@ -386,7 +358,6 @@ public class MenuController : MonoBehaviour
 
                 
             }else{
-                Debug.Log("Add");
                 list.Add(aliment);
             }           
 
@@ -394,18 +365,14 @@ public class MenuController : MonoBehaviour
             dummy.aliments = list.ToArray();
             newMenu = dummy;
 
-            foreach(FoodData data in newMenu.aliments)
-                Debug.Log(data.name);
-
             CreateMenu(newMenu);
 
         }
 
-        //Si no está en la lista, añadir
-        //else, quitar
-
     }
 
+
+    //Clicking on an aliment when looking a menu will recreate the aliment list of the selected menu to display the aliments of the clicked menu
     public void OnMenuClick(MenuData menu, bool selected){
 
         Debug.Log(menu.description);
@@ -439,11 +406,10 @@ public class MenuController : MonoBehaviour
 
     }
 
+    //Based on the menu, create all the buttons of that menu's aliments and display them
     public void CreateMenu(MenuData currentMenu){
 
         for(int i=0;i<newMenu.aliments.Length;i++){
-
-        Debug.Log("Hay " + i + " alimentos en el newMenu");
                                 
         Button listAliment = Instantiate(aliment, new Vector3(0,0,0), Quaternion.identity);
         listAliment.transform.SetParent(scrollRectNewMenuList_Content.transform,false);
@@ -455,7 +421,7 @@ public class MenuController : MonoBehaviour
         }
     }
 
-
+    //Finish the new menu creation adding the extra details and clearing the current menu aliments and details
     public void EndNewMenuCreation(){
 
         JSONdata userData = GameManager.Instance.LoadData();
@@ -513,6 +479,7 @@ public class MenuController : MonoBehaviour
 
     }
 
+    //Determine displayed menu's color based on the most restrcitive aliment
     public int CalculateMenuIMC(MenuData menu, int IMC){
 
         bool flaggedRed = false;
@@ -661,7 +628,6 @@ public class MenuController : MonoBehaviour
                     string result = allValues.Remove(allValues.Length-1);
                     string final = "{" + quotation + "values" + quotation + ":{" + result + "}";
 
-                    //Values valuesJSON = JsonUtility.FromJson<Values>(final+"}");
                     Values valuesJSON = Newtonsoft.Json.JsonConvert.DeserializeObject<Values>("{" + result + "}");
 
                     myAllMenus.menuData[i].aliments[j] = new FoodData(){
@@ -708,12 +674,6 @@ public class MenuController : MonoBehaviour
 
         if(request.result == UnityWebRequest.Result.Success) {
 
-
-           //FromJSONtoMenu(request.downloadHandler.text);
-
-           //Debug.Log(request.downloadHandler.text);
-
-           //newtonjson(request.downloadHandler.text);
               
         }             
         yield return null;
