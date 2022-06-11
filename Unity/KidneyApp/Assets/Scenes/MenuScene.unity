@@ -4022,10 +4022,10 @@ MonoBehaviour:
   aliment: {fileID: 1835955805090701441, guid: 249e03c316b77db46b1988b09bcffafd, type: 3}
   menuButton: {fileID: 1835955805090701441, guid: e48e17e446afe8645975ded656a56198, type: 3}
   IMC: 1
-  foodUpdateEndpoint: https://kidneyappfinal.azurewebsites.net/account/updateClientFood
-  getAllValidMenusEndpoint: https://kidneyappfinal.azurewebsites.net/account/getAllValidMenus
-  addMenuToServerEndpoint: https://kidneyappfinal.azurewebsites.net/account/addMenuToServer
-  updateIMCValueEndpoint: https://kidneyappfinal.azurewebsites.net/account/updateIMCValue
+  foodUpdateEndpoint: http://127.0.0.1:12345/account/updateClientFood
+  getAllValidMenusEndpoint: http://127.0.0.1:12345/account/getAllValidMenus
+  addMenuToServerEndpoint: http://127.0.0.1:12345/account/addMenuToServer
+  updateIMCValueEndpoint: http://127.0.0.1:12345/account/updateIMCValue
 --- !u!4 &944947585
 Transform:
   m_ObjectHideFlags: 0

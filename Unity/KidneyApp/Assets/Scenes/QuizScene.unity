@@ -3290,11 +3290,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e7441740870d174e95a81b1b0aa0dcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getCategoriesEndpoint: https://kidneyappfinal.azurewebsites.net/categories/names
-  getQuizzesEndpoint: https://kidneyappfinal.azurewebsites.net/quiz/getQuizzesFromCategoryName
-  getQuestionsEndpoint: https://kidneyappfinal.azurewebsites.net/quiz/getQuestionsFromQuiz
-  saveQuizEndpoint: https://kidneyappfinal.azurewebsites.net/quiz/saveQuiz
-  quizScoreEndpoint: https://kidneyappfinal.azurewebsites.net/quiz/getHighscore
+  getCategoriesEndpoint: http://127.0.0.1:12345/categories/names
+  getQuizzesEndpoint: http://127.0.0.1:12345/quiz/getQuizzesFromCategoryName
+  getQuestionsEndpoint: http://127.0.0.1:12345/quiz/getQuestionsFromQuiz
+  saveQuizEndpoint: http://127.0.0.1:12345/quiz/saveQuiz
+  quizScoreEndpoint: http://127.0.0.1:12345/quiz/getHighscore
   CategoryUI: {fileID: 1903812673}
   quizSelector: {fileID: 266165452}
   quizDisplay: {fileID: 1439631542}

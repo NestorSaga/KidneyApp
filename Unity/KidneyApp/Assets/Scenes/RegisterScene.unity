@@ -6898,8 +6898,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3caebfb43384e9f4a8d9ae5822cf0f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerEndpoint: https://kidneyappfinal.azurewebsites.net/account/create
-  addAttributeEndpoint: https://kidneyappfinal.azurewebsites.net/account/addAttribute
+  registerEndpoint: http://127.0.0.1:12345/account/create
+  addAttributeEndpoint: http://127.0.0.1:12345/account/addAttribute
   alertText1: {fileID: 91782897}
   alertText2: {fileID: 1158109069}
   alertText3: {fileID: 670535489}
