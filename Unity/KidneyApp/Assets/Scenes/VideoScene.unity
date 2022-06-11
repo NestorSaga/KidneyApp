@@ -2265,8 +2265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d839a95bd6ffba48b24f6da3eb32b24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  getCategoriesEndpoint: http://127.0.0.1:12345/categories/names
-  getVideosEndpoint: http://127.0.0.1:12345/videos/getByCategory
+  getCategoriesEndpoint: https://kidneyappfinal.azurewebsites.net/categories/names
+  getVideosEndpoint: https://kidneyappfinal.azurewebsites.net/videos/getByCategory
   categoryUI: {fileID: 81322456}
   videoSelector: {fileID: 1408288029}
   videoPlayer: {fileID: 889793550}

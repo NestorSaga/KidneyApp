@@ -816,8 +816,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 925078df806fdf64598ba2f881735154, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginEndpoint: http://127.0.0.1:12345/account/login
-  autologinEndpoint: http://127.0.0.1:12345/account/autologin
+  loginEndpoint: https://kidneyappfinal.azurewebsites.net/account/login
+  autologinEndpoint: https://kidneyappfinal.azurewebsites.net/account/autologin
   usernameInputField: {fileID: 1252704972}
   passwordInputField: {fileID: 1257898755}
 --- !u!4 &706250735

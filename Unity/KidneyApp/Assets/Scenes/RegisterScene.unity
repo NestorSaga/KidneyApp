@@ -6898,8 +6898,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3caebfb43384e9f4a8d9ae5822cf0f24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  registerEndpoint: http://127.0.0.1:12345/account/create
-  addAttributeEndpoint: http://127.0.0.1:12345/account/addAttribute
+  registerEndpoint: https://kidneyappfinal.azurewebsites.net/account/create
+  addAttributeEndpoint: https://kidneyappfinal.azurewebsites.net/account/addAttribute
   alertText1: {fileID: 91782897}
   alertText2: {fileID: 1158109069}
   alertText3: {fileID: 670535489}
@@ -23727,7 +23727,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.3647059, g: 0.5686275, b: 0.6627451, a: 0}
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.47058824, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
