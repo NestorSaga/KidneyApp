@@ -3522,7 +3522,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7945745113273067167, guid: 56b4b4d7b4eb40646adfd810250f9684, type: 3}
       propertyPath: keyEndpoint
-      value: http://127.0.0.1:12345/account/getkey
+      value: https://kidneyappfinal.azurewebsites.net/account/getkey
+      objectReference: {fileID: 0}
+    - target: {fileID: 7945745113273067167, guid: 56b4b4d7b4eb40646adfd810250f9684, type: 3}
+      propertyPath: addAchievmentEndpoint
+      value: https://kidneyappfinal.azurewebsites.net/account/addAchievment
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56b4b4d7b4eb40646adfd810250f9684, type: 3}
