@@ -417,6 +417,7 @@ public class MenuController : MonoBehaviour
         if(SelecFromIMC(currentMenu.aliments[i], IMC)==0) listAliment.GetComponent<Image>().color = Color.red;
         else if(SelecFromIMC(currentMenu.aliments[i], IMC)==1) listAliment.GetComponent<Image>().color = Color.yellow;
         if(SelecFromIMC(currentMenu.aliments[i], IMC)==2) listAliment.GetComponent<Image>().color = Color.green;
+         listAliment.GetComponent<Button>().enabled = false;
 
         }
     }
